@@ -9,35 +9,33 @@
 	</head>
 	<body>
 	<!-- php-Interpreter einschalten -->
-		<?php
-
-		$conn=mysqli_connect('localhost','root','','databasename');
-		if($conn)
-			{
-				echo "connection succsessfull";
-				db.execute(
-					"""CREATE TABLE IF NOT EXISTS Termin (
-						   id INTEGER
-						   , $Name VARCHAR(50)
-						   , $Vorname VARCHAR(10)
-						   , $Uhrzeit Time
-						   , $Datum Date
-						   , $Beschreibung Text(200)
-						   , $Ort VARCHAR(12)
-						   , $Titel VARCHAR(20)
-						   , PRIMARY KEY(id))"""
-				)
-
-				sqlStatement = "INSERT INTO Termin ($Name, $Vorname, $Uhrzeit, $Datum, $Beschreibung, $Ort, $Titel) VALUES (?, ?, ?, ?, ?, ?, ?)"
-				db.execute(sqlStatement, ($Name, $Vorname, $Uhrzeit, $Datum, $Beschreibung, $Ort, $Titel))
-				db.commit()
-
-			}else {
-				echo "Failed to connect with server"
-			}
-
-		?>
+	<?php
+// Verbindung zur SQLite-Datenbank herstellen
+try {
+    $pdo = new PDO('sqlite:Kalender-Datenbank.db');
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+    // Daten aus dem Formular holen
+    $titel = $_POST['Titel'];
+    $datum = $_POST['Datum'];
+	$uhrzeit = $_POST['Uhrzeit'];
+	$beschreibung = $_POST['Beschreibung'];
+    
+    // SQL-Abfrage zum Einfügen der Daten
+    $stmt = $pdo->prepare("INSERT INTO Termin (Titel, Datum, Uhrzeit, Beschreibung) VALUES (:Titel, :Datum, :Uhrzeit; :Beschreibung)");
+    $stmt->bindParam(':Titel', $titel);
+    $stmt->bindParam(':Datum', $datum);
+	$stmt->bindParam(':Uhrzeit', $time);
+	$stmt->bindParam(':Beschreibung', $beschreibung);
+    
+    // SQL-Abfrage ausführen
+    $stmt->execute();
+    
+    echo "Benutzer erfolgreich hinzugefügt!";
+} catch (PDOException $e) {
+    echo "Fehler: " . $e->getMessage();
+}
+?>
 	<!-- php-Interpreter ausschalten -->			
 	</body>
-
 </html>
