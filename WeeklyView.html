@@ -2,14 +2,16 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>Project 4 - Kalender</title>
+    <title>Wochenansicht</title>
+    <link rel="stylesheet" href="navbarStyle.css">
+    <link rel="stylesheet" href="weeklyViewStyle.css">
 </head>
 <header>
     <div class="navbar">
         <div class="nav-buttons">
             <button class="nav-button" onclick="setActive(this)">Tagesansicht</button>
-            <button class="nav-button" onclick="setActive(this)">Wochenansicht</button>
-            <button class="nav-button active" onclick="setActive(this)">Monatsansicht</button>
+            <button class="nav-button active" onclick="setActive(this)">Wochenansicht</button>
+            <button class="nav-button" onclick="setActive(this)">Monatsansicht</button>
         </div>
 		<details>
 			<summary><img src="icon1.png" alt="Icon 1" class="icon"></summary>
@@ -32,8 +34,84 @@
         }
     </script>
 </header>
-</header>
+
 <body>
+    <!--Anabell-->
+        <br><br>
+    <!--Pseudocode 
+    1. Box öffnen-->
+    <article>
+        <div>
+    <!--2.Live-Uhrezit oben (11:00:04)--> 
+            <h1>11:17:35</h1>
     
-</body>
+    <!--3. Heutiges Datum (Mittwoch,12. Februar 2025)-->
+            <h4>Mittwoch, 12. Februar 2025</h4>
+            <hr>
+        </div>
+    
+        <div>
+    
+    <!--Dropdown Menü Monats wechseln (Januar-Dezember, nur eins auswählbar)-->
+    <Table>
+        <tr>
+            <!--4. Monatsbezeichnung mit Jahr(Februar 2025)-->
+            <th>Februar 2025</th>
+            <th>
+                Monat
+                <select>
+                    <option value="Januar" >Januar</option> 
+                    <option value="Februar">Februar</option>
+                    <option value="März">März</option>
+                    <option value="April">Januar</option>
+                    <option value="Mai">Februar</option>
+                    <option value="Juni">März</option>
+                    <option value="Juli">Januar</option>
+                    <option value="August">Februar</option>
+                    <option value="September">März</option>
+                    <option value="Oktober">Januar</option>
+                    <option value="November">Februar</option>
+                    <option value="Dezember">März</option>
+                </select>
+            </th>
+    
+        </tr>
+    </Table>
+        </div>
+    
+    <!--5. Tabelle erstellen 8 Spalten (Woche, Mo, Die, Mi, Do, Fr, Sa, So)
+                        6 Zeilen (Woche x -y)-->
+        <!--8 Spalten-->
+        <table>
+            <tr>
+                <th>KW</th>
+                <th>Mo</th>
+                <th>Di</th>
+                <th>Mi</th>
+                <th>Do</th>
+                <th>Fr</th>
+                <th>Sa</th>
+                <th>So</th>
+            </tr>
+    
+        <!--Zeile 1-->
+            <tr>
+                <td>1</td>
+                <td>27</td>
+                <td>28</td>
+                <td>29</td>
+                <td>30</td>
+                <td>31</td>
+                <td>1</td>
+                <td>2</td>
+            </tr>
+            
+        </table>
+    
+    <!--6. Box Schließen-->  
+    </article>
+
+
+
+
 </html>
