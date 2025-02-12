@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NavBar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: left;
+            justify-content: space-between;
+            background: #333;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            position: fixed; 
+            top: 0;
+            left: 0; 
+			right: 0;
+			z-index: 1000
+        }
+
+        .icon {
+            width: 30px;
+            height: 30px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-button {
+            padding: 10px 15px;
+            border: none;
+            background: #555;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .nav-button.active {
+            background: #ff9800;
+            font-weight: bold;
+        }
+
+        .nav-button:hover {
+            background: #777;
+        }
+
+       
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+
+        
+        <div class="nav-buttons">
+            <button class="nav-button" onclick="setActive(this)">Tagesansicht</button>
+            <button class="nav-button" onclick="setActive(this)">Wochenansicht</button>
+            <button class="nav-button active" onclick="setActive(this)">Monatsansicht</button>
+        </div>
+		<details>
+			<summary><img src="icon1.png" alt="Icon 1" class="icon"></summary>
+			<p><a href="link1">Termin erstellen</a></p>
+			<p><a href="link2">Termin bearbeiten</a></p>
+			<p><a href="link3">Termin anzeigen<a/></p>
+			<p><a href="link4">Termin löschen<a/></p>
+		</details>
+        <img src="icon2.png" alt="Icon 2" class="icon">
+    </div>
+
+    <div>
+        <h1>blank</h1>
+        <p>Hier Kalender</p>
+    </div>
+
+    <script>
+        function setActive(button) {
+            document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
