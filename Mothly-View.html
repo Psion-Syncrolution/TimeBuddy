@@ -3,86 +3,42 @@
 <head>
     <meta charset="UTF-8" />
     <title>Project 4 - Kalender</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            margin: 0;
-            padding: 20px;
-        }
-
-        article {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-        }
-
-        h1 {
-            font-size: 2em;
-            margin: 0;
-            color: #333;
-        }
-
-        h4 {
-            color: #666;
-            margin: 10px 0;
-        }
-
-        hr {
-            border: 0;
-            height: 1px;
-            background-color: #ccc;
-            margin: 20px 0;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th, td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: center;
-        }
-
-        th {
-            background-color: #f0f0f0;
-            font-weight: bold;
-        }
-
-        .dropdown-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-
-        select {
-            padding: 5px;
-            font-size: 1em;
-        }
-
-        .month-header {
-            font-size: 1.5em;
-            margin: 0;
-        }
-    </style>
-
-
+    <link rel="stylesheet" href="navbarStyle.css">
+    <link rel="stylesheet" href="monthlyViewStyle.css">
 </head>
 
 <header>
-Cedric
+    <div class="navbar">
+        <div class="nav-buttons">
+            <button class="nav-button" onclick="setActive(this)">Tagesansicht</button>
+            <button class="nav-button" onclick="setActive(this)">Wochenansicht</button>
+            <button class="nav-button active" onclick="setActive(this)">Monatsansicht</button>
+        </div>
+		<details>
+			<summary><img src="icon1.png" alt="Icon 1" class="icon"></summary>
+			<p><a href="link1">Termin erstellen</a></p>
+			<p><a href="link2">Termin bearbeiten</a></p>
+			<p><a href="link3">Termin anzeigen<a/></p>
+			<p><a href="link4">Termin löschen<a/></p>
+		</details>
+        <img src="icon2.png" alt="Icon 2" class="icon">
+    </div>
+
+    <div>
+        <h1>blank</h1>
+    </div>
+
+    <script>
+        function setActive(button) {
+            document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+        }
+    </script>
 </header>
 
-
 <body>
-
-    **Anabell<br><br>
+<!--Anabell-->
+    <br><br>
 <!--Pseudocode 
 1. Box öffnen-->
 <article>
@@ -105,7 +61,7 @@ Cedric
         <th>
             Monat
             <select>
-                <option value="Januar">Januar</option>
+                <option value="Januar" >Januar</option> 
                 <option value="Februar">Februar</option>
                 <option value="März">März</option>
                 <option value="April">Januar</option>
