@@ -3,6 +3,76 @@
 <head>
     <meta charset="UTF-8" />
     <title>Project 4 - Kalender</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        article {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin: 0;
+            color: #333;
+        }
+
+        h4 {
+            color: #666;
+            margin: 10px 0;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: #ccc;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+
+        .dropdown-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        select {
+            padding: 5px;
+            font-size: 1em;
+        }
+
+        .month-header {
+            font-size: 1.5em;
+            margin: 0;
+        }
+    </style>
+
+
 </head>
 
 <header>
@@ -11,9 +81,129 @@ Cedric
 
 
 <body>
-    **Anabell
+
+    **Anabell<br><br>
+<!--Pseudocode 
+1. Box öffnen-->
+<article>
+    <div>
+<!--2.Live-Uhrezit oben (11:00:04)--> 
+        <h1>11:17:35</h1>
+
+<!--3. Heutiges Datum (Mittwoch,12. Februar 2025)-->
+        <h4>Mittwoch, 12. Februar 2025</h4>
+        <hr>
+    </div>
+
+    <div>
+
+<!--Dropdown Menü Monats wechseln (Januar-Dezember, nur eins auswählbar)-->
+<Table>
+    <tr>
+        <!--4. Monatsbezeichnung mit Jahr(Februar 2025)-->
+        <th>Februar 2025</th>
+        <th>
+            Monat
+            <select>
+                <option value="Januar">Januar</option>
+                <option value="Februar">Februar</option>
+                <option value="März">März</option>
+                <option value="April">Januar</option>
+                <option value="Mai">Februar</option>
+                <option value="Juni">März</option>
+                <option value="Juli">Januar</option>
+                <option value="August">Februar</option>
+                <option value="September">März</option>
+                <option value="Oktober">Januar</option>
+                <option value="November">Februar</option>
+                <option value="Dezember">März</option>
+            </select>
+        </th>
+
+    </tr>
+</Table>
+    </div>
+
+<!--5. Tabelle erstellen 8 Spalten (Woche, Mo, Die, Mi, Do, Fr, Sa, So)
+                    6 Zeilen (Woche x -y)-->
+    <!--8 Spalten-->
+    <table>
+        <tr>
+            <th>KW</th>
+            <th>Mo</th>
+            <th>Di</th>
+            <th>Mi</th>
+            <th>Do</th>
+            <th>Fr</th>
+            <th>Sa</th>
+            <th>So</th>
+        </tr>
+
+    <!--Zeile 1-->
+        <tr>
+            <td>1</td>
+            <td>27</td>
+            <td>28</td>
+            <td>29</td>
+            <td>30</td>
+            <td>31</td>
+            <td>1</td>
+            <td>2</td>
+        </tr>
+
+    <!--Zeile 2-->
+        <tr>
+            <td>2</td>
+            <td>3</td>
+            <td>4</td>
+            <td>5</td>
+            <td>6</td>
+            <td>7</td>
+            <td>8</td>
+            <td>9</td>
+        </tr>
+
+    <!--Zeile 3-->
+        <tr>
+            <td>3</td>
+            <td>10</td>
+            <td>11</td>
+            <td>12</td>
+            <td>13</td>
+            <td>14</td>
+            <td>15</td>
+            <td>16</td>
+        </tr>
+                
+    <!--Zeile 4-->
+        <tr>
+            <td>4</td>
+            <td>17</td>
+            <td>18</td>
+            <td>19</td>
+            <td>20</td>
+            <td>21</td>
+            <td>22</td>
+            <td>23</td>
+        </tr>
     
+    <!--Zeile 5-->
+        <tr>
+            <td>5</td>
+            <td>24</td>
+            <td>25</td>
+            <td>26</td>
+            <td>27</td>
+            <td>28</td>
+            <td>1</td>
+            <td>2</td>
+    </tr>    
     
+        
+    </table>
+
+<!--6. Box Schließen-->  
+</article>    
 
 
 
@@ -22,19 +212,7 @@ Cedric
 
 
 
-
-
-
-
-
-
-
-
-
-    **
-
-
-    ****
+<br><br>****
 Maik 
 ****
 </body>
