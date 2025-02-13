@@ -8,31 +8,37 @@
 </head>
 <header>
     <div class="navbar">
-        <div class="nav-buttons">
-            <button class="nav-button" onclick="setActive(this)">Tagesansicht</button>
-            <button class="nav-button active" onclick="setActive(this)">Wochenansicht</button>
-            <button class="nav-button" onclick="setActive(this)">Monatsansicht</button>
-        </div>
-		<details>
-			<summary><img src="icon1.png" alt="Icon 1" class="icon"></summary>
-			<p><a href="link1">Termin erstellen</a></p>
-			<p><a href="link2">Termin bearbeiten</a></p>
-			<p><a href="link3">Termin anzeigen<a/></p>
-			<p><a href="link4">Termin löschen<a/></p>
-		</details>
-        <img src="icon2.png" alt="Icon 2" class="icon">
+
+        <a href="Monthly-View.html" class="left-icon">
+            <img src="pictures/clock.png" alt="clock-icon" class="left-icon"></a>
+
+    
+
+    <div class="nav-buttons">
+
+        <a href="Monthly-View.html"><button class="nav-button active" onclick="setActive(this)">Monatsansicht</button></a>
+        <a href="WeeklyView.html"><button class="nav-button" onclick="setActive(this)">Wochenansicht</button></a> 
+        <a href="Daily-View.html"><button class="nav-button " onclick="setActive(this)">Tagesansicht</button></a>          
+
     </div>
 
-    <div>
-        <h1>blank</h1>
-    </div>
+<div class="right-icons">
+    <img src="pictures/appo.webp" alt="Termine" class="icon">
+    <img src="pictures/bell.png" alt="Erinnerungen" class="icon">
+</div>
 
-    <script>
-        function setActive(button) {
-            document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-        }
-    </script>
+</div>
+
+<div>
+    <h1>blank</h1>
+</div>
+
+<script>
+    function setActive(button) {
+        document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+    }
+</script>
 </header>
 
 <body>
@@ -111,7 +117,23 @@
     <!--6. Box Schließen-->  
     </article>
 
-
+    <div>
+        <table>
+            <tr>
+                <th>Placeholder</th>
+                <th> &nbsp; </th>
+            </tr>
+            <tr>
+                <td> &nbsp; </td>
+                <td> &nbsp; </td>
+            </tr>
+            <tr>
+                <td> &nbsp; </td>
+                <td> &nbsp; </td>
+            </tr>
+    
+        </table>
+    </div>
 
 
 </html>
