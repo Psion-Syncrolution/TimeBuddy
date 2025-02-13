@@ -2,25 +2,107 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>title</title>
+    <link rel="stylesheet" href="navbarStyle.css">
+    <link rel="stylesheet" href="termin_bearbeitenStyle.css">
+    <title>Termin Bearbeiten</title>
 </head>
+<header>
+    <div class="navbar">
+
+            <a href="Monthly-View.html" class="left-icon">
+                <img src="pictures/clock.png" alt="clock-icon" class="left-icon"></a>
+
+                
+        <div class="nav-buttons">
+
+            <a href="Monthly-View.html"><button class="nav-button active" onclick="setActive(this)">Monatsansicht</button></a>
+            <a href="WeeklyView.html"><button class="nav-button" onclick="setActive(this)">Wochenansicht</button></a> 
+            <a href="Daily-View.html"><button class="nav-button " onclick="setActive(this)">Tagesansicht</button></a>          
+    
+        </div>
+
+    <div class="right-icons">
+        <a href="Termin_bearbeiten.html" class="right-icons">
+            <img src="pictures/appo.png" alt="Termine" class="icon"></a>
+            <a href="Erinnerung_bearbeiten.html" class="right-icons">
+            <img src="pictures/bell.webp" alt="Erinnerungen" class="icon"></a>
+    </div>
+    
+    </div>
+
+    <div>
+        <h1>blank</h1>
+    </div>
+
+    <script>
+        function setActive(button) {
+            document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+        }
+    </script>
+</header>
+
 <body>
+    <!--Anabell-->
+    <br><br>
+    <!--Pseudocode 
+    1. Box öffnen-->
+    <article>
+        <div>
+    <!--2.Live-Uhrezit oben (11:00:04)--> 
+    <h1 id="uhrzeit"></h1>
+    <script>
+        function updateUhrzeit() {
+            const jetzt = new Date();
+            const stunden = jetzt.getHours().toString().padStart(2, '0');
+            const minuten = jetzt.getMinutes().toString().padStart(2, '0');
+            const sekunden = jetzt.getSeconds().toString().padStart(2, '0');
+            const uhrzeitText = `${stunden}:${minuten}:${sekunden}`;
+            document.getElementById('uhrzeit').textContent = uhrzeitText;
+        }
 
-        <h1>Termin Hinzufügen </h1>
-        <form action="Php_Connector.php" method="post">
-            <label for="titel">Titel:</label>
-            <input type="text" id="Titel" name="titel" required><br><br>
-            
-            <label for="Datum">Datum:</label>
-            <input type="date" id="Datum" name="Datum" required><br><br>
+        setInterval(updateUhrzeit, 1000);
 
-            <label for="Uhrzeit">Uhrzeit:</label>
-            <input type="time" id="Uhrzeit" name="Uhrzeit" required><br><br>
-
-            <label for="Beschreibung">Beschreibung:</label>
-            <input type="text" id="Beschreibung" name="Beschreibung" required><br><br>
-            
-            <input type="submit" value="Absenden">
-        </form>
+        updateUhrzeit();
+    </script>
+    
+    <!--3. Heutiges Datum (Mittwoch,12. Februar 2025)-->
+            <h4>Mittwoch, 12. Februar 2025</h4>
+            <hr>
+        </div>
+    
+        <div>
+    
+            <form action="terminconnector.php" method="POST">
+                <table>
+                    <tr>
+                        <th class="terminhead" colspan="2" ">Formular zum Erstellen eines Termin </th>
+                    </tr>
+                    <tr>
+                        <td><label for="titel">Titel:</label></td>
+                        <td class="inputtitel"><input type="text" id="titel" name="titel" required style="width: 45%;" placeholder="Klicke hier um Titel einzugeben."></td>
+                    </tr>
+                    <tr>
+                        <td><label for="datum">Datum:</label></td>
+                        <td class="inputdate"><input type="date" id="datum" name="datum" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="uhrzeit">Uhrzeit:</label></td>
+                        <td class="inputtime"><input type="time" id="uhrzeit" name="uhrzeit" required ></td>
+                    </tr>
+                    <tr>
+                        <td><label for="beschreibung">Beschreibung:</label></td>
+                        <td class="inputtextarea"><textarea id="beschreibung" name="beschreibung" required style="width: 45%;" placeholder="Klicke hier um Beschreibung einzugeben."></textarea></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align:center;">
+                            <button class="submitbutton" type="submit">Termin speichern</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+    
+    <!--6. Box Schließen-->  
+    </article>
 </body>
 </html>
