@@ -6,6 +6,7 @@
         }
 
         article {
+            height: 420px;
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -38,7 +39,7 @@
 
         th, td {
             border: 1px solid #ccc;
-            padding: 10px;
+            padding: 9.61px;
             text-align: center;
         }
 

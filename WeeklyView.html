@@ -78,8 +78,7 @@
     <Table>
         <tr>
             <!--4. Monatsbezeichnung mit Jahr(Februar 2025)-->
-            <th>Februar 2025</th>
-            <th>
+            <th style="text-align: left;">
                 Monat
                 <select>
                     <option value="Januar" >Januar</option> 
@@ -96,7 +95,7 @@
                     <option value="Dezember">Dezember</option>
                 </select>
             </th>
-    
+            <th style="width: 50px; font-size: medium;"><b>2025</b></th>
         </tr>
     </Table>
         </div>
@@ -104,7 +103,7 @@
     <!--5. Tabelle erstellen 8 Spalten (Woche, Mo, Die, Mi, Do, Fr, Sa, So)
                         6 Zeilen (Woche x -y)-->
         <!--8 Spalten-->
-        <table>
+        <table class="kalender">
             <tr>
                 <th>KW</th>
                 <th>Mo</th>
@@ -133,21 +132,51 @@
     <!--6. Box Schließen-->  
     </article>
 
-    <div>
+    <div class="Termin" style="float: left; margin-left: 19.5%; width: 30%; font-size:small;">
         <table>
             <tr>
                 <th>Placeholder</th>
-                <th> &nbsp; </th>
             </tr>
             <tr>
-                <td> &nbsp; </td>
-                <td> &nbsp; </td>
+                <td> &nbsp; Termintitel </td>
+                <td> &nbsp; "Anzeige aus Datenbank Termintitel" </td>
             </tr>
             <tr>
-                <td> &nbsp; </td>
-                <td> &nbsp; </td>
+                <td> &nbsp; Datum </td>
+                <td> &nbsp; "hinterlegtes Datum aus der Datenbank " </td>
             </tr>
+            <tr>
+                <td> &nbsp; Uhrzeit </td>
+                <td> &nbsp; "hinterlegtes Uhrzeit aus der Datenbank " </td>
+            </tr>
+            <tr>
+                <td> &nbsp; Beschreibung </td>
+                <td> &nbsp; "hinterlegte Beschreibung aus der Datenbank " </td>
+            </tr>
+        </table>
+    </div>
     
+    <div class="Erinnerungen" style="float: right; margin-right: 19.5%; width: 30%; font-size:small;">
+        <table>
+            <tr>
+                <th>Placeholder</th>
+            </tr>
+            <tr>
+                <td> &nbsp; Erinnerung </td>
+                <td> &nbsp; "Anzeige aus Datenbank Termintitel" </td>
+            </tr>
+            <tr>
+                <td> &nbsp; Datum </td>
+                <td> &nbsp; "hinterlegtes Datum aus der Datenbank " </td>
+            </tr>
+            <tr>
+                <td> &nbsp; Uhrzeit </td>
+                <td> &nbsp; "hinterlegtes Uhrzeit aus der Datenbank " </td>
+            </tr>
+            <tr>
+                <td> &nbsp; Beschreibung </td>
+                <td> &nbsp; "hinterlegte Beschreibung aus der Datenbank " </td>
+            </tr>
         </table>
     </div>
 
