@@ -50,7 +50,21 @@
         <article>
             <div>
         <!--2.Live-Uhrezit oben (11:00:04)--> 
-                <h1>11:17:35</h1>
+                <h1 id="uhrzeit"></h1>
+                <script>
+                    function updateUhrzeit() {
+                        const jetzt = new Date();
+                        const stunden = jetzt.getHours().toString().padStart(2, '0');
+                        const minuten = jetzt.getMinutes().toString().padStart(2, '0');
+                        const sekunden = jetzt.getSeconds().toString().padStart(2, '0');
+                        const uhrzeitText = `${stunden}:${minuten}:${sekunden}`;
+                        document.getElementById('uhrzeit').textContent = uhrzeitText;
+                    }
+            
+                    setInterval(updateUhrzeit, 1000);
+            
+                    updateUhrzeit();
+                </script>
         
         <!--3. Heutiges Datum (Mittwoch,12. Februar 2025)-->
                 <h4>Mittwoch, 12. Februar 2025</h4>
