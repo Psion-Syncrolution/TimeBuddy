@@ -47,6 +47,7 @@ body {
 .icon {
     height: 50px; 
     width: auto; 
+    transition: transform 0.3s ease;
 }
 
 
@@ -67,4 +68,7 @@ body {
 
 .nav-button:hover {
     background: #777;
+}
+.icon:hover {
+    transform: scale(1.2); 
 }
