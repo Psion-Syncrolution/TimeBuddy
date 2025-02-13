@@ -33,7 +33,8 @@ body {
 .nav-buttons {
     display: flex;
     align-items: center; 
-    gap: 10px; 
+    gap: 10px;
+    transition: transform 0.3s ease; 
 }
 
 
@@ -68,6 +69,7 @@ body {
 
 .nav-button:hover {
     background: #777;
+    transform: scale(1.2); 
 }
 .icon:hover {
     transform: scale(1.2); 
