@@ -23,14 +23,6 @@
             color: #666;
             margin: 10px 0;
         }
-
-        hr {
-            border: 0;
-            height: 1px;
-            background-color: #ccc;
-            margin: 20px 0;
-        }
-
         table {
             width: 100%;
             border-collapse: collapse;
