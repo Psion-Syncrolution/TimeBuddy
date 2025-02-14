@@ -1,12 +1,14 @@
 body {
-    position: absolute;
-    top: 0;
-    left: 0;
-    overflow: hidden;
-    height: 100%;
-    width: 100%;
+    
+    
+    
     background-image: url('pictures/Kalender003.webp');
     background-size: cover;       /* Das Bild deckt den gesamten Hintergrund ab */
     background-repeat: no-repeat; /* Kein wiederholtes Bild */
+<<<<<<< Updated upstream
     background-attachment: fixed; /* Optional: Bild bleibt beim Scrollen fixiert */
+=======
+    
+    
+>>>>>>> Stashed changes
 }
