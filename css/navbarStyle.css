@@ -7,9 +7,13 @@ body {
 
 .navbar {
     display: flex;
+    width: auto;
     align-items: center; 
     justify-content: space-between; 
-    background: #333;
+    background:linear-gradient( rgba(0, 0, 0, 0.74), rgba(128, 128, 128, 0.804));
+    margin-top: 5px;
+    margin-left: 1%;
+    margin-right: 1%;
     padding: 10px 20px; 
     border-radius: 10px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -21,20 +25,21 @@ body {
     height: 60px; 
 }
 
-
 .left-icon {
     display: flex;
     align-items: center;
-    height: 80px;
-    width: 80px;
+    height: 100px;
+    width: 100px;
+    margin-top: 1%;
+    margin-left: 0.5%;
+    padding-bottom: 0.5%;
 }
-
 
 .nav-buttons {
     display: flex;
     align-items: center; 
     gap: 10px;
-    transition: transform 0.3s ease; 
+    transition: transform 0.3s ease;
 }
 
 
