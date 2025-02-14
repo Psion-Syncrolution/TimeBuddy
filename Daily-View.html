@@ -49,7 +49,7 @@
         <!--Pseudocode 
         1. Box öffnen-->
         <article>
-            <div>
+            <div id="uhrzeit">
         <!--2.Live-Uhrezit oben (11:00:04)--> 
                 <h1 id="uhrzeit"></h1>
                 <script>
@@ -73,7 +73,8 @@
                         const datumText = `${tag}. ${monat} ${jahr}`;
                         
                         // Anzeige von Uhrzeit und Datum
-                        document.getElementById('uhrzeit').innerHTML = `${uhrzeitText}<br> <b style="color:grey ; font-size: 50px">${datumText}</b>`;
+                        document.getElementById('uhrzeit').innerHTML = `<span style="font-size: 35px;">${uhrzeitText}</span><br>
+                            <span style="font-size: 35px; color: grey;">${datumText}</span>`;
                     }
                     
                     setInterval(updateUhrzeit, 1000);
