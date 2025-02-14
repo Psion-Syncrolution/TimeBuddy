@@ -55,20 +55,33 @@
                 <script>
                     function updateUhrzeit() {
                         const jetzt = new Date();
+                        
+                        // Uhrzeit
                         const stunden = jetzt.getHours().toString().padStart(2, '0');
                         const minuten = jetzt.getMinutes().toString().padStart(2, '0');
                         const sekunden = jetzt.getSeconds().toString().padStart(2, '0');
                         const uhrzeitText = `${stunden}:${minuten}:${sekunden}`;
-                        document.getElementById('uhrzeit').textContent = uhrzeitText;
+                        
+                        // Monat als Text
+                        const monate = [
+                            "Januar", "Februar", "März", "April", "Mai", "Juni",
+                            "Juli", "August", "September", "Oktober", "November", "Dezember"
+                        ];
+                        const tag = jetzt.getDate().toString().padStart(2, '0');
+                        const monat = monate[jetzt.getMonth()];  // Monat in Textform
+                        const jahr = jetzt.getFullYear();
+                        const datumText = `${tag}. ${monat} ${jahr}`;
+                        
+                        // Anzeige von Uhrzeit und Datum
+                        document.getElementById('uhrzeit').innerHTML = `${uhrzeitText}<br> <b style="color:grey ; font-size: 50px">${datumText}</b>`;
                     }
-            
+                    
                     setInterval(updateUhrzeit, 1000);
-            
+                    
                     updateUhrzeit();
                 </script>
         
         <!--3. Heutiges Datum (Mittwoch,12. Februar 2025)-->
-                <h4>Mittwoch, 12. Februar 2025</h4>
                 <hr>
             </div>
         
