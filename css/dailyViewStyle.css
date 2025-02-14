@@ -24,6 +24,7 @@ h4 {
     margin: 10px 0;
 }
 
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -43,6 +44,17 @@ th {
 
 .kalender td {
     height: 170px;
+    position: relative; /* Positionierung für das Divider-Element */
+}
+
+.divider {
+    width: 0.1px; /* Breite der vertikalen Linie */
+    background-color: gray; /* Farbe der Linie */
+    height: 100%; /* Höhe der Linie */
+    position: absolute; /* Absolute Positionierung */
+    left: 50%; /* Linie in der Mitte der Zelle */
+    top: 0; /* Setze den oberen Rand auf 0 */
+    transform: translateX(-50%); /* Zentriert die Linie */
 }
 
 .dropdown-container {
