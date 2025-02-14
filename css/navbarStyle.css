@@ -49,13 +49,11 @@ body {
     gap: 10px; 
 }
 
-
 .icon {
     height: 50px; 
     width: auto; 
     transition: transform 0.3s ease;
 }
-
 
 .nav-button {
     padding: 10px 15px;
