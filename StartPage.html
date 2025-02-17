@@ -1,17 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
     <meta charset="UTF-8" />
     <title>Project 4 - Kalender</title>
     <link rel="stylesheet" href="startpage.css">
 </head>
-</header>
-</header>
 <body>
-    <article>
-    <button class="button1"> Weekly</button>
-    <button class="button2">Monthly</button>
-    <button class="button3">Daily</button>
-</article>
+    <div class="fullscreen-image">
+        <div class="navbar">
+            <div class="nav-buttons">
+                <a href="Monthly-View.html"><button class="nav-button" onclick="setActive(this)">Monatsansicht</button></a>
+                <a href="WeeklyView.html"><button class="nav-button" onclick="setActive(this)">Wochenansicht</button></a> 
+                <a href="Daily-View.html"><button class="nav-button" onclick="setActive(this)">Tagesansicht</button></a>          
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function setActive(button) {
+            document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+        }
+    </script>
 </body>
 </html>
