@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (selection === "bearbeiten") {
                 window.location.href = "Termin_bearbeiten.php";
             } else if (selection === "loeschen") {
-                window.location.href = "Termin_loeschen.html";
+                window.location.href = "Termin_loeschen.php";
             } else if (selection === "erstellen") {
                 window.location.href = "Termin_erstellen.html";
             }

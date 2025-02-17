@@ -1,3 +1,20 @@
+<?php
+// Datenbankverbindung herstellen
+$pdo = new PDO("mysql:host=localhost;dbname=kalender_datenbank", "root", "");
+
+// Falls das Formular gesendet wurde
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["TitelID"])) {
+    $titelID = $_POST["TitelID"];
+
+    // Termin sicher löschen
+    $stmt = $pdo->prepare("DELETE FROM Termin WHERE TitelID = :TitelID");
+    $stmt->execute(["TitelID" => $titelID]);
+
+    // Erfolgsnachricht
+    echo "<script>alert('Termin erfolgreich gelöscht!'); window.location.href='Termin_loeschen.php';</script>";
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,7 +23,7 @@
     <link rel="stylesheet" href="css/termin_bearbeitenStyle.css">
     <title>Termin Löschen</title>
 </head>
-<header>
+<header style="margin-bottom: 3.05%;">
     <div class="navbar">
         <a href="Monthly-View.html" class="left-icon">
             <img src="pictures/clock.png" alt="clock-icon" class="left-icon"></a>
@@ -25,10 +42,6 @@
         </div>
     </div>
 
-    <div>
-        <h1>&nbsp;</h1>
-    </div>
-
     <script>
         function setActive(button) {
             document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
@@ -37,11 +50,10 @@
 
         function handleSelection() {
             let selection = document.getElementById("dropdown").value;
-            
             if (selection === "bearbeiten") {
                 window.location.href = "Termin_bearbeiten.php";
             } else if (selection === "loeschen") {
-                window.location.href = "Termin_loeschen.html";
+                window.location.href = "Termin_loeschen.php";
             } else if (selection === "erstellen") {
                 window.location.href = "Termin_erstellen.html";
             }
@@ -57,28 +69,24 @@
             <script>
                 function updateUhrzeit() {
                     const jetzt = new Date();
-                    
-                    // Uhrzeit
                     const stunden = jetzt.getHours().toString().padStart(2, '0');
                     const minuten = jetzt.getMinutes().toString().padStart(2, '0');
                     const sekunden = jetzt.getSeconds().toString().padStart(2, '0');
                     const uhrzeitText = `${stunden}:${minuten}:${sekunden}`;
-                    
-                    // Monat als Text
+
                     const monate = [
                         "Januar", "Februar", "März", "April", "Mai", "Juni",
                         "Juli", "August", "September", "Oktober", "November", "Dezember"
                     ];
                     const tag = jetzt.getDate().toString().padStart(2, '0');
-                    const monat = monate[jetzt.getMonth()];  // Monat in Textform
+                    const monat = monate[jetzt.getMonth()];
                     const jahr = jetzt.getFullYear();
                     const datumText = `${tag}. ${monat} ${jahr}`;
-                    
-                    // Anzeige von Uhrzeit und Datum
+
                     document.getElementById('uhrzeit').innerHTML = `<span style="font-size: 38px;">${uhrzeitText}</span><br>
                         <span style="font-size: 20px; color: grey;">${datumText}</span>`;
                 }
-                
+
                 setInterval(updateUhrzeit, 1000);
                 updateUhrzeit();
             </script>
@@ -87,18 +95,26 @@
         <div>
             <br>
             <select name="dropdown" id="dropdown" onchange="handleSelection()">
-                <option value="" disabled selected>Bitte eine Aktion wählen</option> <!-- Placeholder Option -->
+                <option value="" disabled selected>Bitte eine Aktion wählen</option>
                 <option value="erstellen">Erstellen</option>
                 <option value="bearbeiten">Bearbeiten</option>
                 <option value="loeschen">Löschen</option>
             </select>
 
             <h2>Wähle einen Termin zum Löschen</h2>
-            <form id="terminForm" action="terminLoeschen.php" method="POST">
+            <form id="terminForm" method="POST">
                 <label for="terminDropdown">Termin auswählen:</label>
-                <select name="termin" id="terminDropdown" required>
+                <select name="TitelID" id="terminDropdown" required>
                     <option value="" disabled selected>Bitte einen Termin wählen</option>
-                    <?php include 'getTerminOptions.php'; ?> <!-- Holt die Termine aus der Datenbank -->
+                    <?php 
+                    // Verbindung zur Datenbank
+                    $pdo = new PDO("mysql:host=localhost;dbname=kalender_datenbank", "root", "");
+                    $stmt = $pdo->query("SELECT TitelID, Titel FROM Termin"); 
+
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                        echo "<option value='" . htmlspecialchars($row['TitelID']) . "'>" . htmlspecialchars($row['Titel']) . "</option>";
+                    }
+                    ?>
                 </select>
                 <br><br>
                 <button type="submit" onclick="return confirm('Möchten Sie diesen Termin wirklich löschen?')" style="width: 40%; height: 54px; font-family: Arial, sans-serif; font-size: 17px; border-color: white; border-radius: 80px 80px 80px 80px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.341);">Termin Löschen</button>
