@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'Beschreibung' => $newDescription,
             'TitelID' => $terminId
         ]);
-        echo '<div class="success-message" style="position:absolute;"><b>Termin wurde erfolgreich hinzugefügt!</b></div>';
+        echo '<div class="success-message" style="width: 16.5%; height:auto; padding: 1%;position:absolute; margin-top: 19.2%;margin-left: 78%;text-align:center;font-size:20px;color: rgba(0, 0, 0, 0.70); background-color:rgba(113, 202, 92, 0.32); border: solid 2px rgba(0, 0, 0, 0.39); border-radius: 20px;"><b>Termin wurde erfolgreich <br>hinzugefügt &#9752 </b></div>';
     }
 }
 ?>
@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="css/termin_bearbeitenStyle.css">
     <title>Termin Bearbeiten</title>
 </head>
-<header>
+<header style="margin-bottom: 1%;">
     <div class="navbar">
         <a href="Monthly-View.html" class="left-icon">
             <img src="pictures/clock.png" alt="clock-icon" class="left-icon"></a>
@@ -157,24 +157,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <br><br>
                 <button type="button" onclick="redirectToBearbeiten()" style="width: 40%; height: 54px; font-family: Arial, sans-serif; font-size: 17px; border-color: white; border-radius: 80px 80px 80px 80px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.341);">Bearbeiten</button>
             </form>
-            <article style="float: right; margin-top: -21.5%;margin-right: 20%;width: 30%;height: 380px; background-color: grey;">
+            <article style=" position:absolute; margin-top: -20%;margin-left: 43%;width: 30%;height: 365px; background-color: rgba(128, 128, 128, 0.91)">
             <?php if ($termin): ?>
                 
                 <h2 style="color:white">Termin Bearbeiten</h2>
                 <form method="POST">
-                    <label for="title">Titel:</label><br>
-                    <input type="text" id="titel" name="titel" value="<?php echo htmlspecialchars($termin['Titel']); ?>" required style="width: 400px;height:15px"><br><br>
+                    <label for="title" style="color:rgb(255, 255, 255)">Titel:</label><br>
+                    <input type="text" id="titel" name="titel" value="<?php echo htmlspecialchars($termin['Titel']); ?>" required style="width: 100%;"><br><br>
 
-                    <label for="date">Datum:</label><br>
+                    <label for="date" style="color:rgb(255, 255, 255)">Datum:</label><br>
                     <input type="date" id="datum" name="datum" value="<?php echo htmlspecialchars($termin['Datum']); ?>" required><br><br>
 
-                    <label for="time">Uhrzeit:</label><br>
+                    <label for="time" style="color:rgb(255, 255, 255)">Uhrzeit:</label><br>
                     <input type="time" id="uhrzeit" name="uhrzeit" value="<?php echo htmlspecialchars($termin['Uhrzeit']); ?>" required><br><br>
 
-                    <label for="description">Beschreibung:</label><br>
-                    <textarea id="beschreibung" name="beschreibung" required style="width: 400px; height: 90px"><?php echo htmlspecialchars($termin['Beschreibung']); ?></textarea><br>
+                    <label for="description" style="color:rgb(255, 255, 255)">Beschreibung:</label><br>
+                    <textarea id="beschreibung" name="beschreibung" required style="width: 100%; height:50px;" ><?php echo htmlspecialchars($termin['Beschreibung']); ?></textarea><br>
                     <br>
-                    <button type="submit" style="width: 40%; height: 32px;font-family: Arial, sans-serif; font-size: 17px; margin-top: -2.2%; border-color: white; border-radius: 80px 80px 80px 80px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.341);">Termin Bearbeiten</button>
+                    <button type="submit">Termin Bearbeiten</button>
                 </form>
             <?php endif; ?>
             </article>
