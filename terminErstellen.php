@@ -4,6 +4,13 @@
     <meta charset="utf-8">
     <title>Php-Connector</title>
     <style>
+        .success-message {
+            color: green;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -29,7 +36,13 @@ $stmt->bind_param("ssss", $titel, $datum, $uhrzeit, $beschreibung);
 
 // SQL-Abfrage ausführen
 if ($stmt->execute()) {
-    echo "Termin erfolgreich hinzugefügt!";
+    // Erfolgreich hinzugefügt, jetzt Feedback anzeigen und zur Monatsansicht weiterleiten
+    echo '<div class="success-message">Termin wurde erfolgreich hinzugefügt!</div>';
+    echo '<div class="success-message"> Bitte Warten - Sie werden Zurrückgeleitet</div>';
+    
+    // Weiterleitung nach 3 Sekunden (3000 Millisekunden)
+    header("Refresh: 4; url=Monthly-View.html");
+    exit(); // Beendet das Script, um die Weiterleitung nach dem Feedback auszuführen
 } else {
     echo "Fehler beim Hinzufügen des Termins: " . $stmt->error;
 }
