@@ -39,11 +39,11 @@
             let selection = document.getElementById("dropdown").value;
             
             if (selection === "bearbeiten") {
-                window.location.href = "Termin_bearbeiten.html"; // Redirect to edit page
+                window.location.href = "Termin_bearbeiten.html";
             } else if (selection === "loeschen") {
-                window.location.href = "Termin_loeschen.html"; // Redirect to delete page
+                window.location.href = "Termin_loeschen.html";
             } else if (selection === "erstellen") {
-                window.location.href = "Termin_erstellen.html"; // Redirect to create page
+                window.location.href = "Termin_erstellen.html";
             }
         }
     </script>
@@ -57,60 +57,51 @@
             <script>
                 function updateUhrzeit() {
                     const jetzt = new Date();
+                    
+                    // Uhrzeit
                     const stunden = jetzt.getHours().toString().padStart(2, '0');
                     const minuten = jetzt.getMinutes().toString().padStart(2, '0');
                     const sekunden = jetzt.getSeconds().toString().padStart(2, '0');
-                    document.getElementById('uhrzeit').textContent = `${stunden}:${minuten}:${sekunden}`;
+                    const uhrzeitText = `${stunden}:${minuten}:${sekunden}`;
+                    
+                    // Monat als Text
+                    const monate = [
+                        "Januar", "Februar", "März", "April", "Mai", "Juni",
+                        "Juli", "August", "September", "Oktober", "November", "Dezember"
+                    ];
+                    const tag = jetzt.getDate().toString().padStart(2, '0');
+                    const monat = monate[jetzt.getMonth()];  // Monat in Textform
+                    const jahr = jetzt.getFullYear();
+                    const datumText = `${tag}. ${monat} ${jahr}`;
+                    
+                    // Anzeige von Uhrzeit und Datum
+                    document.getElementById('uhrzeit').innerHTML = `<span style="font-size: 38px;">${uhrzeitText}</span><br>
+                        <span style="font-size: 20px; color: grey;">${datumText}</span>`;
                 }
+                
                 setInterval(updateUhrzeit, 1000);
+                
                 updateUhrzeit();
             </script>
-            <h4>Mittwoch, 12. Februar 2025</h4>
         </div>
 
         <div>
-            <form id="terminForm" action="terminErstellen.php" method="POST">
-                <select name="dropdown" id="dropdown" onchange="handleSelection()">
-                    <option value="" disabled selected>Bitte eine Aktion wählen</option> <!-- Placeholder Option -->
-                    <option value="erstellen">Erstellen</option>
-                    <option value="bearbeiten">Bearbeiten</option>
-                    <option value="loeschen">Löschen</option>
-                </select>
+            <select name="dropdown" id="dropdown" onchange="handleSelection()">
+                <option value="" disabled selected>Bitte eine Aktion wählen</option> <!-- Placeholder Option -->
+                <option value="erstellen">Erstellen</option>
+                <option value="bearbeiten">Bearbeiten</option>
+                <option value="loeschen">Löschen</option>
+            </select>
 
-                <table>
-                    <tr>
-                        <th class="terminhead" colspan="2" id="formTitle">Formular zum Erstellen eines Termins</th>
-                    </tr>
-                    <tr>
-                        <td><label for="titel">Titel:</label></td>
-                        <td class="inputtitel">
-                            <input type="text" id="titel" name="titel" required style="width: 45%;" placeholder="Klicke hier um Titel einzugeben.">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="datum">Datum:</label></td>
-                        <td class="inputdate">
-                            <input type="date" id="datum" name="datum" required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="uhrzeit">Uhrzeit:</label></td>
-                        <td class="inputtime">
-                            <input type="time" id="zeit" name="uhrzeit" required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="beschreibung">Beschreibung:</label></td>
-                        <td class="inputtextarea">
-                            <textarea id="beschreibung" name="beschreibung" required style="width: 45%;" placeholder="Klicke hier um Beschreibung einzugeben."></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="text-align:center;">
-                            <button class="submitbutton" type="submit" id="submitButton">Termin speichern</button>
-                        </td>
-                    </tr>
-                </table>
+            <h2>Wähle einen Termin</h2>
+            <form id="terminForm" action="terminBearbeiten.php" method="POST">
+                <label for="terminDropdown">Termin auswählen:</label>
+                <select name="termin" id="terminDropdown" required>
+                    <option value="" disabled selected>Bitte einen Termin wählen</option>
+                    <?php include 'getTerminOptions.php'; ?> <!-- Holt die Termine aus der Datenbank -->
+                </select>
+                <br><br>
+                <button type="submit">Bearbeiten</button>
             </form>
         </div>
     </article>
