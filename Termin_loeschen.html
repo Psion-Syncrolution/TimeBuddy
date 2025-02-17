@@ -94,14 +94,14 @@
             </select>
 
             <h2>Wähle einen Termin zum Löschen</h2>
-            <form id="terminForm" action="deleteTermin.php" method="POST">
+            <form id="terminForm" action="terminLoeschen.php" method="POST">
                 <label for="terminDropdown">Termin auswählen:</label>
                 <select name="termin" id="terminDropdown" required>
                     <option value="" disabled selected>Bitte einen Termin wählen</option>
                     <?php include 'getTerminOptions.php'; ?> <!-- Holt die Termine aus der Datenbank -->
                 </select>
                 <br><br>
-                <button type="submit" onclick="return confirm('Möchten Sie diesen Termin wirklich löschen?')">Termin Löschen</button>
+                <button type="submit" onclick="return confirm('Möchten Sie diesen Termin wirklich löschen?')" style="width: 40%; height: 54px; font-family: Arial, sans-serif; font-size: 17px; border-color: white; border-radius: 80px 80px 80px 80px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.341);">Termin Löschen</button>
             </form>
         </div>
     </article>
