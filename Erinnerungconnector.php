@@ -9,7 +9,7 @@
             font-size: 20px;
             font-weight: bold;
             text-align: center;
-            margin-top: 20px;
+            margin-top: 10%;
         }
         .error-message {
             color: red;
