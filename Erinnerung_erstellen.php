@@ -15,24 +15,21 @@
             align-items: center;
             background-color: #f0f0f0;
         }
-
         article {
-            width: 95%;
+            width: 94.6%;
             height: 95%;
             background: white;
             padding: 20px;
-            margin-top: 7%;
+            margin-top: 4.8%;
             border-radius: 10px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
         }
-
         .main-container {
             display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
             gap: 20px;
         }
-
         #uhrzeit-box, .container {
             flex: 1;
             min-width: 300px;
@@ -42,7 +39,6 @@
             background-color: #ffffff;
             box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
         }
-
         #termin-list {
             margin-top: 15px;
             max-height: 200px;
@@ -51,25 +47,20 @@
             padding-top: 10px;
             text-align: left;
         }
-
         input, select, textarea, button { 
             margin: 10px 0; 
             width: 100%; 
             padding: 8px; 
         }
-
         button { 
             background-color: green; 
             color: white; 
             border: none; 
             cursor: pointer; 
         }
-
         button:hover { 
             background-color: darkgreen; 
         }
-
-        /* Responsive Design */
         @media (max-width: 800px) {
             .main-container {
                 flex-direction: column;
@@ -78,28 +69,45 @@
         }
     </style>
 </head>
-
 <header>
     <div class="navbar">
-        <a href="Monthly-View.html" class="left-icon">
-            <img src="pictures/clock.png" alt="clock-icon" class="left-icon">
-        </a>
-        <div class="nav-buttons">
-            <a href="Monthly-View.html"><button class="nav-button active">Monatsansicht</button></a>
-            <a href="WeeklyView.html"><button class="nav-button">Wochenansicht</button></a>
-            <a href="Daily-View.html"><button class="nav-button">Tagesansicht</button></a>
-        </div>
-        <div class="right-icons">
-            <a href="Termin_erstellen.html"><img src="pictures/appo.png" alt="Termine" class="icon"></a>
-            <a href="Erinnerung_erstellen.php"><img src="pictures/bell.webp" alt="Erinnerungen" class="icon"></a>
-        </div>
-    </div>
-</header>
 
+            <a href="Monthly-View.html" class="left-icon">
+                <img src="pictures/clock.png" alt="clock-icon" class="left-icon"></a>
+
+                
+        <div class="nav-buttons">
+
+            <a href="Monthly-View.html"><button class="nav-button active" onclick="setActive(this)">Monatsansicht</button></a>
+            <a href="WeeklyView.html"><button class="nav-button" onclick="setActive(this)">Wochenansicht</button></a> 
+            <a href="Daily-View.html"><button class="nav-button " onclick="setActive(this)">Tagesansicht</button></a>          
+    
+        </div>
+
+    <div class="right-icons">
+        <a href="Termin_erstellen.html" class="right-icons">
+            <img src="pictures/appo.png" alt="Termine" class="icon"></a>
+            <a href="Erinnerung_erstellen.php" class="right-icons">
+            <img src="pictures/bell.webp" alt="Erinnerungen" class="icon"></a>
+    </div>
+    
+    </div>
+
+    <div>
+        <h1>&nbsp;</h1>
+    </div>
+
+    <script>
+        function setActive(button) {
+            document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+        }
+    </script>
+</header>
 <body>
     <article>
         <div class="main-container">
-            <!-- Time Box on the Left -->
+            <!-- Time Box -->
             <div id="uhrzeit-box">
                 <h1 id="uhrzeit"></h1>
                 <h3>Termine anzeigen für:</h3>
@@ -124,18 +132,13 @@
                     $conn = mysqli_connect("localhost", "root", "", "kalender_datenbank");
                     if ($conn) {
                         $currentYear = date('Y');
-
                         $query = "SELECT Datum, Uhrzeit, Titel FROM Termin WHERE MONTH(Datum) = '$currentMonth' AND YEAR(Datum) = '$currentYear' ORDER BY Datum, Uhrzeit ASC";
                         $result = mysqli_query($conn, $query);
 
                         if (mysqli_num_rows($result) > 0) {
                             echo "<ul>";
                             while ($row = mysqli_fetch_assoc($result)) {
-                                echo "<li>
-                                        <strong><span style='color: grey;'>" . date('d.m.Y', strtotime($row['Datum'])) . "</span></strong> 
-                                        um <span style='color: black;'>" . date('H:i', strtotime($row['Uhrzeit'])) . " Uhr</span> - 
-                                        <strong><span style='text-decoration: underline;'>" . htmlspecialchars($row['Titel']) . "</span></strong>
-                                      </li>";
+                                echo "<li><strong>" . date('d.m.Y', strtotime($row['Datum'])) . "</strong> um " . date('H:i', strtotime($row['Uhrzeit'])) . " - <strong>" . htmlspecialchars($row['Titel']) . "</strong></li>";
                             }
                             echo "</ul>";
                         } else {
@@ -149,7 +152,7 @@
                 </div>
             </div>
 
-            <!-- Form Box on the Right -->
+            <!-- Form Box -->
             <div class="container">
                 <h2>Erinnerung zu einem Termin hinzufügen</h2>
                 <form action="Erinnerungconnector.php" method="POST">
@@ -187,18 +190,30 @@
     <script>
         function updateUhrzeit() {
             const jetzt = new Date();
+            
+            // Uhrzeit
             const stunden = jetzt.getHours().toString().padStart(2, '0');
             const minuten = jetzt.getMinutes().toString().padStart(2, '0');
             const sekunden = jetzt.getSeconds().toString().padStart(2, '0');
-            const monate = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
-            const tag = jetzt.getDate().toString().padStart(2, '0');
-            const monat = monate[jetzt.getMonth()];
-            const jahr = jetzt.getFullYear();
+            const uhrzeitText = `${stunden}:${minuten}:${sekunden}`;
             
-            document.getElementById('uhrzeit').innerHTML = `<span style="font-size: 38px;">${stunden}:${minuten}:${sekunden}</span><br>
-                <span style="font-size: 20px; color: grey;">${tag}. ${monat} ${jahr}</span>`;
+            // Monat als Text
+            const monate = [
+                "Januar", "Februar", "März", "April", "Mai", "Juni",
+                "Juli", "August", "September", "Oktober", "November", "Dezember"
+            ];
+            const tag = jetzt.getDate().toString().padStart(2, '0');
+            const monat = monate[jetzt.getMonth()];  // Monat in Textform
+            const jahr = jetzt.getFullYear();
+            const datumText = `${tag}. ${monat} ${jahr}`;
+            
+            // Anzeige von Uhrzeit und Datum
+            document.getElementById('uhrzeit').innerHTML = `<span style="font-size: 38px;">${uhrzeitText}</span><br>
+                <span style="font-size: 20px; color: grey;">${datumText}</span>`;
         }
+        
         setInterval(updateUhrzeit, 1000);
+        
         updateUhrzeit();
     </script>
 </body>
