@@ -7,7 +7,7 @@ body, html {
 }
 
 .fullscreen-image {
-    background-image: url('pictures/Kalender003.webp'); /* Pfad zu deinem Bild */
+    background-image: url('pictures/Kalender001.png'); /* Pfad zu deinem Bild */
     background-size: cover; /* Bild wird skaliert, um den gesamten Bereich abzudecken */
     background-position: center; /* Bild wird zentriert */
     background-repeat: no-repeat; /* Verhindert das Wiederholen des Bildes */
@@ -20,32 +20,45 @@ body, html {
 
 .navbar {
     display: flex;
-    flex-direction: column; /* Buttons untereinander anordnen */
-    align-items: center; 
-    margin-top:10%;
-    padding: 20px; 
-    position: absolute; /* Positionierung anpassen */
+    width: 568px;
+    background:linear-gradient( rgba(0, 0, 0, 0.5), rgba(128, 128, 128, 0.3));
+    padding: 10px 20px; 
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 33.5%; /* Positioniere die Navbar in der Mitte */
+    left: 50%; /* Positioniere die Navbar in der Mitte */
+    transform: translate(-50%, -50%); /* Zentriere die Navbar */
     z-index: 1000;
+    height: 60px; 
 }
 
 .nav-buttons {
     display: flex;
-    flex-direction: column; /* Buttons untereinander anordnen */
-    gap: 10px; /* Abstand zwischen den Buttons */
+    align-items: center; 
+    gap: 10px;
+    transition: transform 0.3s ease;
 }
 
+
 .nav-button {
-    padding: 10px 15px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: large;
+    width: 180px;
+    height: 40px;
     border: none;
-    background: #555;
+    background: linear-gradient( rgba(0, 0, 0, 0.7), rgb(117, 116, 116));
     color: white;
     cursor: pointer;
     border-radius: 5px;
     transition: background 0.3s;
 }
 
+
 .nav-button:hover {
     background: #ff9800;
     transform: scale(1.2); 
 }
+
+
 
