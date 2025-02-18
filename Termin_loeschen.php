@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["TitelID"])) {
         <div class="right-icons">
             <a href="Termin_erstellen.html" class="right-icons">
                 <img src="pictures/appo.png" alt="Termine" class="icon"></a>
-            <a href="Erinnerung_bearbeiten.html" class="right-icons">
+            <a href="Erinnerung_erstellen.php" class="right-icons">
                 <img src="pictures/bell.webp" alt="Erinnerungen" class="icon"></a>
         </div>
     </div>

@@ -2,42 +2,76 @@
 <html lang="de"> 
 <head>
     <meta charset="utf-8">
-    <title>Php-Connector</title>
+    <title>Erinnerung Speichern</title>
     <style>
+        .success-message {
+            color: green;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .error-message {
+            color: red;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
-<!-- php-Interpreter einschalten -->
+
 <?php
 // MySQLi-Verbindung herstellen
 $conn = mysqli_connect("localhost", "root", "", "kalender_datenbank");
 
-// Überprüfen, ob die Verbindung erfolgreich war
+// Verbindung prüfen
 if (!$conn) {
-    die("Verbindung fehlgeschlagen: " . mysqli_connect_error());
+    die('<div class="error-message">Verbindung fehlgeschlagen: ' . mysqli_connect_error() . '</div>');
 }
 
-// Daten aus dem Formular holen (über POST)
-$titel = $_POST['titel'];
-$datum = $_POST['datum'];
-$uhrzeit = $_POST['uhrzeit'];
-$beschreibung = $_POST['beschreibung'];
+// Formulardaten prüfen und abrufen
+if (isset($_POST['TitelID'], $_POST['Datum'], $_POST['Uhrzeit'], $_POST['Beschreibung'])) {
+    $TitelID = $_POST['TitelID'];
+    $Datum = $_POST['Datum'];
+    $Uhrzeit = $_POST['Uhrzeit'];
+    $Beschreibung = $_POST['Beschreibung'];
+    
+    // Beispiel: Standardtext für die Erinnerung (kann angepasst werden)
+    $ErinnerungText = "Erinnerung für Termin: " . $TitelID;  
 
-// SQL-Abfrage zum Einfügen der Daten vorbereiten
-$stmt = $conn->prepare("INSERT INTO Termin (Titel, Datum, Uhrzeit, Beschreibung) VALUES (?, ?, ?, ?)");
-$stmt->bind_param("ssss", $titel, $datum, $uhrzeit, $beschreibung);
+    // Prüfen, ob der Termin existiert
+    $checkTermin = $conn->prepare("SELECT TitelID FROM Termin WHERE TitelID = ?");
+    $checkTermin->bind_param("i", $TitelID);
+    $checkTermin->execute();
+    $result = $checkTermin->get_result();
 
-// SQL-Abfrage ausführen
-if ($stmt->execute()) {
-    echo "Termin erfolgreich hinzugefügt!";
+    if ($result->num_rows > 0) {
+        // Erinnerung speichern
+        $stmt = $conn->prepare("INSERT INTO Erinnerung (TitelID, Erinnerung, Datum, Uhrzeit, Beschreibung) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("issss", $TitelID, $ErinnerungText, $Datum, $Uhrzeit, $Beschreibung);
+
+        if ($stmt->execute()) {
+            echo '<div class="success-message">Erinnerung wurde erfolgreich gespeichert!</div>';
+            header("Refresh: 3; url=Monthly-View.html");
+            exit();
+        } else {
+            echo '<div class="error-message">Fehler beim Speichern der Erinnerung: ' . $stmt->error . '</div>';
+        }
+        $stmt->close();
+    } else {
+        echo '<div class="error-message">Fehler: Der Termin existiert nicht!</div>';
+    }
+
+    $checkTermin->close();
 } else {
-    echo "Fehler beim Hinzufügen des Termins: " . $stmt->error;
+    echo '<div class="error-message">Fehlende Formulardaten!</div>';
 }
 
 // Verbindung schließen
-$stmt->close();
 $conn->close();
 ?>
-<!-- php-Interpreter ausschalten -->
+
 </body>
 </html>
