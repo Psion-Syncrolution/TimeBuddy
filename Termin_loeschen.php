@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["TitelID"])) {
 
 <body>
     <br><br>
-    <article>
+    <article style="margin-top: 0.45%;">
         <div>
             <h1 id="uhrzeit"></h1>
             <script>

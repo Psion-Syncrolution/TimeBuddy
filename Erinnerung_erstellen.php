@@ -6,25 +6,89 @@
     <link rel="stylesheet" href="css/navbarStyle.css">
     <link rel="stylesheet" href="css/termin_bearbeitenStyle.css">
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        .container { width: 50%; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; }
-        input, select, textarea, button { margin: 10px 0; width: 100%; padding: 8px; }
-        button { background-color: green; color: white; border: none; cursor: pointer; }
-        button:hover { background-color: darkgreen; }
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+
+        article {
+            width: 95%;
+            height: 95%;
+            background: white;
+            padding: 20px;
+            margin-top: 7%;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        #uhrzeit-box, .container {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #ffffff;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #termin-list {
+            margin-top: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+            text-align: left;
+        }
+
+        input, select, textarea, button { 
+            margin: 10px 0; 
+            width: 100%; 
+            padding: 8px; 
+        }
+
+        button { 
+            background-color: green; 
+            color: white; 
+            border: none; 
+            cursor: pointer; 
+        }
+
+        button:hover { 
+            background-color: darkgreen; 
+        }
+
+        /* Responsive Design */
+        @media (max-width: 800px) {
+            .main-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
     </style>
 </head>
 
 <header>
     <div class="navbar">
         <a href="Monthly-View.html" class="left-icon">
-            <img src="pictures/clock.png" alt="clock-icon" class="left-icon"></a>
-
+            <img src="pictures/clock.png" alt="clock-icon" class="left-icon">
+        </a>
         <div class="nav-buttons">
             <a href="Monthly-View.html"><button class="nav-button active">Monatsansicht</button></a>
             <a href="WeeklyView.html"><button class="nav-button">Wochenansicht</button></a>
             <a href="Daily-View.html"><button class="nav-button">Tagesansicht</button></a>
         </div>
-
         <div class="right-icons">
             <a href="Termin_erstellen.html"><img src="pictures/appo.png" alt="Termine" class="icon"></a>
             <a href="Erinnerung_erstellen.php"><img src="pictures/bell.webp" alt="Erinnerungen" class="icon"></a>
@@ -33,8 +97,92 @@
 </header>
 
 <body>
-    <br><br>
-    <h1 id="uhrzeit"></h1>
+    <article>
+        <div class="main-container">
+            <!-- Time Box on the Left -->
+            <div id="uhrzeit-box">
+                <h1 id="uhrzeit"></h1>
+                <h3>Termine anzeigen für:</h3>
+                <form method="GET">
+                    <select name="month" onchange="this.form.submit()">
+                        <?php
+                        $months = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+                        $currentMonth = isset($_GET['month']) ? $_GET['month'] : date('m');
+
+                        foreach ($months as $index => $month) {
+                            $value = str_pad($index + 1, 2, "0", STR_PAD_LEFT);
+                            $selected = ($value == $currentMonth) ? "selected" : "";
+                            echo "<option value='$value' $selected>$month</option>";
+                        }
+                        ?>
+                    </select>
+                </form>
+
+                <div id="termin-list">
+                    <h3>Termine im gewählten Monat:</h3>
+                    <?php
+                    $conn = mysqli_connect("localhost", "root", "", "kalender_datenbank");
+                    if ($conn) {
+                        $currentYear = date('Y');
+
+                        $query = "SELECT Datum, Uhrzeit, Titel FROM Termin WHERE MONTH(Datum) = '$currentMonth' AND YEAR(Datum) = '$currentYear' ORDER BY Datum, Uhrzeit ASC";
+                        $result = mysqli_query($conn, $query);
+
+                        if (mysqli_num_rows($result) > 0) {
+                            echo "<ul>";
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                echo "<li>
+                                        <strong><span style='color: grey;'>" . date('d.m.Y', strtotime($row['Datum'])) . "</span></strong> 
+                                        um <span style='color: black;'>" . date('H:i', strtotime($row['Uhrzeit'])) . " Uhr</span> - 
+                                        <strong><span style='text-decoration: underline;'>" . htmlspecialchars($row['Titel']) . "</span></strong>
+                                      </li>";
+                            }
+                            echo "</ul>";
+                        } else {
+                            echo "<p>Keine Termine für diesen Monat.</p>";
+                        }
+                        mysqli_close($conn);
+                    } else {
+                        echo "<p>Datenbankverbindung fehlgeschlagen.</p>";
+                    }
+                    ?>
+                </div>
+            </div>
+
+            <!-- Form Box on the Right -->
+            <div class="container">
+                <h2>Erinnerung zu einem Termin hinzufügen</h2>
+                <form action="Erinnerungconnector.php" method="POST">
+                    <label for="termin_id">Termin wählen:</label>
+                    <select name="termin_id" required>
+                        <option value="">Bitte Termin auswählen</option>
+                        <?php
+                        $conn = mysqli_connect("localhost", "root", "", "kalender_datenbank");
+                        if ($conn) {
+                            $query = "SELECT TitelID, Titel FROM Termin";
+                            $result = mysqli_query($conn, $query);
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                echo '<option value="'.$row['TitelID'].'">'.$row['Titel'].'</option>';
+                            }
+                            mysqli_close($conn);
+                        }
+                        ?>
+                    </select>
+
+                    <label>Datum:</label>
+                    <input type="date" name="Datum" required><br>
+
+                    <label>Uhrzeit:</label>
+                    <input type="time" name="Uhrzeit" required><br>
+
+                    <label>Beschreibung:</label>
+                    <textarea name="Beschreibung" required></textarea><br>
+
+                    <button type="submit">Erinnerung speichern</button>
+                </form>
+            </div>
+        </div>
+    </article>
 
     <script>
         function updateUhrzeit() {
@@ -53,38 +201,5 @@
         setInterval(updateUhrzeit, 1000);
         updateUhrzeit();
     </script>
-
-    <div class="container">
-        <h2>Erinnerung zu einem Termin hinzufügen</h2>
-        <form action="Erinnerungconnector.php" method="POST">
-    <label for="termin_id">Termin wählen:</label>
-    <select name="termin_id" required>
-        <option value="">Bitte Termin auswählen</option>
-        <!-- Hier muss PHP die existierenden Termine als Optionen ausgeben -->
-        <?php
-        $conn = mysqli_connect("localhost", "root", "", "kalender_datenbank");
-        if ($conn) {
-            $query = "SELECT TitelID, Titel FROM Termin";
-            $result = mysqli_query($conn, $query);
-            while ($row = mysqli_fetch_assoc($result)) {
-                echo '<option value="'.$row['id'].'">'.$row['Titel'].'</option>';
-            }
-            mysqli_close($conn);
-        }
-        ?>
-    </select>
-    <input type="hidden" name="TitelID" value="1"> <!-- Replace with actual ID -->
-    <label>Datum:</label>
-    <input type="date" name="Datum" required><br>
-
-    <label>Uhrzeit:</label>
-    <input type="time" name="Uhrzeit" required><br>
-
-    <label>Beschreibung:</label>
-    <textarea name="Beschreibung" required></textarea><br>
-
-    <button type="submit">Erinnerung speichern</button>
-</form>
-    </div>
 </body>
 </html>
