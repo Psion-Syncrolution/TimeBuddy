@@ -21,7 +21,7 @@
         <div class="right-icons">
             <a href="Termin_erstellen.html" class="right-icons">
                 <img src="pictures/appo.png" alt="Termine" class="icon" title="Termine bearbeiten"></a>
-            <a href="Erinnerung_erstellen.php" class="right-icons">
+            <a href="Erinnerung_bearbeiten.html" class="right-icons">
                 <img src="pictures/bell.webp" alt="Erinnerungen" class="icon" title="Erinnerungen bearbeiten"></a>
         </div>
     </div>
@@ -130,7 +130,7 @@
 
             // Tage des nächsten Monats
             const nextMonthDays = [];
-            const totalCells = 5 * 7; 
+            const totalCells = 6 * 7; // 6 Wochen * 7 Tage
             const remainingCells = totalCells - (prevMonthDays.length + totalDays);
             for (let i = 1; i <= remainingCells; i++) {
                 nextMonthDays.push(i);
@@ -138,7 +138,7 @@
 
             let date = 1;
             let nextMonthDate = 0;
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < 6; i++) {
                 const row = table.insertRow();
                 const weekNumberCell = row.insertCell();
                 weekNumberCell.textContent = getWeekNumber(new Date(year, month, date));
@@ -149,12 +149,12 @@
                     if (i === 0 && j < startDay) {
                         // Tage des Vormonats
                         cell.textContent = prevMonthDays[j];
-                        cell.style.color = 'grey'; 
+                        cell.style.color = 'grey'; // Vormonatstage grau darstellen
                     } else if (date > totalDays) {
                         // Tage des nächsten Monats
                         if (nextMonthDate < nextMonthDays.length) {
                             cell.textContent = nextMonthDays[nextMonthDate];
-                            cell.style.color = 'grey'; 
+                            cell.style.color = 'grey'; // Nächster Monatstage grau darstellen
                             nextMonthDate++;
                         } else {
                             cell.textContent = '';
@@ -198,54 +198,70 @@
 
 <!--6. Box Schließen-->  
 </article>    
-
-<div class="Termin" style="float: left; margin-left: 19.5%; width: 30%; font-size:small;">
-    <table>
+<br>
+<article>
+<div class="Termin" >
+    <table class="bottom-table">
         <tr>
-            <th>Placeholder</th>
+            <th>Termin</th>
+            <th>Datum</th>
+            <th>Uhrzeit</th>
+            <th>Beschreibung</th>
+            <th style = "width: 1%; background-color: gray "></th>
+            <th>Erinnerung</th>
+            <th>Datum</th>
+            <th>Uhrzeit</th>
+            <th>Beschreibung</th>
         </tr>
         <tr>
-            <td> &nbsp; Termintitel </td>
-            <td> &nbsp; "Anzeige aus Datenbank Termintitel" </td>
+            <td>Termintitel</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
-            <td> &nbsp; Datum </td>
-            <td> &nbsp; "hinterlegtes Datum aus der Datenbank " </td>
+            <td>Termintitel</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
-            <td> &nbsp; Uhrzeit </td>
-            <td> &nbsp; "hinterlegtes Uhrzeit aus der Datenbank " </td>
+            <td>Termintitel</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
-            <td> &nbsp; Beschreibung </td>
-            <td> &nbsp; "hinterlegte Beschreibung aus der Datenbank " </td>
+            <td>Termintitel</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
     </table>
 </div>
 
-<div class="Erinnerungen" style="float: right; margin-right: 19.5%; width: 30%; font-size:small;">
-    <table>
-        <tr>
-            <th>Placeholder</th>
-        </tr>
-        <tr>
-            <td> &nbsp; Erinnerung </td>
-            <td> &nbsp; "Anzeige aus Datenbank Termintitel" </td>
-        </tr>
-        <tr>
-            <td> &nbsp; Datum </td>
-            <td> &nbsp; "hinterlegtes Datum aus der Datenbank " </td>
-        </tr>
-        <tr>
-            <td> &nbsp; Uhrzeit </td>
-            <td> &nbsp; "hinterlegtes Uhrzeit aus der Datenbank " </td>
-        </tr>
-        <tr>
-            <td> &nbsp; Beschreibung </td>
-            <td> &nbsp; "hinterlegte Beschreibung aus der Datenbank " </td>
-        </tr>
-    </table>
-</div>
+
+</article>
 
 </body>
 </html>

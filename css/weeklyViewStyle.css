@@ -13,18 +13,6 @@ article {
     padding: 20px;
 }
 
-h1 {
-    font-size: 2em;
-    margin: 0;
-    color: #333;
-}
-
-h4 {
-    color: #666;
-    margin: 10px 0;
-}
-
-
 table {
     width: 100%;
     border-collapse: collapse;
@@ -35,6 +23,10 @@ th, td {
     border: 1px solid #ccc;
     padding: 10px;
     text-align: center;
+}
+
+.bottom-table td:nth-child(5) {
+    background-color: gray; /* Hintergrundfarbe für die fünfte Spalte */
 }
 
 th {
