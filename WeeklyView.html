@@ -88,59 +88,116 @@
         <div>
     
     <!--Dropdown Menü Monats wechseln (Januar-Dezember, nur eins auswählbar)-->
-    <Table>
+    <table>
         <tr>
-            <!--4. Monatsbezeichnung mit Jahr(Februar 2025)-->
             <th style="text-align: left;">
-                Monat
-                <select>
-                    <option value="Januar" >Januar</option> 
-                    <option value="Februar">Februar</option>
-                    <option value="März">März</option>
-                    <option value="April">April</option>
-                    <option value="Mai">Mai</option>
-                    <option value="Juni">Juni</option>
-                    <option value="Juli">Juli</option>
-                    <option value="August">August</option>
-                    <option value="September">September</option>
-                    <option value="Oktober">Oktober</option>
-                    <option value="November">November</option>
-                    <option value="Dezember">Dezember</option>
+                Kalenderwoche
+                <select id="weekSelect">
+                    <!-- Optionen für Kalenderwochen werden dynamisch generiert -->
                 </select>
             </th>
-            <th style="width: 50px; font-size: medium;"><b>2025</b></th>
+            <th style="width: 50px; font-size: medium;">
+                <input type="number" id="yearInput" value="2025" style="width: 60px;">
+            </th>
         </tr>
-    </Table>
-        </div>
-    
-    <!--5. Tabelle erstellen 8 Spalten (Woche, Mo, Die, Mi, Do, Fr, Sa, So)
-                        6 Zeilen (Woche x -y)-->
-        <!--8 Spalten-->
-        <table class="kalender">
-            <tr>
-                <th>KW</th>
-                <th>Mo</th>
-                <th>Di</th>
-                <th>Mi</th>
-                <th>Do</th>
-                <th>Fr</th>
-                <th>Sa</th>
-                <th>So</th>
-            </tr>
-    
-        <!--Zeile 1-->
-            <tr>
-                <td style="background-color: #cccccc5f">1</td>
-                <td>27</td>
-                <td>28</td>
-                <td>29</td>
-                <td>30</td>
-                <td>31</td>
-                <td style="background-color: #cccccc5f">1</td>
-                <td style="background-color: #cccccc5f">2</td>
-            </tr>
-            
-        </table>
+    </table>
+</div>
+
+<!-- Tabelle für die Wochenansicht -->
+<table id="calendarTable" class="kalender">
+    <tr>
+        <th>KW</th>
+        <th>Mo</th>
+        <th>Di</th>
+        <th>Mi</th>
+        <th>Do</th>
+        <th>Fr</th>
+        <th>Sa</th>
+        <th>So</th>
+    </tr>
+</table>
+</article>
+
+<script>
+// Funktion zur Berechnung der Tage einer Kalenderwoche
+function getWeekDates(year, week) {
+    const firstDayOfYear = new Date(year, 0, 1);
+    const daysToFirstMonday = (8 - firstDayOfYear.getDay()) % 7;
+    const firstMonday = new Date(year, 0, 1 + daysToFirstMonday);
+    const startDate = new Date(firstMonday.setDate(firstMonday.getDate() + (week - 1) * 7));
+    const weekDates = [];
+
+    for (let i = 0; i < 7; i++) {
+        const currentDate = new Date(startDate);
+        currentDate.setDate(startDate.getDate() + i);
+        weekDates.push(currentDate);
+    }
+
+    return weekDates;
+}
+
+// generierung der Wochenansicht
+function generateWeekView(year, week) {
+    const table = document.getElementById('calendarTable');
+    while (table.rows.length > 1) {
+        table.deleteRow(1);
+    }
+
+    const weekDates = getWeekDates(year, week);
+    const row = table.insertRow();
+    const weekNumberCell = row.insertCell();
+    weekNumberCell.textContent = week;
+    weekNumberCell.style.backgroundColor = '#cccccc5f';
+
+    weekDates.forEach(date => {
+        const cell = row.insertCell();
+        cell.textContent = date.getDate();
+        if (date.getDay() === 0 || date.getDay() === 6) {
+            cell.style.backgroundColor = '#cccccc5f'; 
+        }
+    });
+}
+
+// Dropdown-Menü für Kalenderwochen füllen
+function populateWeekSelect() {
+    const weekSelect = document.getElementById('weekSelect');
+    for (let i = 1; i <= 52; i++) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = `KW ${i}`;
+        weekSelect.appendChild(option);
+    }
+}
+
+
+document.getElementById('weekSelect').addEventListener('change', function() {
+    const week = parseInt(this.value);
+    const year = parseInt(document.getElementById('yearInput').value);
+    generateWeekView(year, week);
+});
+
+document.getElementById('yearInput').addEventListener('change', function() {
+    const week = parseInt(document.getElementById('weekSelect').value);
+    const year = parseInt(this.value);
+    generateWeekView(year, week);
+});
+
+
+populateWeekSelect();
+const currentDate = new Date();
+const currentWeek = getWeekNumber(currentDate);
+document.getElementById('weekSelect').value = currentWeek;
+document.getElementById('yearInput').value = currentDate.getFullYear();
+generateWeekView(currentDate.getFullYear(), currentWeek);
+
+// berechnung der Kalenderwoche
+function getWeekNumber(date) {
+    const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+    const pastDaysOfYear = (date - firstDayOfYear) / 86400000;
+    return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+}
+</script>
+
     
     <!--6. Box Schließen-->  
     </article>

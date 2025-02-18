@@ -130,7 +130,7 @@
 
             // Tage des nächsten Monats
             const nextMonthDays = [];
-            const totalCells = 6 * 7; // 6 Wochen * 7 Tage
+            const totalCells = 5 * 7; 
             const remainingCells = totalCells - (prevMonthDays.length + totalDays);
             for (let i = 1; i <= remainingCells; i++) {
                 nextMonthDays.push(i);
@@ -138,7 +138,7 @@
 
             let date = 1;
             let nextMonthDate = 0;
-            for (let i = 0; i < 6; i++) {
+            for (let i = 0; i < 5; i++) {
                 const row = table.insertRow();
                 const weekNumberCell = row.insertCell();
                 weekNumberCell.textContent = getWeekNumber(new Date(year, month, date));
@@ -149,12 +149,12 @@
                     if (i === 0 && j < startDay) {
                         // Tage des Vormonats
                         cell.textContent = prevMonthDays[j];
-                        cell.style.color = 'grey'; // Vormonatstage grau darstellen
+                        cell.style.color = 'grey'; 
                     } else if (date > totalDays) {
                         // Tage des nächsten Monats
                         if (nextMonthDate < nextMonthDays.length) {
                             cell.textContent = nextMonthDays[nextMonthDate];
-                            cell.style.color = 'grey'; // Nächster Monatstage grau darstellen
+                            cell.style.color = 'grey'; 
                             nextMonthDate++;
                         } else {
                             cell.textContent = '';
