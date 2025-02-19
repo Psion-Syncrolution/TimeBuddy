@@ -1,30 +1,37 @@
 <!DOCTYPE html>
-<html lang="de"> 
+<html lang="de">
+
 <head>
     <meta charset="utf-8">
     <title>Erinnerung Speichern</title>
     <style>
         /* CSS für die Darstellung von Erfolgsmeldung und Fehlermeldung */
         .success-message {
-            color: green; /* Grün für Erfolg */
+            color: green;
+            /* Grün für Erfolg */
             font-size: 20px;
             font-weight: bold;
             text-align: center;
-            margin-top: 10%; /* Abstand nach oben */
+            margin-top: 10%;
+            /* Abstand nach oben */
         }
+
         .error-message {
-            color: red; /* Rot für Fehler */
+            color: red;
+            /* Rot für Fehler */
             font-size: 18px;
             font-weight: bold;
             text-align: center;
-            margin-top: 20px; /* Abstand nach oben */
+            margin-top: 20px;
+            /* Abstand nach oben */
         }
     </style>
 </head>
 <!------------------------------------------------------------Body öffnen------------------------------------------------------------------------------------>
+
 <body>
-<!------------------------------------------------------PHP Interpreter einschalten-------------------------------------------------------------------------->
-<?php
+    <!------------------------------------------------------PHP Interpreter einschalten-------------------------------------------------------------------------->
+    <?php
 // Output-Buffering starten
 ob_start(); 
 
@@ -90,7 +97,8 @@ $conn->close();
 // Output-Buffering beenden und die Ausgabe an den Browser senden
 ob_end_flush(); 
 ?>
-<!------------------------------------------------------PHP Interpreter ausschalten-------------------------------------------------------------------------->
+    <!------------------------------------------------------PHP Interpreter ausschalten-------------------------------------------------------------------------->
 </body>
 <!------------------------------------------------------Body schließen------------------------------------------------------------------------------------>
+
 </html>

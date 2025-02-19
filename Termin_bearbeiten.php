@@ -40,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="css/navbarStyle.css"> <!-- CSS-Datei für das Navigationsmenü -->
@@ -57,8 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="nav-buttons">
             <!-- Navigationsbuttons für die verschiedenen Ansichten -->
             <a href="Monthly-View.php"><button class="nav-button " onclick="setActive(this)">Monatsansicht</button></a>
-            <a href="WeeklyView.php"><button class="nav-button" onclick="setActive(this)">Wochenansicht</button></a> 
-            <a href="Daily-View.php"><button class="nav-button" onclick="setActive(this)">Tagesansicht</button></a>          
+            <a href="WeeklyView.php"><button class="nav-button" onclick="setActive(this)">Wochenansicht</button></a>
+            <a href="Daily-View.php"><button class="nav-button" onclick="setActive(this)">Tagesansicht</button></a>
         </div>
 
         <div class="right-icons">
@@ -84,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Funktion, die bei Auswahl einer Aktion im Dropdown-Menü ausgeführt wird
         function handleSelection() {
             let selection = document.getElementById("dropdown").value;
-            
+
             if (selection === "bearbeiten") {
                 window.location.href = "Termin_bearbeiten.php";
             } else if (selection === "loeschen") {
@@ -109,20 +110,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
     <br><br>
-    <article>
-        <div>
+    <article style="margin-top: -0.35%;">
+        <!-------------------------------------------------Uhrzeit oben in der Artikel Box -------------------------------->
+        <div id="uhrzeit">
+            <!--2.Live-Uhrezit oben (11:00:04)-->
             <h1 id="uhrzeit"></h1>
             <script>
-                // Funktion, die die aktuelle Uhrzeit und das Datum anzeigt
+                let globalDatumText = "";
                 function updateUhrzeit() {
                     const jetzt = new Date();
-                    
-                    // Uhrzeit im Format HH:MM:SS
+
+                    // Uhrzeit
                     const stunden = jetzt.getHours().toString().padStart(2, '0');
                     const minuten = jetzt.getMinutes().toString().padStart(2, '0');
                     const sekunden = jetzt.getSeconds().toString().padStart(2, '0');
                     const uhrzeitText = `${stunden}:${minuten}:${sekunden}`;
-                    
+
                     // Monat als Text
                     const monate = [
                         "Januar", "Februar", "März", "April", "Mai", "Juni",
@@ -131,24 +134,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     const tag = jetzt.getDate().toString().padStart(2, '0');
                     const monat = monate[jetzt.getMonth()];  // Monat in Textform
                     const jahr = jetzt.getFullYear();
-                    const datumText = `${tag}. ${monat} ${jahr}`;
-                    
-                    // Anzeige der Uhrzeit und des Datums auf der Seite
-                    document.getElementById('uhrzeit').innerHTML = `<span style="font-size: 38px;">${uhrzeitText}</span><br>
-                        <span style="font-size: 20px; color: grey;">${datumText}</span>`;
+                    globalDatumText = `${tag}. ${monat} ${jahr}`;
+
+                    // Anzeige von Uhrzeit und Datum
+                    document.getElementById('uhrzeit').innerHTML = `<span style="font-size: 38px; font-weight: bold;">${uhrzeitText}</span><br>
+                            <span style="font-size: 20px; color: grey;">${globalDatumText}</span>`;
                 }
-                
-                // Aktualisierung der Uhrzeit jede Sekunde
+
                 setInterval(updateUhrzeit, 1000);
+
                 updateUhrzeit();
             </script>
+            <!---------------------------------------------------------Uhrzeit + Datum--------------------------------------------------------------------->
+            <!-------------------------------------------------------------Ende---------------------------------------------------------------------------->
         </div>
-
         <div>
             <br>
             <!-- Dropdown-Menü zur Auswahl einer Aktion (Erstellen, Bearbeiten, Löschen) -->
             <select name="dropdown" id="dropdown" onchange="handleSelection()">
-                <option value="" disabled selected>Bitte eine Aktion wählen</option> <!-- Platzhalter Option -->
+                <option value="" disabled selected>Bearbeiten</option> <!-- Platzhalter Option -->
                 <option value="erstellen">Erstellen</option>
                 <option value="bearbeiten">Bearbeiten</option>
                 <option value="loeschen">Löschen</option>
@@ -170,33 +174,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </select>
                 <br><br>
                 <!-- Button zur Weiterleitung zum Bearbeiten eines Termins -->
-                <button type="button" onclick="redirectToBearbeiten()" style="width: 40%; height: 54px; font-family: Arial, sans-serif; font-size: 17px; border-color: white; border-radius: 80px 80px 80px 80px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.341);">Bearbeiten</button>
+                <button type="button" onclick="redirectToBearbeiten()"
+                    style="width: 40%; height: 54px; font-family: Arial, sans-serif; font-size: 17px; border-color: white; border-radius: 80px 80px 80px 80px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.341);">Bearbeiten</button>
             </form>
 
-            <article style=" position:absolute; margin-top: -20%;margin-left: 43%;width: 30%;height: 365px; background-color: rgba(128, 128, 128, 0.91)">
-            <?php if ($termin): ?>
-                
+            <span><article
+                style=" position:absolute; margin-top: -285px;margin-left: 43%;width: 30%;height: 365px; background-color: rgba(255, 255, 255, 0.91);">
+                <?php if ($termin): ?>
+
                 <!-- Formular zur Bearbeitung eines bestehenden Termins -->
                 <h2 style="color:white">Termin Bearbeiten</h2>
                 <form method="POST">
                     <label for="title" style="color:rgb(255, 255, 255)">Titel:</label><br>
-                    <input type="text" id="titel" name="titel" value="<?php echo htmlspecialchars($termin['Titel']); ?>" required style="width: 100%;"><br><br>
+                    <input type="text" id="titel" name="titel" value="<?php echo htmlspecialchars($termin['Titel']); ?>"
+                        required style="width: 100%;"><br><br>
 
                     <label for="date" style="color:rgb(255, 255, 255)">Datum:</label><br>
-                    <input type="date" id="datum" name="datum" value="<?php echo htmlspecialchars($termin['Datum']); ?>" required><br><br>
+                    <input type="date" id="datum" name="datum" value="<?php echo htmlspecialchars($termin['Datum']); ?>"
+                        required><br><br>
 
                     <label for="time" style="color:rgb(255, 255, 255)">Uhrzeit:</label><br>
-                    <input type="time" id="uhrzeit" name="uhrzeit" value="<?php echo htmlspecialchars($termin['Uhrzeit']); ?>" required><br><br>
+                    <input type="time" id="uhrzeit" name="uhrzeit"
+                        value="<?php echo htmlspecialchars($termin['Uhrzeit']); ?>" required><br><br>
 
                     <label for="description" style="color:rgb(255, 255, 255)">Beschreibung:</label><br>
-                    <textarea id="beschreibung" name="beschreibung" required style="width: 100%; height:50px;" ><?php echo htmlspecialchars($termin['Beschreibung']); ?></textarea><br>
+                    <textarea id="beschreibung" name="beschreibung" required
+                        style="width: 100%; height:50px;"><?php echo htmlspecialchars($termin['Beschreibung']); ?></textarea><br>
                     <br>
                     <!-- Button zum Absenden des Bearbeitungsformulars -->
                     <button type="submit">Termin Bearbeiten</button>
                 </form>
-            <?php endif; ?>
-            </article>
+                <?php endif; ?>
+            </article></span>
         </div>
     </article>
 </body>
+
 </html>

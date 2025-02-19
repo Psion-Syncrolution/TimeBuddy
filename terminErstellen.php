@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="de"> 
+<html lang="de">
+
 <head>
     <meta charset="utf-8">
     <title>Php-Connector</title>
@@ -13,9 +14,10 @@
         }
     </style>
 </head>
+
 <body>
-<!-- php-Interpreter einschalten -->
-<?php
+    <!-- php-Interpreter einschalten -->
+    <?php
 // MySQLi-Verbindung herstellen
 $conn = mysqli_connect("localhost", "root", "", "kalender_datenbank");
 
@@ -51,6 +53,7 @@ if ($stmt->execute()) {
 $stmt->close();
 $conn->close();
 ?>
-<!-- php-Interpreter ausschalten -->
+    <!-- php-Interpreter ausschalten -->
 </body>
+
 </html>
