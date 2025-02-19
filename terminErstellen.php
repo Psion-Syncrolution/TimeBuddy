@@ -41,7 +41,7 @@ if ($stmt->execute()) {
     echo '<div class="success-message"> Bitte Warten - Sie werden Zurrückgeleitet</div>';
     
     // Weiterleitung nach 3 Sekunden (3000 Millisekunden)
-    header("Refresh: 2; url=Monthly-View.html");
+    header("Refresh: 2; url=Monthly-View.php");
     exit(); // Beendet das Script, um die Weiterleitung nach dem Feedback auszuführen
 } else {
     echo "Fehler beim Hinzufügen des Termins: " . $stmt->error;

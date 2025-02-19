@@ -16,9 +16,9 @@
         <img src="pictures/clock.png" alt="clock-icon" class="left-icon" title="Rückkehr zu Startseite"></a>
     <!------------------------------------------------Navbar Buttons----------------------------------------------------------------------------->
         <div class="nav-buttons">
-            <a href="Monthly-View.html"><button class="nav-button active" onclick="setActive(this)">Monatsansicht</button></a>
-            <a href="WeeklyView.html"><button class="nav-button" onclick="setActive(this)">Wochenansicht</button></a> 
-            <a href="Daily-View.html"><button class="nav-button " onclick="setActive(this)">Tagesansicht</button></a>          
+            <a href="Monthly-View.php"><button class="nav-button active" onclick="setActive(this)">Monatsansicht</button></a>
+            <a href="WeeklyView.php"><button class="nav-button" onclick="setActive(this)">Wochenansicht</button></a> 
+            <a href="Daily-View.php"><button class="nav-button " onclick="setActive(this)">Tagesansicht</button></a>          
         </div>
     <!---------------------------------------Navbar Icons für Termin und Erinnerung-------------------------------------------------------------->
         <div class="right-icons">
@@ -189,68 +189,112 @@
         generateCalendar(currentDate.getMonth(), currentDate.getFullYear());
     </script>
 <!--------------------------------------------------------Kalender schließen ----------------------------------------------------------------------------->
-           <!-- Termin-Tabelle (Beispieltermine) -->
-           <article style="margin-top: 20px;">
+<!-------------------------------------------------------------------------------------------------------------------------------------------------------->
+<!------------------------------------------------Termine aus der Datenbank anzeigen  -------------------------------------------------------------------->
+        <article style="margin-top: 20px;">
+            <?php
+            // Database connection
+            $servername = "localhost";
+            $username = "root";
+            $password = "";
+            $dbname = "kalender_datenbank";
+
+            // Create connection
+            $conn = new mysqli($servername, $username, $password, $dbname);
+
+            // Check connection
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+
+            // SQL query to fetch data from the Termin table
+            $sql = "SELECT Titel, Datum, Uhrzeit, Beschreibung FROM Termin";
+            $result = $conn->query($sql);
+            ?>
             <div class="Termin">
                 <table class="bottom-table">
                     <tr>
-                        <!-- Kopfzeilen für die Termin-Tabelle -->
-                        <th>Termin</th>
-                        <th>Datum</th>
-                        <th>Uhrzeit</th>
-                        <th>Beschreibung</th>
-                        <th style="width: 1%; background-color: gray "></th>
-                        <th>Erinnerung</th>
+                        <!-- Table headers -->
+                        <th>Terminliste</th>
                         <th>Datum</th>
                         <th>Uhrzeit</th>
                         <th>Beschreibung</th>
                     </tr>
-                    <!-- Beispiel für Termin-Daten -->
-                    <tr>
-                        <td>Termintitel</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Termintitel</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Termintitel</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Termintitel</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                    <?php
+                    // Check if there are rows in the result set
+                    if ($result->num_rows > 0) {
+                        // Output data for each row
+                        while($row = $result->fetch_assoc()) {
+                            echo "<tr>";
+                            echo "<td>" . htmlspecialchars($row["Titel"]) . "</td>";
+                            echo "<td>" . htmlspecialchars($row["Datum"]) . "</td>";
+                            echo "<td>" . htmlspecialchars($row["Uhrzeit"]) . "</td>";
+                            echo "<td>" . htmlspecialchars($row["Beschreibung"]) . "</td>";
+                            echo "</tr>";
+                        }
+                    } else {
+                        // If no records are found, show a message
+                        echo "<tr><td colspan='3'>Keine Termine gefunden</td></tr>";
+                    }
+                    ?>
                 </table>
+            </div>
+        </article>
+<!-------------------------------------------------------------Termin anzeige Ende------------------------------------------------------------------------>
+<!-------------------------------------------------------------------------------------------------------------------------------------------------------->
+        <article style="margin-top: 20px;">
+            <?php
+            // Database connection
+            $servername = "localhost";
+            $username = "root";
+            $password = "";
+            $dbname = "kalender_datenbank";
+
+            // Create connection
+            $conn = new mysqli($servername, $username, $password, $dbname);
+
+            // Check connection
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+
+            // SQL query to fetch data from the Termin table
+            $sql = "SELECT Erinnerung, Datum, Uhrzeit, Beschreibung FROM Erinnerung";
+            $result = $conn->query($sql);
+            ?>
+            <div class="Termin">
+                <table class="bottom-table">
+                    <tr>
+                        <!-- Table headers -->
+                        <th>Erinnerungsliste</th>
+                        <th>Datum</th>
+                        <th>Uhrzeit</th>
+                        <th>Beschreibung</th>
+                    </tr>
+                    <?php
+                    // Check if there are rows in the result set
+                    if ($result->num_rows > 0) {
+                        // Output data for each row
+                        while($row = $result->fetch_assoc()) {
+                            echo "<tr>";
+                            echo "<td>" . htmlspecialchars($row["Erinnerung"]) . "</td>";
+                            echo "<td>" . htmlspecialchars($row["Datum"]) . "</td>";
+                            echo "<td>" . htmlspecialchars($row["Uhrzeit"]) . "</td>";
+                            echo "<td>" . htmlspecialchars($row["Beschreibung"]) . "</td>";
+                            echo "</tr>";
+                        }
+                    } else {
+                        // If no records are found, show a message
+                        echo "<tr><td colspan='3'>Keine Termine gefunden</td></tr>";
+                    }
+                    ?>
+                </table>
+            </div>
+        </article>
+<?php
+// Close the database connection
+$conn->close();
+?>
             </div>
         </article>
 <!-------------------------------------------------------Article Box Schließen-------------------------------------------------------------------->
