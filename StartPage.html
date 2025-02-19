@@ -1,24 +1,52 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de"> 
 <head>
+    <!-- Definiert den Zeichensatz der Webseite als UTF-8, was sicherstellt, dass auch Sonderzeichen und Umlaute korrekt angezeigt werden -->
     <meta charset="UTF-8" />
+    <!-- Titel der Webseite. Dieser Titel wird in der Tab-Leiste des Browsers angezeigt -->
     <title>Project 4 - Kalender</title>
-    <link rel="stylesheet" href="startpage.css">
+    <!-- Verknüpft ein externes Stylesheet mit der Webseite, das die visuellen Stile für das Layout enthält -->
+    <link rel="stylesheet" href="css/startpage.css">
 </head>
 <body>
+    <!-- Dieser Div-Container wird als Hintergrundbild verwendet, um die Seite visuell hervorzuheben -->
     <div class="fullscreen-image">
+        <!-- Navigationsleiste, die die Buttons für die verschiedenen Kalenderansichten enthält -->
         <div class="navbar">
+            <!-- Container für die Navigationsbuttons -->
             <div class="nav-buttons">
-                <a href="Monthly-View.html"><button class="nav-button" onclick="setActive(this)">Monatsansicht</button></a>
-                <a href="WeeklyView.html"><button class="nav-button" onclick="setActive(this)">Wochenansicht</button></a> 
-                <a href="Daily-View.html"><button class="nav-button" onclick="setActive(this)">Tagesansicht</button></a>          
+                <!-- Button für die Monatsansicht. Beim Klicken wird der Benutzer zur Monatsansicht weitergeleitet -->
+                <a href="Monthly-View.html">
+                    <button class="nav-button" onclick="setActive(this)">
+                        Monatsansicht
+                    </button>
+                </a>
+                <!-- Button für die Wochenansicht. Der Benutzer wird zur Wochenansicht weitergeleitet -->
+                <a href="WeeklyView.html">
+                    <button class="nav-button" onclick="setActive(this)">
+                        Wochenansicht
+                    </button>
+                </a>
+                <!-- Button für die Tagesansicht. Der Benutzer wird zur Tagesansicht weitergeleitet -->
+                <a href="Daily-View.html">
+                    <button class="nav-button" onclick="setActive(this)">
+                        Tagesansicht
+                    </button>
+                </a>          
             </div>
         </div>
     </div>
 
+    <!-- JavaScript-Code -->
     <script>
+        // Funktion, die beim Klicken auf einen Button aufgerufen wird
         function setActive(button) {
-            document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
+            // Alle Buttons mit der Klasse 'nav-button' durchlaufen
+            document.querySelectorAll('.nav-button').forEach(btn => {
+                // Entfernt die 'active'-Klasse von allen Buttons
+                btn.classList.remove('active');
+            });
+            // Fügt die 'active'-Klasse nur dem angeklickten Button hinzu
             button.classList.add('active');
         }
     </script>

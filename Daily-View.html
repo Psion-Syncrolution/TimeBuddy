@@ -7,48 +7,48 @@
     <link rel="stylesheet" href="css/dailyViewStyle.css">
 </head>
 <header>
-    <div class="navbar">
-
-        <a href="StartPage.html" class="left-icon">
-            <img src="pictures/clock.png" alt="clock-icon" class="left-icon" title="Rückkehr zu Startseite"></a>
-
-    
-
+<!----------------------------------------------------Navbar--------------------------------------------------------------------------------->
+<div class="navbar"> <!-- Navbar erzeugen-->
+    <a href="StartPage.html" class="left-icon"> <!-- Startpage verknüpfen über ein Icon -->
+    <img src="pictures/clock.png" alt="clock-icon" class="left-icon" title="Rückkehr zu Startseite"></a>
+<!------------------------------------------------Navbar Buttons----------------------------------------------------------------------------->
     <div class="nav-buttons">
-
         <a href="Monthly-View.html"><button class="nav-button " onclick="setActive(this)">Monatsansicht</button></a>
         <a href="WeeklyView.html"><button class="nav-button" onclick="setActive(this)">Wochenansicht</button></a> 
         <a href="Daily-View.html"><button class="nav-button active" onclick="setActive(this)">Tagesansicht</button></a>          
-
     </div>
-
-<div class="right-icons">
-    <a href="Termin_erstellen.html" class="right-icons">
-        <img src="pictures/appo.png" alt="Termine" class="icon" title="Termine bearbeiten"></a>
-        <a href="Erinnerung_erstellen.php" class="right-icons">
-        <img src="pictures/bell.webp" alt="Erinnerungen" class="icon" title="Erinnerungen bearbeiten"></a>
+<!---------------------------------------Navbar Icons für Termin und Erinnerung-------------------------------------------------------------->
+    <div class="right-icons">
+        <a href="Termin_erstellen.html" class="right-icons">
+            <img src="pictures/appo.png" alt="Termine" class="icon" title="Termine bearbeiten"></a>
+            <a href="Erinnerung_erstellen.php" class="right-icons">
+            <img src="pictures/bell.webp" alt="Erinnerungen" class="icon" title="Erinnerungen bearbeiten"></a>
+    </div>
 </div>
-
-</div>
-
+<!-------------------------------------------------Navbar Ende------------------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------------------------------------->
 <div>
-    <h1>&nbsp;</h1>
+    <h1>&nbsp;</h1> <!-- no Backspace als Abstand-->
 </div>
-
+<!------------------------------------------------------------------------------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------------------------------------->
+<!-------------------------------------------------Aktiv Anzeige der Button------------------------------------------------------------------>
 <script>
     function setActive(button) {
         document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
         button.classList.add('active');
     }
 </script>
-</header>
-
+<!-------------------------------------------------Aktiv Anzeige der Button ENDE-------------------------------------------------------------->
+<!-------------------------------------------------------------------------------------------------------------------------------------------->
+</header> <!-- Header Ende -->
+<!-------------------------------------------------------------------------------------------------------------------------------------------->
+<!---------------------------------------------------------Body öffnen------------------------------------------------------------------------>
 <body>
-        <!--Anabell-->
-            <br><br>
-        <!--Pseudocode 
-        1. Box öffnen-->
-        <article style="margin-top: -2%";">
+    <br><br>
+<!------------------------------------------------------Article Box öffnen-------------------------------------------------------------------->
+        <article>
+<!---------------------------------------------------------Uhrzeit + Datum--------------------------------------------------------------------->
             <div id="uhrzeit">
         <!--2.Live-Uhrezit oben (11:00:04)--> 
                 <h1 id="uhrzeit"></h1>
@@ -82,14 +82,11 @@
                     
                     updateUhrzeit();
                 </script>
-        
-        <!--3. Heutiges Datum (Mittwoch,12. Februar 2025)-->
-            
+<!---------------------------------------------------------Uhrzeit + Datum--------------------------------------------------------------------->
+<!-------------------------------------------------------------Ende---------------------------------------------------------------------------->
             </div>
-        
             <div>
-        
-        <!--Dropdown Menü Monats wechseln (Januar-Dezember, nur eins auswählbar)-->
+<!------------------------------------Dropdown Menü Monats wechseln (Januar-Dezember, nur eins auswählbar)------------------------------------->
         <Table>
             <tr>
                 <!--4. Monatsbezeichnung mit Jahr(Februar 2025)-->
@@ -108,13 +105,13 @@
                         <option value="Oktober">Oktober</option>
                         <option value="November">November</option>
                         <option value="Dezember">Dezember</option>
-                </select>
-            </th>
-            <th style="width: 140px; font-size: medium;"><b id="datumTextAnzeige"></b></th>
-    
-        </tr>
-    </Table>
-        </div>
+                    </select>
+                </th>
+                <th style="width: 140px; font-size: medium;"><b id="datumTextAnzeige"></b></th>
+            </tr>
+        </Table>
+            </div>
+<!-----------------------------------------------------------Datum Anzeige----------------------------------------------------------------------->
         <script>
             function updateDatumText() {
                 document.getElementById('datumTextAnzeige').textContent = globalDatumText;
@@ -123,10 +120,11 @@
             setInterval(updateDatumText, 1000);
             updateDatumText();
         </script>
-    
-    <!--5. Tabelle erstellen 8 Spalten (Woche, Mo, Die, Mi, Do, Fr, Sa, So)
-                        6 Zeilen (Woche x -y)-->
-        <!--8 Spalten-->
+<!---------------------------------------------------------Datum Anzeige ENDE--------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------------------------------------------>
+<!--------------------------------Tabelle erstellen 8 Spalten (Woche, Mo, Die, Mi, Do, Fr, Sa, So) 6 Zeilen (Woche x -y)-------------------------->
+<!------------------------------------------------------------------------------------------------------------------------------------------------>
+        <!--8 Spalten nach rechts // Uhrzeit aufteilung von 06:00 bis 18:00 Uhr-->
         <table class="kalender">
             <tr>
                 <th>Tag/Zeit</th>
@@ -162,16 +160,17 @@
                 <td><div class="divider"></div></td>
                 <td><div class="divider"></div></td>
             </tr>
-            
         </table>
-    
-    <!--6. Box Schließen-->  
+<!--------------------------------Tabelle erstellen 8 Spalten (Woche, Mo, Die, Mi, Do, Fr, Sa, So) 6 Zeilen (Woche x -y) schließen---------------->
     </article>
-<br>
-
+<!-------------------------------------------------------Article Box Schließen-------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------------------------------------------>
+<br> <!-- Line Break-->
+<!------------------------------------------------------Article Box Zwei öffnen------------------------------------------------------------------->
 <article>
+<!------------------------------------------------------Termin Box Öffnen------------------------------------------------------------------------->
     <div class="Termin" >
-        <table class="bottom-table">
+        <table class="bottom-table"> <!-- Termin Table erstellen-->
             <tr>
                 <th>Termin</th>
                 <th>Datum</th>
@@ -227,11 +226,11 @@
                 <td></td>
                 <td></td>
             </tr>
-        </table>
+        </table> <!-- Termin Table schließen-->
     </div>
-    
-    
-    </article>
-
+</article>
+<!-------------------------------------------------------Article Box Zwei Schließen---------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------------------------------------------>
 </body>
+<!--------------------------------------------------------Body Schließen --------------------------------------------------------------------------->
 </html>
