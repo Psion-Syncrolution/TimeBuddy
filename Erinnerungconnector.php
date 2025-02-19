@@ -23,32 +23,30 @@
 <body>
 
 <?php
-// MySQLi-Verbindung herstellen
+ob_start(); // Start output buffering
+
+// Verbindung zur Datenbank
 $conn = mysqli_connect("localhost", "root", "", "kalender_datenbank");
 
-// Verbindung prüfen
 if (!$conn) {
     die('<div class="error-message">Verbindung fehlgeschlagen: ' . mysqli_connect_error() . '</div>');
 }
 
-// Formulardaten prüfen und abrufen
-if (isset($_POST['TitelID'], $_POST['Datum'], $_POST['Uhrzeit'], $_POST['Beschreibung'])) {
-    $TitelID = $_POST['TitelID'];
-    $Datum = $_POST['Datum'];
-    $Uhrzeit = $_POST['Uhrzeit'];
-    $Beschreibung = $_POST['Beschreibung'];
-    
-    // Beispiel: Standardtext für die Erinnerung (kann angepasst werden)
-    $ErinnerungText = "Erinnerung für Termin: " . $TitelID;  
+// Formulardaten abrufen
+if (isset($_POST['termin_id'], $_POST['Datum'], $_POST['Uhrzeit'], $_POST['Beschreibung'])) {
+    $TitelID = htmlspecialchars($_POST['termin_id']);
+    $Datum = htmlspecialchars($_POST['Datum']);
+    $Uhrzeit = htmlspecialchars($_POST['Uhrzeit']);
+    $Beschreibung = htmlspecialchars($_POST['Beschreibung']);
 
-    // Prüfen, ob der Termin existiert
+    $ErinnerungText = "Erinnerung für Termin ID: " . $TitelID;  
+
     $checkTermin = $conn->prepare("SELECT TitelID FROM Termin WHERE TitelID = ?");
     $checkTermin->bind_param("i", $TitelID);
     $checkTermin->execute();
     $result = $checkTermin->get_result();
 
     if ($result->num_rows > 0) {
-        // Erinnerung speichern
         $stmt = $conn->prepare("INSERT INTO Erinnerung (TitelID, Erinnerung, Datum, Uhrzeit, Beschreibung) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("issss", $TitelID, $ErinnerungText, $Datum, $Uhrzeit, $Beschreibung);
 
@@ -57,21 +55,20 @@ if (isset($_POST['TitelID'], $_POST['Datum'], $_POST['Uhrzeit'], $_POST['Beschre
             header("Refresh: 3; url=Monthly-View.html");
             exit();
         } else {
-            echo '<div class="error-message">Fehler beim Speichern der Erinnerung: ' . $stmt->error . '</div>';
+            echo '<div class="error-message">Fehler: ' . $stmt->error . '</div>';
         }
         $stmt->close();
     } else {
-        echo '<div class="error-message">Fehler: Der Termin existiert nicht!</div>';
+        echo '<div class="error-message">Fehler: Termin existiert nicht!</div>';
     }
 
     $checkTermin->close();
-} else {
-    echo '<div class="error-message">Fehlende Formulardaten!</div>';
 }
 
-// Verbindung schließen
 $conn->close();
+ob_end_flush(); // End output buffering
 ?>
+
 
 </body>
 </html>
