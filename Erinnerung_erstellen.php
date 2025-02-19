@@ -214,7 +214,6 @@
         </article>
 <!------------------------------------------------------Article schließen------------------------------------------------------------------------------>
 <!------------------------------------------------------Script Uhrzeit/ Datum öffnen------------------------------------------------------------------->
-        
         <script>
             function updateUhrzeit() {
                 const jetzt = new Date();
@@ -236,13 +235,8 @@
                 const datumText = `${tag}. ${monat} ${jahr}`;
 
                 // Anzeige von Uhrzeit und Datum
-                document.getElementById('uhrzeit').innerHTML = `
-                    <div style="display: flex; flex-direction: column; line-height: 1;">
-                        <span style="font-size: 38px; font-weight: bold;">${uhrzeitText}</span>
-                        <span style="font-size: 20px; color: grey; margin-top: 2px;" font-weight: normal !important;>${datumText}</span>
-                    </div>`;
-
-                    document.getElementById("datumText").style.fontWeight = "normal";
+                document.getElementById('uhrzeit').innerHTML = `<span style="font-size: 38px;">${uhrzeitText}</span><br>
+                <span style="font-size: 20px; color: grey;">${datumText}</span>`;
             }
 
             setInterval(updateUhrzeit, 1000);

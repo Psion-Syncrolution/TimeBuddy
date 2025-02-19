@@ -47,7 +47,7 @@
 <body>
     <br><br>
 <!------------------------------------------------------Article Box öffnen-------------------------------------------------------------------->
-        <article style="margin-top: -2%;">
+        <article>
 <!---------------------------------------------------------Uhrzeit + Datum--------------------------------------------------------------------->
             <div id="uhrzeit">
         <!--2.Live-Uhrezit oben (11:00:04)--> 
@@ -74,7 +74,7 @@
                         globalDatumText = `${tag}. ${monat} ${jahr}`;
                         
                         // Anzeige von Uhrzeit und Datum
-                        document.getElementById('uhrzeit').innerHTML = `<span style="font-size: 39px; font-weight: bold;">${uhrzeitText}</span><br>
+                        document.getElementById('uhrzeit').innerHTML = `<span style="font-size: 38px;">${uhrzeitText}</span><br>
                             <span style="font-size: 20px; color: grey;">${globalDatumText}</span>`;
                     }
                     

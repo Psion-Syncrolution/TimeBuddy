@@ -19,6 +19,11 @@ h1 {
     color: #333;
 }
 
+h4 {
+    color: #666;
+    margin: 10px 0;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;

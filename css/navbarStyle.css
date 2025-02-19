@@ -7,13 +7,13 @@ body {
 
 .navbar {
     display: flex;
-    width: 95%;
+    width: auto;
     align-items: center; 
     justify-content: space-between; 
     background:linear-gradient( rgba(0, 0, 0, 0.74), rgba(128, 128, 128, 0.804));
     margin-top: 5px;
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: 1%;
+    margin-right: 1%;
     padding: 10px 20px; 
     border-radius: 10px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
