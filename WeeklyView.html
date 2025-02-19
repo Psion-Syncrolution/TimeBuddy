@@ -121,20 +121,32 @@
 <script>
 // Funktion zur Berechnung der Tage einer Kalenderwoche
 function getWeekDates(year, week) {
-    const firstDayOfYear = new Date(year, 0, 1);
-    const daysToFirstMonday = (8 - firstDayOfYear.getDay()) % 7;
-    const firstMonday = new Date(year, 0, 1 + daysToFirstMonday);
-    const startDate = new Date(firstMonday.setDate(firstMonday.getDate() + (week - 1) * 7));
-    const weekDates = [];
+    // Erster Tag des Jahres
+    const firstDayOfYear = new Date(Date.UTC(year, 0, 1));
+    // Tag der Woche des 1. Januar (0 = Sonntag, 1 = Montag, ..., 6 = Samstag)
+    const firstDayOfWeek = firstDayOfYear.getUTCDay() || 7; // Sonntag wird zu 7
 
+    // Startdatum der ersten Kalenderwoche
+    let startDate;
+    if (firstDayOfWeek <= 4) {
+        // Wenn der 1. Januar ein Montag bis Donnerstag ist, beginnt die erste KW am 1. Januar
+        startDate = new Date(Date.UTC(year, 0, 1 + (week - 1) * 7 - (firstDayOfWeek - 1)));
+    } else {
+        // Wenn der 1. Januar ein Freitag, Samstag oder Sonntag ist, beginnt die erste KW am nächsten Montag
+        startDate = new Date(Date.UTC(year, 0, 1 + (week - 1) * 7 + (8 - firstDayOfWeek)));
+    }
+
+    // Tage der Woche berechnen
+    const weekDates = [];
     for (let i = 0; i < 7; i++) {
         const currentDate = new Date(startDate);
-        currentDate.setDate(startDate.getDate() + i);
+        currentDate.setUTCDate(startDate.getUTCDate() + i);
         weekDates.push(currentDate);
     }
 
     return weekDates;
 }
+
 
 // generierung der Wochenansicht
 function generateWeekView(year, week) {
@@ -192,9 +204,15 @@ generateWeekView(currentDate.getFullYear(), currentWeek);
 
 // berechnung der Kalenderwoche
 function getWeekNumber(date) {
-    const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
-    const pastDaysOfYear = (date - firstDayOfYear) / 86400000;
-    return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+    // Kopie des Datums erstellen, um das Original nicht zu verändern
+    const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    // Den Donnerstag dieser Woche setzen
+    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+    // Das Jahr des Donnerstags ermitteln
+    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+    // Die Kalenderwoche berechnen
+    const weekNumber = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+    return weekNumber;
 }
 </script>
 
