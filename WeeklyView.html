@@ -16,9 +16,9 @@
             <div class="nav-buttons">
                 <a href="Monthly-View.html"><button class="nav-button "
                         onclick="setActive(this)">Monatsansicht</button></a>
-                <a href="WeeklyView.html"><button class="nav-button"
+                <a href="WeeklyView.html"><button class="nav-button active"
                         onclick="setActive(this)">Wochenansicht</button></a>
-                <a href="Daily-View.html"><button class="nav-button active"
+                <a href="Daily-View.html"><button class="nav-button"
                         onclick="setActive(this)">Tagesansicht</button></a>
             </div>
             <!---------------------------------------Navbar Icons für Termin und Erinnerung-------------------------------------------------------------->
@@ -51,7 +51,7 @@
     <body>
         <br><br>
 <!------------------------------------------------------Article Box öffnen-------------------------------------------------------------------------->
-        <article>
+        <article style="margin-top: -1.3%;">
 <!---------------------------------------------------------Uhrzeit + Datum-------------------------------------------------------------------------->
             <div id="uhrzeit">
                 <!--2.Live-Uhrezit oben (11:00:04)-->
@@ -78,7 +78,7 @@
                         globalDatumText = `${tag}. ${monat} ${jahr}`;
 
                         // Anzeige von Uhrzeit und Datum
-                        document.getElementById('uhrzeit').innerHTML = `<span style="font-size: 38px;">${uhrzeitText}</span><br>
+                        document.getElementById('uhrzeit').innerHTML = `<span style="font-size: 39px; font-weight: bold;">${uhrzeitText}</span><br>
                             <span style="font-size: 20px; color: grey;">${globalDatumText}</span>`;
                     }
 

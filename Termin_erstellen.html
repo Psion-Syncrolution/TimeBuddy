@@ -59,7 +59,7 @@
         <article>
             <div>
                 <!-- Anzeige der aktuellen Uhrzeit und des Datums -->
-                <h1 id="uhrzeit"></h1>
+                <div id="uhrzeit"></div>
                 <script>
                     // Funktion zum Aktualisieren von Uhrzeit und Datum
                     function updateUhrzeit() {
@@ -82,7 +82,7 @@
                         const datumText = `${tag}. ${monat} ${jahr}`;
 
                         // Anzeige von Uhrzeit und Datum auf der Webseite
-                        document.getElementById('uhrzeit').innerHTML = `<span style="font-size: 38px;">${uhrzeitText}</span><br>
+                        document.getElementById('uhrzeit').innerHTML = `<span style="font-size: 38px; font-weight:bold;">${uhrzeitText}</span><br>
                         <span style="font-size: 20px; color: grey;">${datumText}</span>`;
                     }
 
