@@ -30,9 +30,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["TitelID"])) {
                 <img src="pictures/clock.png" alt="clock-icon" class="left-icon" title="Rückkehr zu Startseite"></a>
 <!------------------------------------------------Navbar Buttons----------------------------------------------------------------------------->
             <div class="nav-buttons">
-                <a href="Monthly-View.php"><button class="nav-button " onclick="setActive(this)">Monatsansicht</button></a>
-                <a href="WeeklyView.php"><button class="nav-button" onclick="setActive(this)">Wochenansicht</button></a>
-                <a href="Daily-View.php"><button class="nav-button" onclick="setActive(this)">Tagesansicht</button></a>
+                <a href="Monthly-View.html"><button class="nav-button " onclick="setActive(this)">Monatsansicht</button></a>
+                <a href="WeeklyView.html"><button class="nav-button" onclick="setActive(this)">Wochenansicht</button></a>
+                <a href="Daily-View.html"><button class="nav-button active"
+                        onclick="setActive(this)">Tagesansicht</button></a>
             </div>
 <!---------------------------------------Navbar Icons für Termin und Erinnerung-------------------------------------------------------------->
             <div class="right-icons">

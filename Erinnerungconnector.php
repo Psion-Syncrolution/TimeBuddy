@@ -68,7 +68,7 @@ if (isset($_POST['termin_id'], $_POST['Datum'], $_POST['Uhrzeit'], $_POST['Besch
             // Wenn die Erinnerung erfolgreich gespeichert wurde, eine Erfolgsmeldung anzeigen
             echo '<div class="success-message">Erinnerung wurde erfolgreich gespeichert!</div>';
             // Die Seite nach 3 Sekunden auf die Monatsansicht umleiten
-            header("Refresh: 2; url=Monthly-View.php");
+            header("Refresh: 3; url=Monthly-View.html");
             exit();
         } else {
             // Wenn ein Fehler bei der Speicherung der Erinnerung auftritt, eine Fehlermeldung anzeigen

@@ -51,14 +51,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <header style="margin-bottom: 1%;">
     <div class="navbar">
         <!-- Link zum "Monatsansicht" -->
-        <a href="Monthly-View.php" class="left-icon">
+        <a href="Monthly-View.html" class="left-icon">
             <img src="pictures/clock.png" alt="clock-icon" class="left-icon"></a>
 
         <div class="nav-buttons">
             <!-- Navigationsbuttons für die verschiedenen Ansichten -->
-            <a href="Monthly-View.php"><button class="nav-button " onclick="setActive(this)">Monatsansicht</button></a>
-            <a href="WeeklyView.php"><button class="nav-button" onclick="setActive(this)">Wochenansicht</button></a> 
-            <a href="Daily-View.php"><button class="nav-button" onclick="setActive(this)">Tagesansicht</button></a>          
+            <a href="Monthly-View.html"><button class="nav-button active" onclick="setActive(this)">Monatsansicht</button></a>
+            <a href="WeeklyView.html"><button class="nav-button" onclick="setActive(this)">Wochenansicht</button></a> 
+            <a href="Daily-View.html"><button class="nav-button" onclick="setActive(this)">Tagesansicht</button></a>          
         </div>
 
         <div class="right-icons">
