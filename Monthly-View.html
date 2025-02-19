@@ -146,9 +146,14 @@
             const lastDay = new Date(year, month + 1, 0);
             const startDay = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
             const totalDays = lastDay.getDate();
+            const totalWeeks = Math.ceil((startDay + totalDays) /7);
+            //Letzter Tag des Vormonats
+            const lastPrevMonthDay = new Date(year, month, 0).getDate();
 
+            //Startwert für den Nächsten Monat
+            let nextMonthDate = 1;
             let date = 1;
-            for (let i = 0; i < 6; i++) {
+            for (let i = 0; i < totalWeeks; i++) {
                 const row = table.insertRow();
                 const weekNumberCell = row.insertCell();
                 weekNumberCell.textContent = getWeekNumber(new Date(year, month, date));
@@ -156,9 +161,14 @@
                 for (let j = 0; j < 7; j++) {
                     const cell = row.insertCell();
                     if (i === 0 && j < startDay) {
-                        cell.textContent = '';
+                        cell.textContent = lastPrevMonthDay - (startDay - j - 1);
+                        cell.style.color = "gray";
+                        //Füllt die ersten leeren Zellen mit den letzten Tagen des Vormonats
                     } else if (date > totalDays) {
-                        cell.textContent = '';
+                        cell.textContent = nextMonthDate;
+                        nextMonthDate++;
+                        cell.style.color = "gray";
+                        //Monate des nächsten Monats zählen von 1 hoch
                     } else {
                         cell.textContent = date;
                         date++;
@@ -168,11 +178,10 @@
         }
 
         function getWeekNumber(date) {
-            const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
-            const pastDaysOfYear = (date - firstDayOfYear) / 86400000;
-            return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
-        }
-
+            const firstThursday = new Date(date.getFullYear(), 0, 4);
+            const weekNumber = Math.ceil((((date - firstThursday) / 86400000) + firstThursday.getDay() + 1) / 7);
+            return weekNumber;
+}
         // Ereignislistener für die Auswahl des Monats und Jahres
         document.getElementById('monthSelect').addEventListener('change', function() {
             generateCalendar(parseInt(this.value), parseInt(document.getElementById('yearInput').value));
