@@ -1,0 +1,79 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.navbar {
+    display: flex;
+    width: 95%;
+    align-items: center; 
+    justify-content: space-between; 
+    background:linear-gradient( rgba(0, 0, 0, 0.74), rgba(128, 128, 128, 0.804));
+    margin-top: 5px;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 10px 20px; 
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: 60px; 
+}
+
+.left-icon {
+    display: flex;
+    align-items: center;
+    height: 100px;
+    width: 100px;
+    margin-top: 1%;
+    margin-left: 0.5%;
+    padding-bottom: 0.5%;
+}
+
+.nav-buttons {
+    display: flex;
+    align-items: center; 
+    gap: 10px;
+    transition: transform 0.3s ease;
+}
+
+
+.right-icons {
+    display: flex;
+    align-items: center; 
+    gap: 10px; 
+}
+
+.icon {
+    height: 50px; 
+    width: auto; 
+    transition: transform 0.3s ease;
+}
+
+.nav-button {
+    padding: 10px 15px;
+    border: none;
+    background: #555;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.nav-button.active {
+    background: #ff9800;
+    font-weight: bold;
+}
+
+.nav-button:hover {
+    background: #777;
+    transform: scale(1.2); 
+}
+.icon:hover {
+    transform: scale(1.2); 
+}

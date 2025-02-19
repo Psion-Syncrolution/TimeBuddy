@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="css/navbarStyle.css">
+        <link rel="stylesheet" href="css/termin_bearbeitenStyle.css">
+        <title>Termin Bearbeiten</title>
+    </head>
+    <header style="margin-bottom: 1%;">
+<!----------------------------------------------------Navbar--------------------------------------------------------------------------------->
+        <div class="navbar"> <!-- Navbar erzeugen-->
+            <a href="StartPage.html" class="left-icon"> <!-- Startpage verknüpfen über ein Icon -->
+                <img src="pictures/clock.png" alt="clock-icon" class="left-icon" title="Rückkehr zu Startseite"></a>
+<!------------------------------------------------Navbar Buttons----------------------------------------------------------------------------->
+            <div class="nav-buttons">
+                <a href="Monthly-View.php"><button class="nav-button " onclick="setActive(this)">Monatsansicht</button></a>
+                <a href="WeeklyView.php"><button class="nav-button" onclick="setActive(this)">Wochenansicht</button></a>
+                <a href="Daily-View.php"><button class="nav-button" onclick="setActive(this)">Tagesansicht</button></a>
+            </div>
+<!---------------------------------------Navbar Icons für Termin und Erinnerung-------------------------------------------------------------->
+            <div class="right-icons">
+                <a href="Termin_erstellen.html" class="right-icons">
+                    <img src="pictures/appo.png" alt="Termine" class="icon" title="Termine bearbeiten"></a>
+                <a href="Erinnerung_erstellen.php" class="right-icons">
+                    <img src="pictures/bell.webp" alt="Erinnerungen" class="icon" title="Erinnerungen bearbeiten"></a>
+            </div>
+        </div>
+<!-------------------------------------------------Navbar Ende------------------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------------------------------------->
+    <div>
+        <h1>&nbsp;</h1> <!-- no Backspace als Abstand-->
+    </div>
+<!------------------------------------------------------------------------------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------------------------------------->
+        <script>
+            function setActive(button) {
+                document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+            }
+
+            function handleSelection() {
+                let selection = document.getElementById("dropdown").value;
+
+                if (selection === "bearbeiten") {
+                    window.location.href = "Termin_bearbeiten.php"; // Redirect to edit page
+                } else if (selection === "loeschen") {
+                    window.location.href = "Termin_loeschen.php"; // Redirect to delete page
+                } else if (selection === "erstellen") {
+                    window.location.href = "Termin_erstellen.html"; // Redirect to create page
+                }
+            }
+        </script>
+    </header>
+
+    <body>
+        <br><br> <!-- Abstand für Layout -->
+        <article>
+            <div>
+                <!-- Anzeige der aktuellen Uhrzeit und des Datums -->
+                <div id="uhrzeit"></div>
+                <script>
+                    // Funktion zum Aktualisieren von Uhrzeit und Datum
+                    function updateUhrzeit() {
+                        const jetzt = new Date(); // Aktuelles Datum und Uhrzeit
+
+                        // Uhrzeit in Stunden, Minuten und Sekunden formatieren
+                        const stunden = jetzt.getHours().toString().padStart(2, '0');
+                        const minuten = jetzt.getMinutes().toString().padStart(2, '0');
+                        const sekunden = jetzt.getSeconds().toString().padStart(2, '0');
+                        const uhrzeitText = `${stunden}:${minuten}:${sekunden}`;
+
+                        // Monat als Text
+                        const monate = [
+                            "Januar", "Februar", "März", "April", "Mai", "Juni",
+                            "Juli", "August", "September", "Oktober", "November", "Dezember"
+                        ];
+                        const tag = jetzt.getDate().toString().padStart(2, '0');
+                        const monat = monate[jetzt.getMonth()];  // Monat als Text
+                        const jahr = jetzt.getFullYear();
+                        const datumText = `${tag}. ${monat} ${jahr}`;
+
+                        // Anzeige von Uhrzeit und Datum auf der Webseite
+                        document.getElementById('uhrzeit').innerHTML = `<span style="font-size: 38px; font-weight:bold;">${uhrzeitText}</span><br>
+                        <span style="font-size: 20px; color: grey;">${datumText}</span>`;
+                    }
+
+                    // Funktion wird alle 1 Sekunde aufgerufen, um die Anzeige zu aktualisieren
+                    setInterval(updateUhrzeit, 1000);
+
+                    // Initiales Update der Uhrzeit und des Datums
+                    updateUhrzeit();
+                </script>
+            </div>
+
+            <div>
+                <br>
+                <!-- Formular zum Erstellen eines neuen Termins -->
+                <form id="terminForm" action="terminErstellen.php" method="POST">
+                    <!-- Dropdown-Menü zur Auswahl einer Aktion (Erstellen, Bearbeiten oder Löschen) -->
+                    <select name="dropdown" id="dropdown" onchange="handleSelection()">
+                        <option value="" disabled selected>Bitte eine Aktion wählen</option> <!-- Platzhalter -->
+                        <option value="erstellen">Erstellen</option>
+                        <option value="bearbeiten">Bearbeiten</option>
+                        <option value="loeschen">Löschen</option>
+                    </select>
+
+                    <!-- Tabelle für das Termin-Erstellungsformular -->
+                    <table>
+                        <!-- Überschrift der Tabelle -->
+                        <tr>
+                            <th class="terminhead" colspan="2" id="formTitle">Formular zum Erstellen eines Termins</th>
+                        </tr>
+                        <!-- Zeile für den Titel des Termins -->
+                        <tr>
+                            <td><label for="titel">Titel:</label></td>
+                            <td class="inputtitel">
+                                <input type="text" id="titel" name="titel" required style="width: 45%;"
+                                    placeholder="Klicke hier um Titel einzugeben.">
+                            </td>
+                        </tr>
+                        <!-- Zeile für das Datum des Termins -->
+                        <tr>
+                            <td><label for="datum">Datum:</label></td>
+                            <td class="inputdate">
+                                <input type="date" id="datum" name="datum" required>
+                            </td>
+                        </tr>
+                        <!-- Zeile für die Uhrzeit des Termins -->
+                        <tr>
+                            <td><label for="uhrzeit">Uhrzeit:</label></td>
+                            <td class="inputtime">
+                                <input type="time" id="zeit" name="uhrzeit" required>
+                            </td>
+                        </tr>
+                        <!-- Zeile für die Beschreibung des Termins -->
+                        <tr>
+                            <td><label for="beschreibung">Beschreibung:</label></td>
+                            <td class="inputtextarea">
+                                <textarea id="beschreibung" name="beschreibung" required style="width: 45%;"
+                                    placeholder="Klicke hier um Beschreibung einzugeben."></textarea>
+                            </td>
+                        </tr>
+                        <!-- Zeile für den Submit-Button -->
+                        <tr>
+                            <td colspan="2" style="text-align:center;">
+                                <button class="submitbutton" type="submit" id="submitButton">Termin speichern</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </article>
+    </body>
+
+</html>

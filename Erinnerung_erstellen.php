@@ -89,9 +89,9 @@
         <img src="pictures/clock.png" alt="clock-icon" class="left-icon" title="Rückkehr zu Startseite"></a>
     <!------------------------------------------------Navbar Buttons----------------------------------------------------------------------------->
         <div class="nav-buttons">
-            <a href="Monthly-View.html"><button class="nav-button " onclick="setActive(this)">Monatsansicht</button></a>
-            <a href="WeeklyView.html"><button class="nav-button" onclick="setActive(this)">Wochenansicht</button></a> 
-            <a href="Daily-View.html"><button class="nav-button active" onclick="setActive(this)">Tagesansicht</button></a>          
+            <a href="Monthly-View.php"><button class="nav-button " onclick="setActive(this)">Monatsansicht</button></a>
+            <a href="WeeklyView.php"><button class="nav-button" onclick="setActive(this)">Wochenansicht</button></a> 
+            <a href="Daily-View.php"><button class="nav-button " onclick="setActive(this)">Tagesansicht</button></a>          
         </div>
     <!---------------------------------------Navbar Icons für Termin und Erinnerung-------------------------------------------------------------->
         <div class="right-icons">
@@ -214,6 +214,7 @@
         </article>
 <!------------------------------------------------------Article schließen------------------------------------------------------------------------------>
 <!------------------------------------------------------Script Uhrzeit/ Datum öffnen------------------------------------------------------------------->
+        
         <script>
             function updateUhrzeit() {
                 const jetzt = new Date();
@@ -235,8 +236,13 @@
                 const datumText = `${tag}. ${monat} ${jahr}`;
 
                 // Anzeige von Uhrzeit und Datum
-                document.getElementById('uhrzeit').innerHTML = `<span style="font-size: 38px;">${uhrzeitText}</span><br>
-                <span style="font-size: 20px; color: grey;">${datumText}</span>`;
+                document.getElementById('uhrzeit').innerHTML = `
+                    <div style="display: flex; flex-direction: column; line-height: 1;">
+                        <span style="font-size: 38px; font-weight: bold;">${uhrzeitText}</span>
+                        <span style="font-size: 20px; color: grey; margin-top: 2px;" font-weight: normal !important;>${datumText}</span>
+                    </div>`;
+
+                    document.getElementById("datumText").style.fontWeight = "normal";
             }
 
             setInterval(updateUhrzeit, 1000);

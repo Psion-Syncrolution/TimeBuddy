@@ -1,0 +1,70 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 20px;
+}
+
+article {
+    height: 420px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+h1 {
+    font-size: 2em;
+    margin: 0;
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 6.9px;
+    text-align: right;
+}
+
+th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+.dropdown-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+select {
+    padding: 5px;
+    font-size: 1em;
+}
+
+.month-header {
+    font-size: 1.5em;
+    margin: 0;
+}
+
+.inputtitel, .inputdate, .inputtime, .inputtextarea {
+    text-align: left;
+}
+.terminhead, .erinnerunghead {
+    text-align: center;
+}
+.submitbutton {
+    width: 40%;
+    height: 54px;
+    font-family: Arial, sans-serif;
+    font-size: 17px;
+    border-color: white;
+    border-radius: 80px 80px 80px 80px; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.341);
+}
