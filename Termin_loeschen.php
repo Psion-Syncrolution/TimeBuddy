@@ -74,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["TitelID"])) {
 <body>
     <br><br> <!-- Abstand zwischen den Elementen -->
     <!---------------------------------------------------------Article öffnen------------------------------------------------------------------------>
-    <article style="margin-top: -0.35%;"> <!-- Artikel-Bereich für den Inhalt -->
+    <article style="margin-top: -0.6%;"> <!-- Artikel-Bereich für den Inhalt -->
     <div id="uhrzeit">
             <!--2.Live-Uhrezit oben (11:00:04)-->
             <h1 id="uhrzeit"></h1>

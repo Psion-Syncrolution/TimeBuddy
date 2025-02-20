@@ -88,7 +88,7 @@
     <body>
         <br><br>
 <!------------------------------------------------------Article Box öffnen-------------------------------------------------------------------------->
-        <article style="margin-top: -1.45%;">
+        <article style="margin-top: -0.2%;">
 <!---------------------------------------------------------Uhrzeit + Datum--------------------------------------------------------------------->
 <div id="uhrzeit-legende-container" style="display: flex; align-items: center; gap: 20px;">
             <div id="uhrzeit">

@@ -125,7 +125,7 @@
 
 <body>
     <!------------------------------------------------------Article öffnen------------------------------------------------------------------------->
-    <article>
+    <article style="margin-top: 3.5%;">
         <div class="main-container"> <!---- Haupt Container öffnen---->
             <div id="uhrzeit-box"> <!----- Time Box öffnen --------->
             <h1 id="uhrzeit"></h1>
