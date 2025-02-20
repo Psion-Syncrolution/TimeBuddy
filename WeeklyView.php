@@ -24,9 +24,9 @@
             <!---------------------------------------Navbar Icons für Termin und Erinnerung-------------------------------------------------------------->
             <div class="right-icons">
                 <a href="Termin_erstellen.html" class="right-icons">
-                    <img src="pictures/appo.png" alt="Termine" class="icon" title="Termine bearbeiten"></a>
+                    <img src="pictures/appo.png" alt="Termine" class="icon" title="Terminverwaltung"></a>
                 <a href="Erinnerung_erstellen.php" class="right-icons">
-                    <img src="pictures/bell.webp" alt="Erinnerungen" class="icon" title="Erinnerungen bearbeiten"></a>
+                    <img src="pictures/bell.webp" alt="Erinnerungen" class="icon" title="Erinnerungen hinzufügen"></a>
             </div>
         </div>
         <!-------------------------------------------------Navbar Ende------------------------------------------------------------------------------->
