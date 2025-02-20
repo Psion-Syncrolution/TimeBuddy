@@ -170,68 +170,77 @@
     <!----------------------------------------------------------------------------------------------------------------------------------------------------->
     <script>
         function generateCalendar(month, year) {
-            const table = document.getElementById('calendarTable');
+    const table = document.getElementById('calendarTable');
 
-            // Clear existing rows except the header
-            while (table.rows.length > 1) {
-                table.deleteRow(1);
-            }
+    // Clear existing rows except the header
+    while (table.rows.length > 1) {
+        table.deleteRow(1);
+    }
 
-            const firstDay = new Date(year, month, 1);
-            const lastDay = new Date(year, month + 1, 0);
-            const startDay = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
-            const totalDays = lastDay.getDate();
-            const totalWeeks = Math.ceil((startDay + totalDays) / 7);
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const startDay = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
+    const totalDays = lastDay.getDate();
+    const totalWeeks = Math.ceil((startDay + totalDays) / 7);
 
-            // Previous month's last day
-            const lastPrevMonthDay = new Date(year, month, 0).getDate();
+    // Previous month's last day
+    const lastPrevMonthDay = new Date(year, month, 0).getDate();
 
-            // Start date for the next month
-            let nextMonthDate = 1;
-            let date = 1;
+    // Start date for the next month
+    let nextMonthDate = 1;
+    let date = 1;
 
-            for (let i = 0; i < totalWeeks; i++) {
-                const row = table.insertRow();
-                const weekNumberCell = row.insertCell();
-                weekNumberCell.textContent = getWeekNumber(new Date(year, month, date));
+    for (let i = 0; i < totalWeeks; i++) {
+        const row = table.insertRow();
+        const weekNumberCell = row.insertCell();
+        weekNumberCell.textContent = getWeekNumber(new Date(year, month, date));
+        weekNumberCell.style.backgroundColor = "#e3e3e3"; // KW-Spalte einfärben
 
-                for (let j = 0; j < 7; j++) {
-                    const cell = row.insertCell();
-                    if (i === 0 && j < startDay) {
-                        cell.textContent = lastPrevMonthDay - (startDay - j - 1);
-                        cell.style.color = "gray"; // Previous month's days
-                    } else if (date > totalDays) {
-                        cell.textContent = nextMonthDate;
-                        nextMonthDate++;
-                        cell.style.color = "gray"; // Next month's days
+        for (let j = 0; j < 7; j++) {
+            const cell = row.insertCell();
+            if (i === 0 && j < startDay) {
+                cell.textContent = lastPrevMonthDay - (startDay - j - 1);
+                cell.style.color = "gray"; // Previous month's days
+                cell.style.backgroundColor = (j === 5 || j === 6) ? "#e3e3e3" : ""; // Sa & So einfärben
+            } else if (date > totalDays) {
+                cell.textContent = nextMonthDate;
+                nextMonthDate++;
+                cell.style.color = "gray"; // Next month's days
+                cell.style.backgroundColor = (j === 5 || j === 6) ? "#e3e3e3" : ""; // Sa & So einfärben
+            } else {
+                // Current month's days
+                const dateKey = `${year}-${(month + 1).toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}`;
+                cell.textContent = date;
+
+                // Samstag (Spalte 5) und Sonntag (Spalte 6) einfärben
+                if (j === 5 || j === 6) {
+                    cell.style.backgroundColor = "#e3e3e3";
+                }
+
+                // Termin-Farben setzen
+                if (terminCounts[dateKey]) {
+                    const count = terminCounts[dateKey];
+                    if (count > 8) {
+                        cell.style.backgroundColor = "rgba(255, 72, 0, 0.68)";
+                    } else if (count > 4) {
+                        cell.style.backgroundColor = "rgba(250, 225, 1, 0.68)";
                     } else {
-                        // Current month's days
-                        const dateKey = `${year}-${(month + 1).toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}`;
-                        cell.textContent = date;
-
-                        // Check if there are Termin counts for this date
-                        if (terminCounts[dateKey]) {
-                            const count = terminCounts[dateKey];
-                            if (count > 8) {
-                                cell.style.backgroundColor = "rgba(255, 72, 0, 0.68)";
-                            } else if (count > 4) {
-                                cell.style.backgroundColor = "rgba(250, 225, 1, 0.68)";
-                            } else {
-                                cell.style.backgroundColor = "rgba(142, 209, 102, 0.678)";
-                            }
-                        }
-
-                        date++;
+                        cell.style.backgroundColor = "rgba(142, 209, 102, 0.678)";
                     }
                 }
+
+                date++;
             }
         }
+    }
+}
 
-        function getWeekNumber(date) {
-            const firstThursday = new Date(date.getFullYear(), 0, 4);
-            const weekNumber = Math.ceil((((date - firstThursday) / 86400000) + firstThursday.getDay() + 1) / 7);
-            return weekNumber;
-        }
+function getWeekNumber(date) {
+    const firstThursday = new Date(date.getFullYear(), 0, 4);
+    const weekNumber = Math.ceil((((date - firstThursday) / 86400000) + firstThursday.getDay() + 1) / 7);
+    return weekNumber;
+}
+
 
         // Event listeners for month and year selection
         document.getElementById('monthSelect').addEventListener('change', function () {
