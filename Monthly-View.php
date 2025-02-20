@@ -395,6 +395,27 @@ function getWeekNumber(date) {
     </div>
     </article>
     <!-------------------------------------------------------Article Box Schließen-------------------------------------------------------------------->
+
+    <!--Navbar verschwinden lassen-->
+    <script>
+    let lastScrollTop = 0;
+    const navbar = document.querySelector(".navbar");
+ 
+    window.addEventListener("scroll", function () {
+        let scrollTop = window.scrollY || document.documentElement.scrollTop;
+       
+        if (scrollTop > lastScrollTop) {
+            // Wenn nach unten gescrollt wird → Navbar verstecken
+            navbar.style.top = "-80px"; // Höhe der Navbar anpassen
+        } else {
+            // Wenn nach oben gescrollt wird → Navbar wieder anzeigen
+            navbar.style.top = "0";
+        }
+ 
+        lastScrollTop = scrollTop;
+    });
+</script>
+
 </body>
 <!----------------------------------------------------------Body Schließen ------------------------------------------------------------------------------->
 
