@@ -135,12 +135,44 @@
         </table>
     </article>
     <!--------------------------------------------------------Kalender ----------------------------------------------------------------------------->
+    <?php
+        // Database connection
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "kalender_datenbank";
+
+        // Create connection
+        $conn = new mysqli($servername, $username, $password, $dbname);
+
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        // Fetch counts of Termin for each date
+        $sql = "SELECT Datum, COUNT(*) AS count FROM Termin GROUP BY Datum";
+        $result = $conn->query($sql);
+
+        $terminCounts = [];
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $terminCounts[$row['Datum']] = $row['count'];
+            }
+        }
+
+        // Encode the data to JSON for use in JavaScript
+        echo "<script>const terminCounts = " . json_encode($terminCounts) . ";</script>";
+
+        // Close the connection
+        $conn->close();
+?>
+    <!----------------------------------------------------------------------------------------------------------------------------------------------------->
     <script>
-        // Funktion zur Generierung des Kalenders
         function generateCalendar(month, year) {
             const table = document.getElementById('calendarTable');
 
-            // Löscht alle Zeilen außer der Kopfzeile
+            // Clear existing rows except the header
             while (table.rows.length > 1) {
                 table.deleteRow(1);
             }
@@ -149,13 +181,15 @@
             const lastDay = new Date(year, month + 1, 0);
             const startDay = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
             const totalDays = lastDay.getDate();
-            const totalWeeks = Math.ceil((startDay + totalDays) /7);
-            //Letzter Tag des Vormonats
+            const totalWeeks = Math.ceil((startDay + totalDays) / 7);
+
+            // Previous month's last day
             const lastPrevMonthDay = new Date(year, month, 0).getDate();
 
-            //Startwert für den Nächsten Monat
+            // Start date for the next month
             let nextMonthDate = 1;
             let date = 1;
+
             for (let i = 0; i < totalWeeks; i++) {
                 const row = table.insertRow();
                 const weekNumberCell = row.insertCell();
@@ -165,15 +199,28 @@
                     const cell = row.insertCell();
                     if (i === 0 && j < startDay) {
                         cell.textContent = lastPrevMonthDay - (startDay - j - 1);
-                        cell.style.color = "gray";
-                        //Füllt die ersten leeren Zellen mit den letzten Tagen des Vormonats
+                        cell.style.color = "gray"; // Previous month's days
                     } else if (date > totalDays) {
                         cell.textContent = nextMonthDate;
                         nextMonthDate++;
-                        cell.style.color = "gray";
-                        //Monate des nächsten Monats zählen von 1 hoch
+                        cell.style.color = "gray"; // Next month's days
                     } else {
+                        // Current month's days
+                        const dateKey = `${year}-${(month + 1).toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}`;
                         cell.textContent = date;
+
+                        // Check if there are Termin counts for this date
+                        if (terminCounts[dateKey]) {
+                            const count = terminCounts[dateKey];
+                            if (count > 8) {
+                                cell.style.backgroundColor = "rgba(255, 72, 0, 0.68)";
+                            } else if (count > 4) {
+                                cell.style.backgroundColor = "rgba(250, 225, 1, 0.68)";
+                            } else {
+                                cell.style.backgroundColor = "rgba(142, 209, 102, 0.678)";
+                            }
+                        }
+
                         date++;
                     }
                 }
@@ -184,9 +231,9 @@
             const firstThursday = new Date(date.getFullYear(), 0, 4);
             const weekNumber = Math.ceil((((date - firstThursday) / 86400000) + firstThursday.getDay() + 1) / 7);
             return weekNumber;
-}
+        }
 
-        // Ereignislistener für die Auswahl des Monats und Jahres
+        // Event listeners for month and year selection
         document.getElementById('monthSelect').addEventListener('change', function () {
             generateCalendar(parseInt(this.value), parseInt(document.getElementById('yearInput').value));
         });
@@ -195,11 +242,12 @@
             generateCalendar(parseInt(document.getElementById('monthSelect').value), parseInt(this.value));
         });
 
-        // Initialisierung des Kalenders mit dem aktuellen Datum
+        // Initialize calendar with current date
         const currentDate = new Date();
         document.getElementById('monthSelect').value = currentDate.getMonth();
         document.getElementById('yearInput').value = currentDate.getFullYear();
         generateCalendar(currentDate.getMonth(), currentDate.getFullYear());
+
     </script>
     <!--------------------------------------------------------Kalender schließen ----------------------------------------------------------------------------->
     <!-------------------------------------------------------Article Box Schließen-------------------------------------------------------------------->

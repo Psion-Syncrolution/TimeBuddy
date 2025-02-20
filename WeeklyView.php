@@ -1,3 +1,36 @@
+        <?php
+        // Database connection
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "kalender_datenbank";
+
+        // Create connection
+        $conn = new mysqli($servername, $username, $password, $dbname);
+
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        // Fetch counts of Termin for each date
+        $sql = "SELECT Datum, COUNT(*) AS count FROM Termin GROUP BY Datum";
+        $result = $conn->query($sql);
+
+        $terminCounts = [];
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $terminCounts[$row['Datum']] = $row['count'];
+            }
+        }
+
+        // Encode the data to JSON for use in JavaScript
+        echo "<script>const terminCounts = " . json_encode($terminCounts) . ";</script>";
+
+        // Close the connection
+        $conn->close();
+        ?>
+        
 <!DOCTYPE html>
 <html>
 
@@ -124,112 +157,113 @@
             </table>
 
             <script>
-                // Funktion zur Berechnung der Datumsangaben einer bestimmten Kalenderwoche
-                function getWeekDates(year, week) {
-                    // Erster Tag des Jahres
-                    const firstDayOfYear = new Date(Date.UTC(year, 0, 1));
-                    // Tag der Woche des 1. Januar (0 = Sonntag, 1 = Montag, ..., 6 = Samstag)
-                    const firstDayOfWeek = firstDayOfYear.getUTCDay() || 7; // Sonntag wird zu 7
-            
-                    // Startdatum der ersten Kalenderwoche
-                    let startDate;
-                    if (firstDayOfWeek <= 4) {
-                        // Wenn der 1. Januar ein Montag bis Donnerstag ist, beginnt die erste KW am 1. Januar
-                        startDate = new Date(Date.UTC(year, 0, 1 + (week - 1) * 7 - (firstDayOfWeek - 1)));
+        // Function to calculate dates for a specific calendar week
+        function getWeekDates(year, week) {
+            const firstDayOfYear = new Date(Date.UTC(year, 0, 1));
+            const firstDayOfWeek = firstDayOfYear.getUTCDay() || 7;
+
+            let startDate;
+            if (firstDayOfWeek <= 4) {
+                startDate = new Date(Date.UTC(year, 0, 1 + (week - 1) * 7 - (firstDayOfWeek - 1)));
+            } else {
+                startDate = new Date(Date.UTC(year, 0, 1 + (week - 1) * 7 + (8 - firstDayOfWeek)));
+            }
+
+            const weekDates = [];
+            for (let i = 0; i < 7; i++) {
+                const currentDate = new Date(startDate);
+                currentDate.setUTCDate(startDate.getUTCDate() + i);
+                weekDates.push(currentDate);
+            }
+
+            return weekDates;
+        }
+
+        // Function to generate the week view in the HTML table
+        function generateWeekView(year, week) {
+            const table = document.getElementById('calendarTable');
+
+            // Clear all existing rows except the header
+            while (table.rows.length > 1) {
+                table.deleteRow(1);
+            }
+
+            // Calculate week dates
+            const weekDates = getWeekDates(year, week);
+            const row = table.insertRow();
+            const weekNumberCell = row.insertCell();
+            weekNumberCell.textContent = week;
+            weekNumberCell.style.backgroundColor = '#cccccc5f';
+
+            // Iterate through the week dates and add cells
+            weekDates.forEach(date => {
+                const cell = row.insertCell();
+                const dateKey = `${date.getUTCFullYear()}-${(date.getUTCMonth() + 1)
+                    .toString()
+                    .padStart(2, '0')}-${date.getUTCDate().toString().padStart(2, '0')}`;
+
+                cell.textContent = date.getUTCDate();
+
+                if (terminCounts[dateKey]) {
+                    const count = terminCounts[dateKey];
+                    if (count > 8) {
+                        cell.style.backgroundColor = "rgba(255, 72, 0, 0.68)";
+                    } else if (count > 4) {
+                        cell.style.backgroundColor = "rgba(250, 225, 1, 0.68)";
                     } else {
-                        // Wenn der 1. Januar ein Freitag, Samstag oder Sonntag ist, beginnt die erste KW am nächsten Montag
-                        startDate = new Date(Date.UTC(year, 0, 1 + (week - 1) * 7 + (8 - firstDayOfWeek)));
+                        cell.style.backgroundColor = "rgba(142, 209, 102, 0.678)";
                     }
-            
-                    // Tage der Woche berechnen
-                    const weekDates = [];
-                    for (let i = 0; i < 7; i++) {
-                        const currentDate = new Date(startDate);
-                        currentDate.setUTCDate(startDate.getUTCDate() + i);
-                        weekDates.push(currentDate);
-                    }
-            
-                    return weekDates;
+                } else {
+                    cell.style.backgroundColor = ""; // Default color
                 }
-            
-                // Funktion zur Generierung der Wochenansicht in der HTML-Tabelle
-                function generateWeekView(year, week) {
-                    const table = document.getElementById('calendarTable');
-            
-                    // Löschen aller bestehenden Zeilen außer der Kopfzeile
-                    while (table.rows.length > 1) {
-                        table.deleteRow(1);
-                    }
-            
-                    // Berechnung der Wochen-Daten basierend auf Jahr und Woche
-                    const weekDates = getWeekDates(year, week);
-                    const row = table.insertRow(); // Neue Zeile für die Woche hinzufügen
-                    const weekNumberCell = row.insertCell(); // Zelle für die Kalenderwoche hinzufügen
-                    weekNumberCell.textContent = week; // Kalenderwoche anzeigen
-                    weekNumberCell.style.backgroundColor = '#cccccc5f'; // Hintergrundfarbe für Kalenderwoche
-            
-                    // Iteration durch die Wochentage und Hinzufügen der Daten zur Zeile
-                    weekDates.forEach(date => {
-                        const cell = row.insertCell(); // Neue Zelle für jeden Wochentag hinzufügen
-                        cell.textContent = date.getUTCDate(); // Das Datum des Tages anzeigen
-            
-                        // Samstags- und Sonntags-Zellen hervorheben (Wochenende)
-                        if (date.getUTCDay() === 0 || date.getUTCDay() === 6) {
-                            cell.style.backgroundColor = '#cccccc5f'; // Hintergrundfarbe für Wochenende
-                        }
-                    });
+
+                // Highlight weekends
+                if (date.getUTCDay() === 0 || date.getUTCDay() === 6) {
+                    cell.style.backgroundColor = cell.style.backgroundColor || '#cccccc5f';
                 }
-            
-                // Funktion zum Befüllen des Dropdown-Menüs mit Kalenderwochen (KW 1 bis KW 52)
-                function populateWeekSelect() {
-                    const weekSelect = document.getElementById('weekSelect');
-            
-                    // Schleife zum Erstellen der Optionen für jedes Jahr
-                    for (let i = 1; i <= 52; i++) {
-                        const option = document.createElement('option');
-                        option.value = i; // Setzen der KW als Wert
-                        option.textContent = `KW ${i}`; // Anzeigen der KW im Dropdown-Menü
-                        weekSelect.appendChild(option); // Option dem Dropdown-Menü hinzufügen
-                    }
-                }
-            
-                // Eventlistener für die Änderung der Auswahl der Kalenderwoche
-                document.getElementById('weekSelect').addEventListener('change', function () {
-                    const week = parseInt(this.value); // Ausgewählte Kalenderwoche
-                    const year = parseInt(document.getElementById('yearInput').value); // Ausgewähltes Jahr
-                    generateWeekView(year, week); // Aktualisieren der Wochenansicht
-                });
-            
-                // Eventlistener für die Änderung des Jahres
-                document.getElementById('yearInput').addEventListener('change', function () {
-                    const week = parseInt(document.getElementById('weekSelect').value); // Ausgewählte Kalenderwoche
-                    const year = parseInt(this.value); // Ausgewähltes Jahr
-                    generateWeekView(year, week); // Aktualisieren der Wochenansicht
-                });
-            
-                // Initialisierung des Dropdown-Menüs mit Kalenderwochen
-                populateWeekSelect();
-            
-                // Ermitteln der aktuellen Kalenderwoche und des aktuellen Jahres
-                const currentDate = new Date();
-                const currentWeek = getWeekNumber(currentDate); // Berechnung der aktuellen Kalenderwoche
-                document.getElementById('weekSelect').value = currentWeek; // Setzen der aktuellen Kalenderwoche im Dropdown
-                document.getElementById('yearInput').value = currentDate.getFullYear(); // Setzen des aktuellen Jahres im Eingabefeld
-                generateWeekView(currentDate.getFullYear(), currentWeek); // Anzeige der aktuellen Woche
-            
-                // Funktion zur Berechnung der Kalenderwoche eines Datums
-                function getWeekNumber(date) {
-                    // Kopie des Datums erstellen, um das Original nicht zu verändern
-                    const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-                    // Den Donnerstag dieser Woche setzen
-                    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
-                    // Das Jahr des Donnerstags ermitteln
-                    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-                    // Die Kalenderwoche berechnen
-                    const weekNumber = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-                    return weekNumber;
-                }
-            </script>
+            });
+        }
+
+        // Populate the week select dropdown
+        function populateWeekSelect() {
+            const weekSelect = document.getElementById('weekSelect');
+            for (let i = 1; i <= 52; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = `KW ${i}`;
+                weekSelect.appendChild(option);
+            }
+        }
+
+        // Event listeners for week and year changes
+        document.getElementById('weekSelect').addEventListener('change', function () {
+            const week = parseInt(this.value);
+            const year = parseInt(document.getElementById('yearInput').value);
+            generateWeekView(year, week);
+        });
+
+        document.getElementById('yearInput').addEventListener('change', function () {
+            const week = parseInt(document.getElementById('weekSelect').value);
+            const year = parseInt(this.value);
+            generateWeekView(year, week);
+        });
+
+        // Initialize the dropdown and display the current week
+        populateWeekSelect();
+        const currentDate = new Date();
+        const currentWeek = getWeekNumber(currentDate);
+        document.getElementById('weekSelect').value = currentWeek;
+        document.getElementById('yearInput').value = currentDate.getFullYear();
+        generateWeekView(currentDate.getFullYear(), currentWeek);
+
+        // Calculate the calendar week for a date
+        function getWeekNumber(date) {
+            const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+            d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+            const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+            return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+        }
+    </script>
 </article>
 <!-------------------------------------------------------Article Box Schließen-------------------------------------------------------------------->
 <!------------------------------------------------------------------------------------------------------------------------------------------------>

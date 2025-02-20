@@ -88,35 +88,105 @@
             <!---------------------------------------------------------Uhrzeit + Datum--------------------------------------------------------------------->
             <!-------------------------------------------------------------Ende---------------------------------------------------------------------------->
         </div>
-        <div>
             <!------------------------------------Dropdown Menü Monats wechseln (Januar-Dezember, nur eins auswählbar)------------------------------------->
-            <Table>
-                <tr>
-                    <!--4. Monatsbezeichnung mit Jahr(Februar 2025)-->
-                    <th style="text-align: left;">
-                        Monat
-                        <select>
-                            <option value="Januar">Januar</option>
-                            <option value="Februar">Februar</option>
-                            <option value="März">März</option>
-                            <option value="April">April</option>
-                            <option value="Mai">Mai</option>
-                            <option value="Juni">Juni</option>
-                            <option value="Juli">Juli</option>
-                            <option value="August">August</option>
-                            <option value="September">September</option>
-                            <option value="Oktober">Oktober</option>
-                            <option value="November">November</option>
-                            <option value="Dezember">Dezember</option>
-                        </select>
-                    </th>
-                    <th style="width: 50px; font-size: medium;">
-                        <!-- Eingabefeld für das Jahr, der Standardwert ist 2025 -->
-                        <input type="number" id="yearInput" value="2025" style="width: 60px;">
-                    </th>
-                </tr>
-            </Table>
-        </div>
+            <div>
+                <table>
+                    <tr>
+                        <!-- Dropdown menu for selecting a day -->
+                        <th colspan="2" style="text-align: left; padding-top: 20px;">
+                            Tag:
+                            <select id="daySelect"></select>
+                        </th>
+                        <!-- Dropdown menu for selecting a month -->
+                        <th style="text-align: left;">
+                            Monat:
+                            <select id="monthSelect"></select>
+                        </th>
+                        <!-- Dropdown menu for selecting a year -->
+                        <th style="text-align: left; padding-left: 20px;">
+                            Jahr:
+                            <select id="selectYear" style="width: 80px;"></select>
+                        </th>
+                    </tr>
+                </table>
+            </div>
+
+            <script>
+                // Function to populate the month dropdown dynamically
+                function populateMonthSelect() {
+                    const monthSelect = document.getElementById("monthSelect");
+                    const months = [
+                        "Januar", "Februar", "März", "April", "Mai", "Juni",
+                        "Juli", "August", "September", "Oktober", "November", "Dezember"
+                    ];
+
+                    // Clear existing options in the month dropdown
+                    monthSelect.innerHTML = "";
+
+                    // Populate the dropdown with month options
+                    months.forEach((monthName, index) => {
+                        const option = document.createElement("option");
+                        option.value = index; // Month is 0-indexed
+                        option.textContent = monthName;
+                        monthSelect.appendChild(option);
+                    });
+                }
+
+                // Function to populate the year dropdown dynamically
+                function populateYearSelect() {
+                    const selectYear = document.getElementById("selectYear");
+
+                    // Set a range of years (you can adjust the start and end year)
+                    const currentYear = new Date().getFullYear();
+                    const startYear = currentYear - 5; // 5 years before the current year
+                    const endYear = currentYear + 5;   // 5 years after the current year
+
+                    // Clear existing options in the year dropdown
+                    selectYear.innerHTML = "";
+
+                    // Populate the dropdown with year options
+                    for (let year = startYear; year <= endYear; year++) {
+                        const option = document.createElement("option");
+                        option.value = year;
+                        option.textContent = year;
+                        selectYear.appendChild(option);
+                    }
+
+                    // Set the default year to the current year
+                    selectYear.value = currentYear;
+                }
+
+                // Function to populate the days dropdown dynamically based on the selected month and year
+                function updateDaySelect() {
+                    const month = parseInt(document.getElementById("monthSelect").value);
+                    const year = parseInt(document.getElementById("selectYear").value);
+                    const daySelect = document.getElementById("daySelect");
+
+                    // Clear existing options in the day dropdown
+                    daySelect.innerHTML = "";
+
+                    // Calculate the number of days in the selected month and year
+                    const daysInMonth = new Date(year, month + 1, 0).getDate(); // Month is 0-indexed
+
+                    // Populate the dropdown with day options
+                    for (let day = 1; day <= daysInMonth; day++) {
+                        const option = document.createElement("option");
+                        option.value = day;
+                        option.textContent = day;
+                        daySelect.appendChild(option);
+                    }
+                }
+
+                // Event listeners to update the days dropdown when the month or year changes
+                document.getElementById("monthSelect").addEventListener("change", updateDaySelect);
+                document.getElementById("selectYear").addEventListener("change", updateDaySelect);
+
+                // Initialize the month, year, and day dropdowns on page load
+                populateMonthSelect();
+                populateYearSelect();
+                updateDaySelect();
+            </script>
+
         <!-----------------------------------------------------------Datum Anzeige----------------------------------------------------------------------->
         <script>
             function updateDatumText() {
