@@ -11,20 +11,26 @@
     <!----------------------------------------------------Navbar--------------------------------------------------------------------------------->
     <div class="navbar"> <!-- Navbar erzeugen-->
         <a href="StartPage.html" class="left-icon"> <!-- Startpage verknüpfen über ein Icon -->
-            <img src="pictures/clock.png" alt="clock-icon" class="left-icon" title="Rückkehr zu Startseite"></a>
+            <img src="pictures/clock.png" alt="clock-icon" class="left-icon" title="Rückkehr zu Startseite">
+            <span class="tooltiptext">Zurück zur Startseite</span><!--tooltip anzeigen -->
+        </a>
         <!------------------------------------------------Navbar Buttons----------------------------------------------------------------------------->
         <div class="nav-buttons">
-            <a href="Monthly-View.php"><button class="nav-button " onclick="setActive(this)">Monatsansicht</button></a>
+            <a href="Monthly-View.php"><button class="nav-button"
+                    onclick="setActive(this)">Monatsansicht</button></a>
             <a href="WeeklyView.php"><button class="nav-button" onclick="setActive(this)">Wochenansicht</button></a>
-            <a href="Daily-View.php"><button class="nav-button active"
-                    onclick="setActive(this)">Tagesansicht</button></a>
+            <a href="Daily-View.php"><button class="nav-button active" onclick="setActive(this)">Tagesansicht</button></a>
         </div>
         <!---------------------------------------Navbar Icons für Termin und Erinnerung-------------------------------------------------------------->
         <div class="right-icons">
-            <a href="Termin_erstellen.html" class="right-icons">
-                <img src="pictures/appo.png" alt="Termine" class="icon" title="Termine bearbeiten"></a>
-            <a href="Erinnerung_erstellen.php" class="right-icons">
-                <img src="pictures/bell.webp" alt="Erinnerungen" class="icon" title="Erinnerungen bearbeiten"></a>
+            <a href="Termin_erstellen.html" class="icon-link">
+                <img src="pictures/appo.png" alt="Termine" class="icon">
+                <span class="tooltiptext">Termine bearbeiten</span>
+        </a>
+            <a href="Erinnerung_erstellen.php" class="icon-link">
+                <img src="pictures/bell.webp" alt="Erinnerungen" class="icon">
+                <span class="tooltiptext">Erinnerungen bearbeiten</span>
+        </a>
         </div>
     </div>
     <!-------------------------------------------------Navbar Ende------------------------------------------------------------------------------->

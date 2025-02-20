@@ -26,13 +26,8 @@ body {
 }
 
 .left-icon {
-    display: flex;
-    align-items: center;
-    height: 100px;
-    width: 100px;
-    margin-top: 1%;
-    margin-left: 0.5%;
-    padding-bottom: 0.5%;
+    position: relative; /* Wichtig für Tooltip-Positionierung */
+    display: inline-block;
 }
 
 .nav-buttons {
@@ -44,9 +39,8 @@ body {
 
 
 .right-icons {
-    display: flex;
-    align-items: center; 
-    gap: 10px; 
+    position: relative;
+    display: inline-block;
 }
 
 .icon {
@@ -76,4 +70,39 @@ body {
 }
 .icon:hover {
     transform: scale(1.2); 
+}
+
+.tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1000;
+    top: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0.3s;
+  }
+  
+.icon-link {
+    position: relative;  /* Damit sich der Tooltip auf das Icon bezieht */
+    display: inline-block;
+}
+.icon-link:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+  }
+  .left-icon:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}  
+.left-icon img {
+    width: auto; /* oder eine passende Größe */
+    height: 100px;
+	margin-top: 20px;
 }

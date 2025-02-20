@@ -14,7 +14,9 @@
     <!----------------------------------------------------Navbar--------------------------------------------------------------------------------->
     <div class="navbar"> <!-- Navbar erzeugen-->
         <a href="StartPage.html" class="left-icon"> <!-- Startpage verknüpfen über ein Icon -->
-            <img src="pictures/clock.png" alt="clock-icon" class="left-icon" title="Rückkehr zu Startseite"></a>
+            <img src="pictures/clock.png" alt="clock-icon" class="left-icon" title="Rückkehr zu Startseite">
+            <span class="tooltiptext">Zurück zur Startseite</span><!--tooltip anzeigen -->
+        </a>
         <!------------------------------------------------Navbar Buttons----------------------------------------------------------------------------->
         <div class="nav-buttons">
             <a href="Monthly-View.php"><button class="nav-button active"
@@ -24,11 +26,15 @@
         </div>
         <!---------------------------------------Navbar Icons für Termin und Erinnerung-------------------------------------------------------------->
         <div class="right-icons">
-            <a href="Termin_erstellen.html" class="right-icons">
-                <img src="pictures/appo.png" alt="Termine" class="icon" title="Termine bearbeiten"></a>
-            <a href="Erinnerung_erstellen.php" class="right-icons">
-                <img src="pictures/bell.webp" alt="Erinnerungen" class="icon" title="Erinnerungen bearbeiten"></a>
-        </div>
+            <a href="Termin_erstellen.html" class="icon-link">
+                <img src="pictures/appo.png" alt="Termine" class="icon">
+                <span class="tooltiptext">Termine bearbeiten</span>
+        </a>
+            <a href="Erinnerung_erstellen.php" class="icon-link">
+                <img src="pictures/bell.webp" alt="Erinnerungen" class="icon">
+                <span class="tooltiptext">Erinnerungen bearbeiten</span>
+        </a>
+</div>
     </div>
     <!-------------------------------------------------Navbar Ende------------------------------------------------------------------------------->
     <!------------------------------------------------------------------------------------------------------------------------------------------->
