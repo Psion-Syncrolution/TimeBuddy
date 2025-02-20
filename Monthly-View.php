@@ -107,7 +107,7 @@
 
                     // Anzeige von Uhrzeit und Datum
                     document.getElementById('uhrzeit').innerHTML = `<span style="font-size: 38px; font-weight: bold;">${uhrzeitText}</span><br>
-                            <span style="font-size: 20px; color: grey;">${globalDatumText}</span>`;
+                    <span style="font-size: 20px; color: grey">${globalDatumText}</span>`;
                 }
 
                 setInterval(updateUhrzeit, 1000);
@@ -139,7 +139,7 @@
                             <option value="11">Dezember</option>
                         </select>
                     </th>
-                    <th style="width: 50px; font-size: medium;">
+                    <th style="width: 7%; font-size: medium; text-align: left;">
                         <input type="number" id="yearInput" value="2025" style="width: 60px;">
                     </th>
                 </tr>

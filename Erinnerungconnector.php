@@ -66,7 +66,7 @@ if (isset($_POST['termin_id'], $_POST['Datum'], $_POST['Uhrzeit'], $_POST['Besch
     // Überprüfen, ob ein Termin mit der gegebenen TitelID existiert
     if ($result->num_rows > 0) {
         // Wenn der Termin existiert, eine SQL-Abfrage vorbereiten, um die Erinnerung zu speichern
-        $stmt = $conn->prepare("INSERT INTO Erinnerung (TitelID, Erinnerung, Datum, Uhrzeit, Beschreibung) VALUES (?, ?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO Erinnerung (TerminID, Erinnerung, Datum, Uhrzeit, Beschreibung) VALUES (?, ?, ?, ?, ?)");
         // Die Formulardaten (TitelID, Erinnerungstext, Datum, Uhrzeit, Beschreibung) an die vorbereitete Abfrage binden
         $stmt->bind_param("issss", $TitelID, $ErinnerungText, $Datum, $Uhrzeit, $Beschreibung);
 
