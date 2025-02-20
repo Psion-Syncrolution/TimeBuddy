@@ -50,7 +50,7 @@
 <body>
     <br><br>
     <!------------------------------------------------------Article Box öffnen-------------------------------------------------------------------->
-    <article style="margin-top: -2.08%;">
+    <article style="margin-top: -2.06%;">
         <!---------------------------------------------------------Uhrzeit + Datum--------------------------------------------------------------------->
         <div id="uhrzeit">
             <!--2.Live-Uhrezit oben (11:00:04)-->
@@ -217,7 +217,7 @@
             }
 
             // SQL query to fetch data from the Termin table
-            $sql = "SELECT Titel, Datum, Uhrzeit, Beschreibung FROM Termin";
+            $sql = "SELECT Titel, DATE_FORMAT(Datum, '%d.%m.%Y') AS Datum, DATE_FORMAT(Uhrzeit, '%H:%i') AS Uhrzeit, Beschreibung FROM Termin";
             $result = $conn->query($sql);
             ?>
         <div class="Termin">

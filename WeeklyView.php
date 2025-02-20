@@ -251,7 +251,8 @@
             }
 
             // SQL query to fetch data from the Termin table
-            $sql = "SELECT Titel, Datum, Uhrzeit, Beschreibung FROM Termin";
+            $sql = "SELECT Titel, DATE_FORMAT(Datum, '%d.%m.%Y') AS Datum, DATE_FORMAT(Uhrzeit, '%H:%i') AS Uhrzeit, Beschreibung FROM Termin";
+
             $result = $conn->query($sql);
             ?>
                     <div class="Termin">
