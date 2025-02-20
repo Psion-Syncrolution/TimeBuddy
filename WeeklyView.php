@@ -89,10 +89,30 @@
         <br><br>
 <!------------------------------------------------------Article Box öffnen-------------------------------------------------------------------------->
         <article style="margin-top: -1.45%;">
-<!---------------------------------------------------------Uhrzeit + Datum-------------------------------------------------------------------------->
+<!---------------------------------------------------------Uhrzeit + Datum--------------------------------------------------------------------->
+<div id="uhrzeit-legende-container" style="display: flex; align-items: center; gap: 20px;">
             <div id="uhrzeit">
-        <!--2.Live-Uhrezit oben (11:00:04)--> 
+                <!--2. Live-Uhrzeit oben (11:00:04)-->
                 <h1 id="uhrzeit"></h1>
+            </div>
+
+            <!--------------------------------------- Legende innerhalb von Uhrezit und Datum --------------------------------------------------------------------------------->
+            <div id="legende" style="display: flex; gap: 10px; align-items: center;  position: absolute; left: 40% ">
+                <div style="display: flex; align-items: center; gap: 5px;">
+                    <div style="width: 20px; height: 20px; background-color: rgba(142, 209, 102, 0.678); border: 1px solid #ccc;"></div>
+                    <span style="font-size: 14px; color: gray;">1-4 Termine</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 5px;">
+                    <div style="width: 20px; height: 20px; background-color: rgba(250, 225, 1, 0.68); border: 1px solid #ccc;"></div>
+                    <span style="font-size: 14px; color: gray;">5-8 Termine</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 5px;">
+                    <div style="width: 20px; height: 20px; background-color: rgba(255, 72, 0, 0.68); border: 1px solid #ccc;"></div>
+                    <span style="font-size: 14px; color: gray;">9+ Termine</span>
+                </div>
+            </div>
+            </div>
+<!-------------------------------------------Legende Ende, weiter mit Uhrzeit Script---------------------------------------------------------------------------------->
                 <script>
                     let globalDatumText = "";
                     function updateUhrzeit() {
