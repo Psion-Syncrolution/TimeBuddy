@@ -288,7 +288,7 @@ function getWeekNumber(date) {
     <!-------------------------------------------------------Article Box Schließen-------------------------------------------------------------------->
     <!------------------------------------------------------------------------------------------------------------------------------------------------>
     <!------------------------------------------------Termine aus der Datenbank anzeigen  -------------------------------------------------------------------->
-    <article style="margin-top: 20px;float:left;margin-left:20px;width:50%">
+    <article style="margin-top: 20px;float:left;width:52%">
         <?php
             // Database connection
             $servername = "localhost";
@@ -339,7 +339,7 @@ function getWeekNumber(date) {
     </article>
     <!-------------------------------------------------------------Termin anzeige Ende------------------------------------------------------------------------>
     <!-------------------------------------------------------------------------------------------------------------------------------------------------------->
-    <article style="margin-top: 20px;float:right; margin-right:20px; width:39%">
+    <article style="margin-top: 20px;float:right;width:42%">
         <?php
             // Database connection
             $servername = "localhost";
