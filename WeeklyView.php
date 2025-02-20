@@ -24,9 +24,9 @@
             <!---------------------------------------Navbar Icons für Termin und Erinnerung-------------------------------------------------------------->
             <div class="right-icons">
                 <a href="Termin_erstellen.html" class="right-icons">
-                    <img src="pictures/appo.png" alt="Termine" class="icon" title="Terminverwaltung"></a>
+                    <img src="pictures/appo.png" alt="Termine" class="icon" title="Termine bearbeiten"></a>
                 <a href="Erinnerung_erstellen.php" class="right-icons">
-                    <img src="pictures/bell.webp" alt="Erinnerungen" class="icon" title="Erinnerungen hinzufügen"></a>
+                    <img src="pictures/bell.webp" alt="Erinnerungen" class="icon" title="Erinnerungen bearbeiten"></a>
             </div>
         </div>
         <!-------------------------------------------------Navbar Ende------------------------------------------------------------------------------->
@@ -303,7 +303,7 @@
             }
 
             // SQL query to fetch data from the Termin table
-            $sql = "SELECT Titel, DATE_FORMAT(Datum, '%d.%m.%Y') AS Datum, DATE_FORMAT(Uhrzeit, '%H:%i') AS Uhrzeit, Beschreibung FROM Termin";
+            $sql = "SELECT Erinnerung, DATE_FORMAT(Datum, '%d.%m.%Y') AS Datum, DATE_FORMAT(Uhrzeit, '%H:%i') AS Uhrzeit, Beschreibung FROM Erinnerung";
             $result = $conn->query($sql);
             ?>
                     <div class="Termin">
