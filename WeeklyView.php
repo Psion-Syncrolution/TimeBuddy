@@ -44,7 +44,7 @@
         <!----------------------------------------------------Navbar--------------------------------------------------------------------------------->
         <div class="navbar"> <!-- Navbar erzeugen-->
         <a href="StartPage.html" class="left-icon"> <!-- Startpage verknüpfen über ein Icon -->
-            <img src="pictures/clock.png" alt="clock-icon" class="left-icon" title="Rückkehr zu Startseite">
+            <img src="pictures/clock.png" alt="clock-icon" class="left-icon" title="Rückkehr zu Startseite" style="margin-top: 15px">
             <span class="tooltiptext">Zurück zur Startseite</span><!--tooltip anzeigen -->
         </a>
         <!------------------------------------------------Navbar Buttons----------------------------------------------------------------------------->
