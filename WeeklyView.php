@@ -157,9 +157,9 @@
                                 <!-- Optionen für Kalenderwochen werden dynamisch generiert -->
                             </select>
                         </th>
-                        <th style="width: 50px; font-size: medium;">
+                        <th style="width: 7%; font-size: medium; text-align: left;">
                             <!-- Eingabefeld für das Jahr, der Standardwert ist 2025 -->
-                            <input type="number" id="yearInput" value="2025" style="width: 60px;">
+                            <input type="number" id="yearInput" value="2025" style="width: 68px;" >
                         </th>
                     </tr>
                 </table>
@@ -292,7 +292,7 @@
 <!-------------------------------------------------------Article Box Schließen-------------------------------------------------------------------->
 <!------------------------------------------------------------------------------------------------------------------------------------------------>
 <!------------------------------------------------Termine aus der Datenbank anzeigen  -------------------------------------------------------------------->
-<article style="margin-top: 20px;float:left;margin-left:20px;width:50%">
+<article style="margin-top: 20px;float:left;width:52%">
             <?php
             // Database connection
             $servername = "localhost";
@@ -344,7 +344,7 @@
                 </article>
                 <!-------------------------------------------------------------Termin anzeige Ende------------------------------------------------------------------------>
                 <!-------------------------------------------------------------------------------------------------------------------------------------------------------->
-                <article style="margin-top: 20px;float:right; margin-right:20px; width:39%">
+                <article style="margin-top: 20px;float:right;width:42%">
                     <?php
             // Database connection
             $servername = "localhost";
