@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
     <br><br>
-    <article style="margin-top: -0.6%;">
+    <article style="margin-top: -0.2%;">
         <!-------------------------------------------------Uhrzeit oben in der Artikel Box -------------------------------->
         <div id="uhrzeit">
             <!--2.Live-Uhrezit oben (11:00:04)-->
