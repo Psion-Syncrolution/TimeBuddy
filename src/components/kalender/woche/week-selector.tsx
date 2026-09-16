@@ -27,7 +27,7 @@ export function WeekSelector({
       </Button>
 
       <div className="flex items-center gap-2">
-        <h2 className="font-display text-xl font-bold text-ivory min-w-[280px] text-center">
+        <h2 className="font-display text-lg sm:text-xl font-bold text-ivory min-w-0 flex-1 text-center">
           KW {weekNumber}
           <span className="block text-sm font-normal text-muted">
             {format(startDate, 'dd.MM.')} – {format(endDate, 'dd.MM.yyyy')}

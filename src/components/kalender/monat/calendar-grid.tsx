@@ -10,9 +10,9 @@ interface CalendarGridProps {
 export function CalendarGrid({ weeks, onDayClick }: CalendarGridProps) {
   return (
     <div className="w-full">
-      {/* Wochentage Header */}
-      <div className="grid grid-cols-8 gap-2 mb-2">
-        <div className="text-center text-xs font-semibold text-gold/70 uppercase py-2 tracking-wider">KW</div>
+      {/* Wochentage Header (KW-Spalte nur ab sm) */}
+      <div className="grid grid-cols-7 sm:grid-cols-8 gap-1 sm:gap-2 mb-2">
+        <div className="hidden sm:block text-center text-xs font-semibold text-gold/70 uppercase py-2 tracking-wider">KW</div>
         {WOCHENTAGE_KURZ.map((tag) => (
           <div
             key={tag}

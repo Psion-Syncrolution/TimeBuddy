@@ -24,7 +24,7 @@ export function DaySelector({ currentDay, onChange, onToday }: DaySelectorProps)
       </Button>
 
       <div className="flex items-center gap-2">
-        <h2 className="font-display text-xl font-bold text-ivory min-w-[240px] text-center">
+        <h2 className="font-display text-lg sm:text-xl font-bold text-ivory min-w-0 flex-1 text-center">
           {format(currentDay, 'EEEE, dd. MMMM yyyy', { locale: de })}
         </h2>
         {onToday && (

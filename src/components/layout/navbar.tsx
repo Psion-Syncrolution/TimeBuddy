@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Bell, CalendarDays, CalendarPlus, CalendarRange, Clock, ListTodo } from 'lucide-react';
+import { Bell, CalendarDays, CalendarPlus, CalendarRange, Clock, ListTodo, LogOut, Menu, X } from 'lucide-react';
 import { AUTH_CHANGED_EVENT } from '@/lib/auth-event';
 
 const PUBLIC_NAV_ITEMS = [
@@ -79,7 +79,9 @@ export function Navbar() {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   // Session wird nur beim Mount geladen und danach per AUTH_CHANGED_EVENT
   // aktualisiert (Login/Logout) — nicht mehr bei jedem Pfadwechsel.
@@ -129,6 +131,9 @@ export function Navbar() {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setDropdownOpen(false);
+      }
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node)) {
+        setMobileMenuOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -239,7 +244,7 @@ export function Navbar() {
             </div>
           </div>
 
-          {/* User Area */}
+          {/* User Area + Mobile Menu Toggle */}
           <div className="flex items-center gap-3">
             {loading ? (
               <div className="h-8 w-32 bg-white/5 rounded-2xl animate-pulse" />
@@ -262,8 +267,81 @@ export function Navbar() {
                 <span>Anmelden</span>
               </AppleButton>
             )}
+
+            {/* Mobile Menu Toggle (nur < md) */}
+            <button
+              data-testid="mobile-menu-toggle"
+              onClick={() => setMobileMenuOpen((open) => !open)}
+              aria-label={mobileMenuOpen ? 'Menü schließen' : 'Menü öffnen'}
+              className="md:hidden inline-flex items-center justify-center w-9 h-9 rounded-xl text-muted hover:text-ivory hover:bg-white/5 transition-colors cursor-pointer"
+            >
+              {mobileMenuOpen ? (
+                <X className="w-5 h-5" strokeWidth={1.75} />
+              ) : (
+                <Menu className="w-5 h-5" strokeWidth={1.75} />
+              )}
+            </button>
           </div>
         </div>
+
+        {/* Mobile Menu Panel (nur < md) */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              ref={mobileMenuRef}
+              data-testid="mobile-menu"
+              initial={{ opacity: 0, y: -6, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -4, scale: 0.98 }}
+              transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+              className="md:hidden absolute left-0 right-0 top-full mt-2 bg-[#14141a]/85 backdrop-blur-2xl border border-gold/20 rounded-2xl shadow-2xl shadow-black/60 overflow-hidden z-50"
+            >
+              <div className="p-1.5">
+                {PUBLIC_NAV_ITEMS.map((item) => {
+                  const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition-all duration-200 ${isActive ? 'text-gold-light bg-gold/10' : 'text-muted hover:text-ivory hover:bg-white/5'}`}
+                    >
+                      <item.icon className="w-4 h-4" strokeWidth={1.75} />
+                      <span className="font-medium">{item.label}</span>
+                    </Link>
+                  );
+                })}
+
+                {userEmail && (
+                  <>
+                    <div className="my-1.5 h-px bg-white/10" />
+                    {ACTION_ITEMS.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-muted hover:text-ivory hover:bg-gold/10 transition-all duration-200"
+                      >
+                        <item.icon className="w-4 h-4 text-gold" strokeWidth={1.75} />
+                        <span className="font-medium">{item.label}</span>
+                      </Link>
+                    ))}
+                    <button
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        void handleLogout();
+                      }}
+                      className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-muted hover:text-red-400 hover:bg-red-500/10 transition-all duration-200 cursor-pointer"
+                    >
+                      <LogOut className="w-4 h-4" strokeWidth={1.75} />
+                      <span className="font-medium">Abmelden</span>
+                    </button>
+                  </>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </nav>
   );

@@ -43,10 +43,10 @@ export function ClockDisplay() {
   if (!now) {
     return (
       <div className="text-center py-4">
-        <div className="text-5xl font-mono font-bold text-muted/60 tracking-wider">
+        <div className="text-4xl sm:text-5xl font-mono font-bold text-muted/60 tracking-wider">
           --:--:--
         </div>
-        <div className="mt-2 text-lg text-muted">Lädt...</div>
+        <div className="mt-2 text-base sm:text-lg text-muted">Lädt...</div>
       </div>
     );
   }
@@ -56,10 +56,10 @@ export function ClockDisplay() {
 
   return (
     <div className="text-center py-4">
-      <div className="text-5xl font-mono font-bold text-ivory tracking-wider [text-shadow:0_0_24px_rgba(201,169,97,0.35)]">
+      <div className="text-4xl sm:text-5xl font-mono font-bold text-ivory tracking-wider [text-shadow:0_0_24px_rgba(201,169,97,0.35)]">
         {time}
       </div>
-      <div className="mt-2 text-lg text-gold/80 font-medium">
+      <div className="mt-2 text-base sm:text-lg text-gold/80 font-medium">
         {date}
       </div>
     </div>
