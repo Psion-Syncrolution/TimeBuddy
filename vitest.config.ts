@@ -16,8 +16,7 @@ export default defineConfig({
       include: [
         'src/lib/**/*.ts',
         'src/validators/**/*.ts',
-        'src/services/metrics/**/*.ts',
-        'src/benchmarks/benchmark_runner.ts',
+        'benchmarks/benchmark_runner.ts',
       ],
       exclude: ['**/*.test.ts'],
     },

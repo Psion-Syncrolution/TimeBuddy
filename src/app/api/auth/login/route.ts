@@ -27,7 +27,7 @@ export async function POST(req: Request) {
     return NextResponse.json({
       user: { id: user.id, email: user.email },
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Login fehlgeschlagen' }, { status: 500 });
   }
 }

@@ -7,36 +7,31 @@ import {
   navigateMonth,
   navigateWeek,
   toDateString,
-  getTerminFarbe,
+  getWeekNumber,
 } from '@/lib/calendar';
 import type { CalendarDay, CalendarWeek } from '@/types/calendar';
 
 export function useCalendar() {
-  const today = new Date();
+  // Stabiles "Heute" (einmal pro Mount) – verhindert, dass useMemo-Deps
+  // bei jedem Render neu sind.
+  const today = useMemo(() => new Date(), []);
   const [currentMonth, setCurrentMonth] = useState(today.getMonth());
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
   const [currentWeekDate, setCurrentWeekDate] = useState(today);
-  const [currentDay, setCurrentDay] = useState(today);
   const [terminCounts, setTerminCounts] = useState<Record<string, number>>({});
 
-  const monthDays = useMemo(() => {
-    const days = getMonthDays(currentYear, currentMonth);
-    return days.map((day) => {
+  const monthWeeks = useMemo(() => {
+    const days = getMonthDays(currentYear, currentMonth).map((day) => {
       const dateStr = toDateString(day.date);
-      const count = terminCounts[dateStr] || 0;
       return {
         ...day,
-        termine: count,
-        colorClass: getTerminFarbe(count),
+        termine: terminCounts[dateStr] || 0,
       } as CalendarDay;
     });
-  }, [currentYear, currentMonth, terminCounts]);
 
-  const monthWeeks = useMemo(() => {
     const weeks: CalendarWeek[] = [];
-    const dayList = monthDays as CalendarDay[];
-    for (let i = 0; i < dayList.length; i += 7) {
-      const weekDays = dayList.slice(i, i + 7);
+    for (let i = 0; i < days.length; i += 7) {
+      const weekDays = days.slice(i, i + 7);
       if (weekDays.length > 0) {
         weeks.push({
           weekNumber: getWeekNumber(weekDays[0].date),
@@ -47,18 +42,16 @@ export function useCalendar() {
       }
     }
     return weeks;
-  }, [monthDays]);
+  }, [currentYear, currentMonth, terminCounts]);
 
   const weekData = useMemo(() => {
     const range = getWeekRange(currentWeekDate);
     const days = range.days.map((date) => {
       const dateStr = toDateString(date);
-      const count = terminCounts[dateStr] || 0;
       return {
         date,
         isCurrentMonth: date.getMonth() === today.getMonth(),
-        termine: count,
-        colorClass: getTerminFarbe(count),
+        termine: terminCounts[dateStr] || 0,
       } as CalendarDay;
     });
 
@@ -70,25 +63,17 @@ export function useCalendar() {
     };
   }, [currentWeekDate, terminCounts, today]);
 
-  function getWeekNumber(date: Date): number {
-    const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-    const dayNum = d.getUTCDay() || 7;
-    d.setUTCDate(d.getUTCDate() + 4 - dayNum);
-    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-    return Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
-  }
-
   const prevMonth = useCallback(() => {
     const { year, month } = navigateMonth(currentYear, currentMonth, 'prev');
     setCurrentYear(year);
     setCurrentMonth(month);
-  }, [currentYear, currentMonth]);
+  }, [currentYear, currentMonth, setCurrentYear, setCurrentMonth]);
 
   const nextMonth = useCallback(() => {
     const { year, month } = navigateMonth(currentYear, currentMonth, 'next');
     setCurrentYear(year);
     setCurrentMonth(month);
-  }, [currentYear, currentMonth]);
+  }, [currentYear, currentMonth, setCurrentYear, setCurrentMonth]);
 
   const prevWeek = useCallback(() => {
     setCurrentWeekDate((prev) => navigateWeek(prev, 'prev'));
@@ -103,8 +88,7 @@ export function useCalendar() {
     setCurrentMonth(now.getMonth());
     setCurrentYear(now.getFullYear());
     setCurrentWeekDate(now);
-    setCurrentDay(now);
-  }, []);
+  }, [setCurrentMonth, setCurrentYear, setCurrentWeekDate]);
 
   const setTerminStatistik = useCallback((statistik: Record<string, number>) => {
     setTerminCounts(statistik);
@@ -114,9 +98,6 @@ export function useCalendar() {
     currentMonth,
     currentYear,
     currentWeekDate,
-    currentDay,
-    setCurrentDay,
-    monthDays,
     monthWeeks,
     weekData,
     prevMonth,

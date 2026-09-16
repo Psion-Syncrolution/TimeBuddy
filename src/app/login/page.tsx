@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { notifyAuthChanged } from '@/lib/auth-event';
 import { LoginSchema } from '@/validators/auth-schema';
 
 export default function LoginPage() {
@@ -49,6 +50,7 @@ export default function LoginPage() {
         throw new Error(data.error || 'Login fehlgeschlagen');
       }
 
+      notifyAuthChanged();
       router.push('/kalender/monat');
       router.refresh();
     } catch (err) {

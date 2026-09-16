@@ -1,52 +1,60 @@
 'use client';
 
-import { useState, useEffect, useCallback, Suspense } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { DayGrid } from '@/components/kalender/tag/day-grid';
 import { DaySelector } from '@/components/kalender/tag/day-selector';
 import { format } from 'date-fns';
 import { de } from 'date-fns/locale';
+import { parseLocalDate, toDateString } from '@/lib/calendar';
 import type { Termin } from '@/types/termin';
-
-// Hilfsfunktion: Parst YYYY-MM-DD korrekt als lokales Datum (ohne Zeitzonen-Shift)
-function parseLocalDate(dateStr: string): Date {
-  const [year, month, day] = dateStr.split('-').map(Number);
-  return new Date(year, month - 1, day);
-}
 
 function TagPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [termine, setTermine] = useState<Termin[]>([]);
-  const [loading, setLoading] = useState(true);
+  // Für welchen Tag (als String) die Termine aktuell geladen sind
+  const [loadedFor, setLoadedFor] = useState<string | null>(null);
 
   // Lese den Datum-Parameter direkt aus der URL
   const datumParam = searchParams.get('datum');
   // Falls kein Datum in URL, nutze heute, sonst parse korrekt als lokales Datum
   const selectedDate = datumParam ? parseLocalDate(datumParam) : new Date();
 
-  const loadTermine = useCallback(async () => {
-    setLoading(true);
-    try {
-      const res = await fetch('/api/termine');
-      if (res.ok) {
-        const data = await res.json();
-        setTermine(data);
-      }
-    } catch {
-      // Fehler beim Laden
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  // Stabiler String-Wert als Dependency (Date-Objekt wäre bei jedem Render neu)
+  const selectedDateStr = toDateString(selectedDate);
 
+  // Lädt nur die Termine des gewählten Tages (statt aller Termine).
+  // Alle setState-Aufrufe laufen asynchron nach dem await → kein synchrones
+  // setState im Effect (react-hooks/set-state-in-effect).
   useEffect(() => {
-    loadTermine();
-  }, [loadTermine]);
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const res = await fetch(`/api/termine?start=${selectedDateStr}&end=${selectedDateStr}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (!cancelled) setTermine(data);
+        }
+      } catch {
+        // Fehler beim Laden
+      } finally {
+        if (!cancelled) setLoadedFor(selectedDateStr);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedDateStr]);
+
+  // Abgeleitetes Loading: solange die Daten nicht für den aktuellen Tag geladen sind
+  const loading = loadedFor !== selectedDateStr;
 
   // Aktualisiert die URL, wenn sich der Tag ändert
   const handleDayChange = (newDate: Date) => {
-    const dateStr = format(newDate, 'yyyy-MM-dd');
+    const dateStr = toDateString(newDate);
     router.push(`/kalender/tag?datum=${dateStr}`, { scroll: false });
   };
 
@@ -76,7 +84,7 @@ function TagPageContent() {
           <div className="mb-4 text-sm text-gray-500">
             {format(selectedDate, 'EEEE, dd. MMMM yyyy', { locale: de })}
           </div>
-          <DayGrid date={selectedDate} termine={termine} />
+          <DayGrid termine={termine} />
         </div>
       )}
     </div>

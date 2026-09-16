@@ -15,7 +15,7 @@ export async function GET(_req: Request, { params }: Params) {
     if (!termin) return NextResponse.json({ error: 'Termin nicht gefunden' }, { status: 404 });
 
     return NextResponse.json(termin);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Fehler beim Laden des Termins' }, { status: 500 });
   }
 }
@@ -34,7 +34,7 @@ export async function PUT(req: Request, { params }: Params) {
     if (!termin) return NextResponse.json({ error: 'Termin nicht gefunden' }, { status: 404 });
 
     return NextResponse.json(termin);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Fehler beim Aktualisieren des Termins' }, { status: 500 });
   }
 }
@@ -49,7 +49,7 @@ export async function DELETE(_req: Request, { params }: Params) {
     if (!deleted) return NextResponse.json({ error: 'Termin nicht gefunden' }, { status: 404 });
 
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Fehler beim Löschen des Termins' }, { status: 500 });
   }
 }

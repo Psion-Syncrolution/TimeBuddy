@@ -3,7 +3,7 @@
  * Mass die Geschwindigkeit der zentralen Kalender-Hilfsfunktionen.
  */
 
-import { getMonthDays, getWeekRange, groupByDate } from '../lib/calendar';
+import { getMonthDays, getWeekRange, groupByDate } from '../src/lib/calendar';
 import { benchmark } from './benchmark_runner.js';
 import type { BenchmarkResult } from './benchmark_runner.js';
 

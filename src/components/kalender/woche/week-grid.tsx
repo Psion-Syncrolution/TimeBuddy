@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { de } from 'date-fns/locale';
 import { WOCHENTAGE } from '@/constants/wochentage';
 import { toDateString } from '@/lib/calendar';
 import type { CalendarDay } from '@/types/calendar';

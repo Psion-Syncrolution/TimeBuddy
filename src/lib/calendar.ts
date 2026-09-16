@@ -3,7 +3,6 @@ import {
   endOfMonth,
   startOfWeek,
   endOfWeek,
-  getWeeksInMonth,
   eachDayOfInterval,
   getWeek,
   isSameMonth,
@@ -13,7 +12,6 @@ import {
   subWeeks,
 } from 'date-fns';
 import { de } from 'date-fns/locale';
-import { StatistikDatum } from '@/types/calendar';
 
 export function getMonthDays(year: number, month: number) {
   const start = startOfMonth(new Date(year, month));
@@ -38,18 +36,6 @@ export function getWeekRange(date: Date) {
   };
 }
 
-export function getMonthRange(year: number, month: number) {
-  return {
-    start: startOfMonth(new Date(year, month)),
-    end: endOfMonth(new Date(year, month)),
-    days: eachDayOfInterval({
-      start: startOfMonth(new Date(year, month)),
-      end: endOfMonth(new Date(year, month)),
-    }),
-    weeksInMonth: getWeeksInMonth(new Date(year, month)),
-  };
-}
-
 export function navigateMonth(year: number, month: number, direction: 'prev' | 'next') {
   const date = new Date(year, month);
   const newDate = direction === 'next' ? addMonths(date, 1) : subMonths(date, 1);
@@ -60,26 +46,13 @@ export function navigateWeek(date: Date, direction: 'prev' | 'next') {
   return direction === 'next' ? addWeeks(date, 1) : subWeeks(date, 1);
 }
 
-export function formatDateDE(date: Date): string {
-  return date.toLocaleDateString('de-DE', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-  });
+/** ISO-Kalenderwoche (KW) eines Datums. */
+export function getWeekNumber(date: Date): number {
+  return getWeek(date, { locale: de, weekStartsOn: 1 });
 }
 
-export function formatTimeDE(time: string): string {
-  return time; // HH:MM Format bleibt unverändert
-}
-
-export function getTerminFarbe(count: number): string {
-  if (count >= 9) return 'hoch';
-  if (count >= 5) return 'mittel';
-  if (count >= 1) return 'niedrig';
-  return '';
-}
-
-export function parseDateString(dateStr: string): Date {
+/** Parst YYYY-MM-DD als lokales Datum (ohne Zeitzonen-Shift). */
+export function parseLocalDate(dateStr: string): Date {
   const [year, month, day] = dateStr.split('-').map(Number);
   return new Date(year, month - 1, day);
 }
@@ -99,9 +72,4 @@ export function groupByDate(termine: { datum: string }[]): Map<string, number> {
     groups.set(dateStr, (groups.get(dateStr) || 0) + 1);
   }
   return groups;
-}
-
-export function createStatistik(termine: { datum: string }[]): StatistikDatum[] {
-  const groups = groupByDate(termine);
-  return Array.from(groups.entries()).map(([datum, count]) => ({ datum, count }));
 }

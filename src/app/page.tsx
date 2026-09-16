@@ -92,7 +92,6 @@ const BENEFITS = [
 
 export default function Home() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -104,8 +103,6 @@ export default function Home() {
         }
       } catch {
         setIsAuthenticated(false);
-      } finally {
-        setLoading(false);
       }
     };
     checkAuth();

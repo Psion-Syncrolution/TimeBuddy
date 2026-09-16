@@ -1,6 +1,5 @@
 import prisma from '@/lib/prisma';
 import type { Termin, TerminCreateInput, TerminUpdateInput } from '@/types/termin';
-import type { StatistikDatum } from '@/types/calendar';
 
 /** Prisma-Rohform eines Termins (vor Serialisierung). */
 type PrismaTermin = {
@@ -97,30 +96,22 @@ export const terminRepository = {
     return result.count > 0;
   },
 
-  async getCountByDate(userId: string, date: string): Promise<number> {
-    return prisma.termin.count({
-      where: {
-        userId,
-        datum: {
-          gte: new Date(date),
-          lt: new Date(new Date(date).getTime() + 86400000),
-        },
-      },
-    });
-  },
-
-  async getStatistik(userId: string): Promise<StatistikDatum[]> {
-    const termine = await prisma.termin.findMany({
+  /**
+   * Termin-Anzahl pro Datum (YYYY-MM-DD) als Record.
+   * Aggregation laeuft direkt in der Datenbank (groupBy), statt alle
+   * Termine zu laden und im JS zu zaehlen.
+   */
+  async getStatistik(userId: string): Promise<Record<string, number>> {
+    const rows = await prisma.termin.groupBy({
+      by: ['datum'],
       where: { userId },
-      select: { datum: true },
+      _count: { _all: true },
     });
 
-    const counts = new Map<string, number>();
-    for (const t of termine) {
-      const dateStr = t.datum.toISOString().slice(0, 10);
-      counts.set(dateStr, (counts.get(dateStr) || 0) + 1);
+    const counts: Record<string, number> = {};
+    for (const row of rows) {
+      counts[row.datum.toISOString().slice(0, 10)] = row._count._all;
     }
-
-    return Array.from(counts.entries()).map(([datum, count]) => ({ datum, count }));
+    return counts;
   },
 };

@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { AUTH_CHANGED_EVENT } from '@/lib/auth-event';
 
 const PUBLIC_NAV_ITEMS = [
   { href: '/kalender/monat', label: 'Monat', icon: '📅' },
@@ -70,24 +71,35 @@ export function Navbar() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // Session wird nur beim Mount geladen und danach per AUTH_CHANGED_EVENT
+  // aktualisiert (Login/Logout) — nicht mehr bei jedem Pfadwechsel.
   useEffect(() => {
+    let cancelled = false;
+
     const checkAuth = async () => {
       try {
         const res = await fetch('/api/auth/session');
         if (res.ok) {
           const data = await res.json();
-          setUserEmail(data.user?.email || null);
-        } else {
+          if (!cancelled) setUserEmail(data.user?.email || null);
+        } else if (!cancelled) {
           setUserEmail(null);
         }
       } catch {
-        setUserEmail(null);
+        if (!cancelled) setUserEmail(null);
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
+
     checkAuth();
-  }, [pathname]);
+    const onAuthChanged = () => void checkAuth();
+    window.addEventListener(AUTH_CHANGED_EVENT, onAuthChanged);
+    return () => {
+      cancelled = true;
+      window.removeEventListener(AUTH_CHANGED_EVENT, onAuthChanged);
+    };
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {

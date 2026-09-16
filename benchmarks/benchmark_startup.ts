@@ -11,11 +11,9 @@ export async function benchmarkStartup(): Promise<BenchmarkResult> {
   return benchmark('startup_imports', async () => {
     // Dynamische Imports simulieren Kaltstart
     await Promise.all([
-      import('../lib/prisma.js'),
-      import('../lib/calendar.js'),
-      import('../lib/date-utils.js'),
-      import('../lib/colors.js'),
-      import('../services/metrics/metrics_collector.js'),
+      import('../src/lib/prisma.js'),
+      import('../src/lib/calendar.js'),
+      import('../src/lib/colors.js'),
     ]);
   }, 5);
 }

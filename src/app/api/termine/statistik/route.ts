@@ -7,14 +7,10 @@ export async function GET() {
     const session = await requireAuth();
     if (!session) return NextResponse.json({ error: 'Nicht authentifiziert' }, { status: 401 });
 
-    const statistik = await terminRepository.getStatistik(session.userId);
-    const counts: Record<string, number> = {};
-    for (const item of statistik) {
-      counts[item.datum] = item.count;
-    }
-
+    // Repository liefert die Aggregation (groupBy) direkt als Record.
+    const counts = await terminRepository.getStatistik(session.userId);
     return NextResponse.json(counts);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Fehler beim Laden der Statistik' }, { status: 500 });
   }
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, useMemo, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { ErinnerungForm } from '@/components/erinnerungen/erinnerung-form';
 import { ErinnerungList } from '@/components/erinnerungen/erinnerung-list';
@@ -13,75 +13,82 @@ function ErinnerungPageContent() {
   const searchParams = useSearchParams();
   const [erinnerungen, setErinnerungen] = useState<Erinnerung[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showForm, setShowForm] = useState(false);
-  const [editingErinnerung, setEditingErinnerung] = useState<Erinnerung | null>(null);
-  const [deletingId, setDeletingId] = useState<string | null>(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showCreateForm, setShowCreateForm] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    loadErinnerungen();
-  }, []);
+  // URL-Parameter als Single Source of Truth für Bearbeiten/Löschen –
+  // dadurch kein synchrones setState im Effect (react-hooks/set-state-in-effect).
+  const bearbeitenParam = searchParams.get('bearbeiten');
+  const loeschenParam = searchParams.get('loeschen');
 
-  // Check for URL params
-  useEffect(() => {
-    const bearbeiten = searchParams.get('bearbeiten');
-    const loeschen = searchParams.get('loeschen');
+  const editingErinnerung = useMemo(
+    () => (bearbeitenParam ? erinnerungen.find((e) => e.id === bearbeitenParam) ?? null : null),
+    [erinnerungen, bearbeitenParam]
+  );
 
-    if (bearbeiten && erinnerungen.length > 0) {
-      const erinnerung = erinnerungen.find((e) => e.id === bearbeiten);
-      if (erinnerung) {
-        setEditingErinnerung(erinnerung);
-        setShowForm(true);
-      }
-    }
+  // Formular ist offen, wenn über die URL bearbeitet wird (nach dem Laden) oder manuell erstellt
+  const showForm = showCreateForm || (!!bearbeitenParam && !loading && !!editingErinnerung);
 
-    if (loeschen) {
-      setDeletingId(loeschen);
-      setShowDeleteModal(true);
-    }
-  }, [searchParams, erinnerungen]);
-
-  const loadErinnerungen = async () => {
-    try {
-      const res = await fetch('/api/erinnerungen');
-      if (res.ok) {
-        const data = await res.json();
-        setErinnerungen(data);
-      }
-    } catch {
-      setError('Fehler beim Laden der Erinnerungen');
-    } finally {
-      setLoading(false);
-    }
+  // Reine Datenladung ohne setState – wird im Effect und in Event-Handler genutzt.
+  const fetchErinnerungen = async (): Promise<Erinnerung[]> => {
+    const res = await fetch('/api/erinnerungen');
+    if (!res.ok) throw new Error('Fehler beim Laden der Erinnerungen');
+    return (await res.json()) as Erinnerung[];
   };
 
-  // Nach erfolgreichem Speichern: Formular schliessen, Liste aktualisieren,
-  // URL-Parameter (bearbeiten/loeschen) entfernen.
-  const handleFormSuccess = () => {
-    setShowForm(false);
-    setEditingErinnerung(null);
-    loadErinnerungen();
+  useEffect(() => {
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const data = await fetchErinnerungen();
+        if (!cancelled) setErinnerungen(data);
+      } catch {
+        if (!cancelled) setError('Fehler beim Laden der Erinnerungen');
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // URL-Parameter entfernen – Formular/Modal schliessen sich dadurch automatisch.
+  const clearUrlParams = () => {
     if (searchParams.toString()) {
       router.replace('/kalender/erinnerung', { scroll: false });
     }
   };
 
+  // Nach erfolgreichem Speichern: manuelles Formular schliessen, Liste aktualisieren,
+  // URL-Parameter (bearbeiten) entfernen.
+  const handleFormSuccess = async () => {
+    setShowCreateForm(false);
+    clearUrlParams();
+    try {
+      const data = await fetchErinnerungen();
+      setErinnerungen(data);
+    } catch {
+      setError('Fehler beim Laden der Erinnerungen');
+    }
+  };
+
   const handleDelete = async () => {
-    if (!deletingId) return;
+    if (!loeschenParam) return;
     setDeleting(true);
 
     try {
-      const res = await fetch(`/api/erinnerungen/${deletingId}`, { method: 'DELETE' });
+      const res = await fetch(`/api/erinnerungen/${loeschenParam}`, { method: 'DELETE' });
       if (!res.ok) throw new Error('Löschen fehlgeschlagen');
-      setErinnerungen((prev) => prev.filter((e) => e.id !== deletingId));
+      setErinnerungen((prev) => prev.filter((e) => e.id !== loeschenParam));
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Ein Fehler ist aufgetreten');
     } finally {
       setDeleting(false);
-      setShowDeleteModal(false);
-      setDeletingId(null);
+      clearUrlParams();
     }
   };
 
@@ -89,7 +96,7 @@ function ErinnerungPageContent() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">Erinnerungen</h1>
-        <Button onClick={() => { setShowForm(true); setEditingErinnerung(null); }}>
+        <Button onClick={() => { setShowCreateForm(true); clearUrlParams(); }}>
           Neue Erinnerung
         </Button>
       </div>
@@ -107,11 +114,8 @@ function ErinnerungPageContent() {
               variant="ghost"
               size="sm"
               onClick={() => {
-                setShowForm(false);
-                setEditingErinnerung(null);
-                if (searchParams.toString()) {
-                  router.replace('/kalender/erinnerung', { scroll: false });
-                }
+                setShowCreateForm(false);
+                clearUrlParams();
               }}
             >
               ← Zurück zur Übersicht
@@ -121,7 +125,7 @@ function ErinnerungPageContent() {
             {editingErinnerung ? 'Erinnerung bearbeiten' : 'Neue Erinnerung erstellen'}
           </h2>
           <ErinnerungForm
-            initialData={editingErinnerung || undefined}
+            initialData={editingErinnerung ?? undefined}
             mode={editingErinnerung ? 'edit' : 'create'}
             onSuccess={handleFormSuccess}
           />
@@ -133,15 +137,15 @@ function ErinnerungPageContent() {
       )}
 
       <Modal
-        isOpen={showDeleteModal}
-        onClose={() => { setShowDeleteModal(false); setDeletingId(null); }}
+        isOpen={!!loeschenParam}
+        onClose={clearUrlParams}
         title="Erinnerung löschen"
       >
         <p className="text-sm text-gray-600 mb-4">
           Möchtest du diese Erinnerung wirklich unwiderruflich löschen?
         </p>
         <div className="flex gap-3 justify-end">
-          <Button variant="secondary" onClick={() => { setShowDeleteModal(false); setDeletingId(null); }}>
+          <Button variant="secondary" onClick={clearUrlParams}>
             Abbrechen
           </Button>
           <Button variant="danger" onClick={handleDelete} isLoading={deleting}>

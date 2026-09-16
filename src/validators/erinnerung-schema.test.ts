@@ -20,8 +20,8 @@ describe('ErinnerungSchema', () => {
   });
 
   it('lehnt fehlende terminId ab', () => {
-    const { terminId: _omit, ...rest } = validErinnerung;
-    expect(ErinnerungSchema.safeParse(rest).success).toBe(false);
+    const { erinnerung, datum, uhrzeit } = validErinnerung;
+    expect(ErinnerungSchema.safeParse({ erinnerung, datum, uhrzeit }).success).toBe(false);
   });
 
   it('lehnt leeren Erinnerungstext ab', () => {

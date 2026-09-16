@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { TerminSchema } from '@/validators/termin-schema';
-import type { Termin, TerminCreateInput, TerminUpdateInput } from '@/types/termin';
+import type { Termin } from '@/types/termin';
 
 interface TerminFormProps {
   initialData?: Termin;

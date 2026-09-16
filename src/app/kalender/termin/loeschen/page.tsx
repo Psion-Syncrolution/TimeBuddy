@@ -18,11 +18,8 @@ function LoeschenContent() {
   const terminId = searchParams.get('id');
 
   useEffect(() => {
-    if (!terminId) {
-      setError('Keine Termin-ID angegeben');
-      setLoading(false);
-      return;
-    }
+    if (!terminId) return; // Fehlende ID wird beim Render abgeleitet (siehe unten)
+    let cancelled = false;
 
     fetch(`/api/termine/${terminId}`)
       .then((res) => {
@@ -30,14 +27,31 @@ function LoeschenContent() {
         return res.json();
       })
       .then((data) => {
-        setTermin(data);
-        setLoading(false);
+        if (!cancelled) {
+          setTermin(data);
+          setLoading(false);
+        }
       })
       .catch((err) => {
-        setError(err.message);
-        setLoading(false);
+        if (!cancelled) {
+          setError(err.message);
+          setLoading(false);
+        }
       });
+
+    return () => {
+      cancelled = true;
+    };
   }, [terminId]);
+
+  // Fehlende ID wird abgeleitet statt per setState im Effect gesetzt
+  if (!terminId) {
+    return (
+      <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-red-700">
+        Keine Termin-ID angegeben
+      </div>
+    );
+  }
 
   const handleDelete = async () => {
     if (!terminId) return;

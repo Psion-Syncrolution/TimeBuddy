@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { notifyAuthChanged } from '@/lib/auth-event';
 import { RegisterSchema } from '@/validators/auth-schema';
 
 export default function RegisterPage() {
@@ -53,6 +54,7 @@ export default function RegisterPage() {
         throw new Error(data.error || 'Registrierung fehlgeschlagen');
       }
 
+      notifyAuthChanged();
       router.push('/kalender/monat');
       router.refresh();
     } catch (err) {

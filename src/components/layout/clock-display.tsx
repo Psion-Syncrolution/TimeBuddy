@@ -1,17 +1,44 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useSyncExternalStore } from 'react';
 import { format } from 'date-fns';
 import { de } from 'date-fns/locale';
 
-export function ClockDisplay() {
-  const [now, setNow] = useState<Date | null>(null);
+// Kleiner "Clock-Store" für useSyncExternalStore: liefert die aktuelle Zeit
+// und benachrichtigt Subscriber einmal pro Sekunde. Der Timer läuft nur,
+// solange mindestens ein Subscriber aktiv ist.
+let snapshot = new Date();
+const listeners = new Set<() => void>();
+let timer: ReturnType<typeof setInterval> | undefined;
 
-  useEffect(() => {
-    setNow(new Date());
-    const timer = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(timer);
-  }, []);
+function subscribe(listener: () => void) {
+  listeners.add(listener);
+  if (timer === undefined) {
+    timer = setInterval(() => {
+      snapshot = new Date();
+      listeners.forEach((l) => l());
+    }, 1000);
+  }
+  return () => {
+    listeners.delete(listener);
+    if (listeners.size === 0 && timer !== undefined) {
+      clearInterval(timer);
+      timer = undefined;
+    }
+  };
+}
+
+function getSnapshot() {
+  return snapshot;
+}
+
+// Fester Server-Snapshot (null), damit SSR und Hydration ohne Mismatch auskommen.
+function getServerSnapshot(): Date | null {
+  return null;
+}
+
+export function ClockDisplay() {
+  const now = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   if (!now) {
     return (

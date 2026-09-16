@@ -5,7 +5,7 @@
  * damit die Benchmarks idempotent sind.
  */
 
-import prisma from '../lib/prisma';
+import prisma from '../src/lib/prisma';
 import { benchmark } from './benchmark_runner.js';
 import type { BenchmarkResult } from './benchmark_runner.js';
 

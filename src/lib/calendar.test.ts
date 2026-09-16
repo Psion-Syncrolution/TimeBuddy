@@ -2,16 +2,11 @@ import { describe, it, expect } from 'vitest';
 import {
   getMonthDays,
   getWeekRange,
-  getMonthRange,
   navigateMonth,
   navigateWeek,
-  formatDateDE,
-  formatTimeDE,
-  getTerminFarbe,
-  parseDateString,
+  parseLocalDate,
   toDateString,
   groupByDate,
-  createStatistik,
 } from './calendar';
 
 describe('getMonthDays', () => {
@@ -58,17 +53,6 @@ describe('getWeekRange', () => {
   });
 });
 
-describe('getMonthRange', () => {
-  it('liefert Start, Ende und alle Tage des Monats', () => {
-    const range = getMonthRange(2026, 8);
-    expect(range.start.getDate()).toBe(1);
-    expect(range.end.getDate()).toBe(30); // September hat 30 Tage
-    expect(range.days.length).toBe(30);
-    expect(range.weeksInMonth).toBeGreaterThanOrEqual(4);
-    expect(range.weeksInMonth).toBeLessThanOrEqual(6);
-  });
-});
-
 describe('navigateMonth', () => {
   it('navigiert vorwaerts ueber die Jahresgrenze', () => {
     const result = navigateMonth(2026, 11, 'next'); // Dezember -> Januar
@@ -99,40 +83,9 @@ describe('navigateWeek', () => {
   });
 });
 
-describe('formatDateDE', () => {
-  it('formatiert im deutschen Format TT.MM.JJJJ', () => {
-    const date = new Date(2026, 8, 15);
-    expect(formatDateDE(date)).toBe('15.09.2026');
-  });
-
-  it('fuellt ein- und zweistellige Werte auf', () => {
-    const date = new Date(2026, 0, 5);
-    expect(formatDateDE(date)).toBe('05.01.2026');
-  });
-});
-
-describe('formatTimeDE', () => {
-  it('laesst HH:MM unveraendert', () => {
-    expect(formatTimeDE('09:30')).toBe('09:30');
-    expect(formatTimeDE('23:59')).toBe('23:59');
-  });
-});
-
-describe('getTerminFarbe', () => {
-  it('klassifiziert nach Terminanzahl', () => {
-    expect(getTerminFarbe(0)).toBe('');
-    expect(getTerminFarbe(1)).toBe('niedrig');
-    expect(getTerminFarbe(4)).toBe('niedrig');
-    expect(getTerminFarbe(5)).toBe('mittel');
-    expect(getTerminFarbe(8)).toBe('mittel');
-    expect(getTerminFarbe(9)).toBe('hoch');
-    expect(getTerminFarbe(15)).toBe('hoch');
-  });
-});
-
-describe('parseDateString / toDateString', () => {
+describe('parseLocalDate / toDateString', () => {
   it('wandelt YYYY-MM-DD in ein lokales Datum um', () => {
-    const date = parseDateString('2026-09-15');
+    const date = parseLocalDate('2026-09-15');
     expect(date.getFullYear()).toBe(2026);
     expect(date.getMonth()).toBe(8);
     expect(date.getDate()).toBe(15);
@@ -145,7 +98,7 @@ describe('parseDateString / toDateString', () => {
 
   it('ist eine Inverse zueinander (Roundtrip)', () => {
     const original = '2026-03-07';
-    expect(toDateString(parseDateString(original))).toBe(original);
+    expect(toDateString(parseLocalDate(original))).toBe(original);
   });
 });
 
@@ -166,19 +119,5 @@ describe('groupByDate', () => {
   it('liefert leeres Map fuer keine Termine', () => {
     const groups = groupByDate([]);
     expect(groups.size).toBe(0);
-  });
-});
-
-describe('createStatistik', () => {
-  it('erzeugt Statistik-Eintraege pro Datum', () => {
-    const termine = [
-      { datum: '2026-09-15T09:00:00.000Z' },
-      { datum: '2026-09-15T14:00:00.000Z' },
-      { datum: '2026-09-17T10:00:00.000Z' },
-    ];
-
-    const statistik = createStatistik(termine);
-    expect(statistik).toContainEqual({ datum: '2026-09-15', count: 2 });
-    expect(statistik).toContainEqual({ datum: '2026-09-17', count: 1 });
   });
 });

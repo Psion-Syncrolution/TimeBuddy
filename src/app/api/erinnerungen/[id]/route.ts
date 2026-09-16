@@ -15,7 +15,7 @@ export async function GET(_req: Request, { params }: Params) {
     if (!erinnerung) return NextResponse.json({ error: 'Erinnerung nicht gefunden' }, { status: 404 });
 
     return NextResponse.json(erinnerung);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Fehler beim Laden der Erinnerung' }, { status: 500 });
   }
 }
@@ -34,7 +34,7 @@ export async function PUT(req: Request, { params }: Params) {
     if (!erinnerung) return NextResponse.json({ error: 'Erinnerung nicht gefunden' }, { status: 404 });
 
     return NextResponse.json(erinnerung);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Fehler beim Aktualisieren der Erinnerung' }, { status: 500 });
   }
 }
@@ -49,7 +49,7 @@ export async function DELETE(_req: Request, { params }: Params) {
     if (!deleted) return NextResponse.json({ error: 'Erinnerung nicht gefunden' }, { status: 404 });
 
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Fehler beim Löschen der Erinnerung' }, { status: 500 });
   }
 }

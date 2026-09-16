@@ -52,7 +52,7 @@ describe('RegisterSchema', () => {
   });
 
   it('lehnt fehlende Bestaetigung ab', () => {
-    const { confirmPassword: _omit, ...rest } = valid;
-    expect(RegisterSchema.safeParse(rest).success).toBe(false);
+    const { email, password } = valid;
+    expect(RegisterSchema.safeParse({ email, password }).success).toBe(false);
   });
 });

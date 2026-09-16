@@ -22,7 +22,7 @@ export async function GET(req: Request) {
     }
 
     return NextResponse.json(termine);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Fehler beim Laden der Termine' }, { status: 500 });
   }
 }
@@ -43,7 +43,7 @@ export async function POST(req: Request) {
 
     const termin = await terminRepository.create(session.userId, parsed.data);
     return NextResponse.json(termin, { status: 201 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Fehler beim Erstellen des Termins' }, { status: 500 });
   }
 }

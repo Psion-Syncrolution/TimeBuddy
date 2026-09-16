@@ -10,7 +10,7 @@ export async function GET() {
 
     const erinnerungen = await erinnerungRepository.getAll(session.userId);
     return NextResponse.json(erinnerungen);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Fehler beim Laden der Erinnerungen' }, { status: 500 });
   }
 }
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
 
     const erinnerung = await erinnerungRepository.create(session.userId, parsed.data);
     return NextResponse.json(erinnerung, { status: 201 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Fehler beim Erstellen der Erinnerung' }, { status: 500 });
   }
 }
