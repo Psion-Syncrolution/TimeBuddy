@@ -1,0 +1,50 @@
+import { format } from 'date-fns';
+import { Button } from '@/components/ui/button';
+
+interface WeekSelectorProps {
+  weekNumber: number;
+  startDate: Date;
+  endDate: Date;
+  onPrev: () => void;
+  onNext: () => void;
+  onToday?: () => void;
+}
+
+export function WeekSelector({
+  weekNumber,
+  startDate,
+  endDate,
+  onPrev,
+  onNext,
+  onToday,
+}: WeekSelectorProps) {
+  return (
+    <div className="flex items-center justify-between gap-4">
+      <Button variant="ghost" size="sm" onClick={onPrev} aria-label="Vorherige Woche">
+        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        </svg>
+      </Button>
+
+      <div className="flex items-center gap-2">
+        <h2 className="font-display text-lg sm:text-xl font-bold text-ivory min-w-0 flex-1 text-center">
+          KW {weekNumber}
+          <span className="block text-sm font-normal text-muted">
+            {format(startDate, 'dd.MM.')} – {format(endDate, 'dd.MM.yyyy')}
+          </span>
+        </h2>
+        {onToday && (
+          <Button variant="secondary" size="sm" onClick={onToday}>
+            Heute
+          </Button>
+        )}
+      </div>
+
+      <Button variant="ghost" size="sm" onClick={onNext} aria-label="Nächste Woche">
+        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        </svg>
+      </Button>
+    </div>
+  );
+}
