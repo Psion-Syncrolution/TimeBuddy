@@ -4,17 +4,18 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Bell, CalendarDays, CalendarPlus, CalendarRange, Clock, ListTodo } from 'lucide-react';
 import { AUTH_CHANGED_EVENT } from '@/lib/auth-event';
 
 const PUBLIC_NAV_ITEMS = [
-  { href: '/kalender/monat', label: 'Monat', icon: '📅' },
-  { href: '/kalender/woche', label: 'Woche', icon: '📆' },
-  { href: '/kalender/tag', label: 'Tag', icon: '📋' },
+  { href: '/kalender/monat', label: 'Monat', icon: CalendarDays },
+  { href: '/kalender/woche', label: 'Woche', icon: CalendarRange },
+  { href: '/kalender/tag', label: 'Tag', icon: ListTodo },
 ];
 
 const ACTION_ITEMS = [
-  { href: '/kalender/termin/neu', label: 'Termin erstellen', icon: '➕' },
-  { href: '/kalender/erinnerung', label: 'Erinnerungen', icon: '🔔' },
+  { href: '/kalender/termin/neu', label: 'Termin erstellen', icon: CalendarPlus },
+  { href: '/kalender/erinnerung', label: 'Erinnerungen', icon: Bell },
 ];
 
 function AppleButton({
@@ -153,15 +154,17 @@ export function Navbar() {
       <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-gold/8 via-gold/4 to-transparent pointer-events-none" />
 
       {/* Glass Bar - 70% opacity */}
-      <div className="relative mx-4 mt-3 rounded-3xl bg-[#101015]/80 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/50">
+      <div className="relative mx-4 mt-3 rounded-3xl bg-[#101015]/70 backdrop-blur-2xl border border-white/10 shadow-2xl shadow-black/50">
         <div className="flex items-center justify-between px-6 py-2.5">
           {/* Left Side: Logo + Navigation */}
           <div className="flex items-center gap-3">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 group">
               <div className="relative">
-                <span className="text-xl transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110">🕐</span>
-                <div className="absolute inset-0 rounded-full bg-gold/25 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-gold-light to-gold shadow-lg shadow-gold/30 flex items-center justify-center transition-transform duration-500 group-hover:scale-105">
+                  <Clock className="w-5 h-5 text-[#1a1408]" strokeWidth={2} />
+                </div>
+                <div className="absolute inset-0 rounded-xl bg-gold/25 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
               <span className="text-lg font-semibold text-ivory tracking-tight font-display">
                 Time<span className="text-gold">Buddy</span>
@@ -181,7 +184,7 @@ export function Navbar() {
                     href={item.href}
                     isActive={isActive}
                   >
-                    <span className="text-sm">{item.icon}</span>
+                    <item.icon className="w-4 h-4" strokeWidth={1.75} />
                     <span>{item.label}</span>
                   </AppleButton>
                 );
@@ -213,7 +216,7 @@ export function Navbar() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: -4, scale: 0.98 }}
                         transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
-                        className="absolute left-0 top-full mt-2 w-60 bg-[#14141a]/95 backdrop-blur-2xl border border-gold/20 rounded-2xl shadow-2xl shadow-black/60 overflow-hidden z-50"
+                        className="absolute left-0 top-full mt-2 w-60 bg-[#14141a]/85 backdrop-blur-2xl border border-gold/20 rounded-2xl shadow-2xl shadow-black/60 overflow-hidden z-50"
                       >
                         <div className="p-1.5">
                           {ACTION_ITEMS.map((item) => (
@@ -223,7 +226,7 @@ export function Navbar() {
                               onClick={() => setDropdownOpen(false)}
                               className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-muted hover:text-ivory hover:bg-gold/10 transition-all duration-200"
                             >
-                              <span className="text-lg">{item.icon}</span>
+                              <item.icon className="w-4 h-4 text-gold" strokeWidth={1.75} />
                               <span className="font-medium">{item.label}</span>
                             </Link>
                           ))}

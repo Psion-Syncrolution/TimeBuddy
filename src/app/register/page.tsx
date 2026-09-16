@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { notifyAuthChanged } from '@/lib/auth-event';
@@ -69,7 +70,9 @@ export default function RegisterPage() {
       <div className="w-full max-w-md p-8 bg-surface/90 backdrop-blur-xl rounded-2xl shadow-2xl shadow-black/50 border border-gold/20 relative overflow-hidden">
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
         <div className="text-center mb-8">
-          <span className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-surface-2 border border-gold/30 text-3xl">🕐</span>
+          <span className="glass inline-flex items-center justify-center w-14 h-14 rounded-full border-gold/30">
+            <Clock className="w-7 h-7 text-gold" strokeWidth={1.5} />
+          </span>
           <h1 className="font-display text-2xl font-bold text-ivory mt-4">Registrieren</h1>
           <p className="text-sm text-muted mt-1">Erstelle dein TimeBuddy-Konto</p>
         </div>

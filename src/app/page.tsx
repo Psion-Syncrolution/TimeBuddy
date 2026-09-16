@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { Bell, CalendarDays, CalendarPlus, CalendarRange, Check, Clock, ListTodo, Lock, ShieldCheck } from 'lucide-react';
 import { ClockDisplay } from '@/components/layout/clock-display';
 import {
   fadeUp,
@@ -44,21 +45,21 @@ const UPDATE_NOTES = [
 
 const PUBLIC_FEATURES = [
   {
-    icon: '📅',
+    icon: CalendarDays,
     title: 'Monatsübersicht',
     description: 'Behalte alle Termine eines Monats im Blick. Farbcodierte Tage zeigen auf einen Blick, wie viele Termine an einem Tag anstehen.',
     link: '/kalender/monat',
     linkText: 'Monatsansicht öffnen',
   },
   {
-    icon: '📆',
+    icon: CalendarRange,
     title: 'Wochenplanung',
     description: 'Navigiere durch Kalenderwochen und sieh schnell, welche Tage besonders ausgelastet sind. Perfekt für die Wochenplanung.',
     link: '/kalender/woche',
     linkText: 'Wochenansicht öffnen',
   },
   {
-    icon: '📋',
+    icon: ListTodo,
     title: 'Tagesdetail',
     description: 'Stunde für Stunde: Sieh alle Termine eines Tages im Detail. Ideal für deinen täglichen Ablauf.',
     link: '/kalender/tag',
@@ -68,21 +69,21 @@ const PUBLIC_FEATURES = [
 
 const PREMIUM_FEATURES = [
   {
-    icon: '➕',
+    icon: CalendarPlus,
     title: 'Termine erstellen',
     description: 'Erstelle neue Termine mit Titel, Datum, Uhrzeit und optionaler Beschreibung. Alles validiert und sicher gespeichert.',
     link: '/kalender/termin/neu',
     linkText: 'Termin erstellen',
   },
   {
-    icon: '🔔',
+    icon: Bell,
     title: 'Erinnerungen',
     description: 'Verpasse nie wieder etwas. Erstelle Erinnerungen zu bestehenden Terminen mit eigenem Datum und Uhrzeit.',
     link: '/kalender/erinnerung',
     linkText: 'Erinnerungen verwalten',
   },
   {
-    icon: '🔒',
+    icon: ShieldCheck,
     title: 'Sicherheit',
     description: 'Deine Daten sind sicher. Session-basierte Authentifizierung, Passwort-Hashing und nutzerspezifische Datenkapselung.',
     link: '/kalender/monat',
@@ -126,7 +127,9 @@ export default function Home() {
         animate="visible"
       >
         <motion.div variants={heroReveal} custom={0} className="mb-8">
-          <span className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-surface border border-gold/30 text-4xl shadow-lg shadow-gold/10 animate-glow-pulse">🕐</span>
+          <span className="glass inline-flex items-center justify-center w-20 h-20 rounded-full border-gold/30 animate-glow-pulse">
+            <Clock className="w-9 h-9 text-gold" strokeWidth={1.5} />
+          </span>
         </motion.div>
         <motion.h1
           variants={heroReveal}
@@ -191,9 +194,11 @@ export default function Home() {
             <motion.div key={feature.title} variants={staggerItem}>
               <Link
                 href={feature.link}
-                className="group p-6 bg-surface rounded-2xl border border-white/10 shadow-lg shadow-black/20 hover:shadow-xl hover:shadow-gold/10 hover:border-gold/40 hover:-translate-y-1 transition-all duration-300 block h-full"
+                className="group glass p-6 rounded-2xl hover:border-gold/40 hover:-translate-y-1 transition-all duration-300 block h-full"
               >
-                <div className="text-4xl mb-4">{feature.icon}</div>
+                <div className="w-12 h-12 rounded-xl bg-white/5 backdrop-blur-md border border-white/10 flex items-center justify-center mb-4">
+                  <feature.icon className="w-6 h-6 text-gold" strokeWidth={1.5} />
+                </div>
                 <h3 className="text-xl font-semibold text-ivory mb-2 group-hover:text-gold-light transition-colors">
                   {feature.title}
                 </h3>
@@ -224,13 +229,13 @@ export default function Home() {
               <motion.div key={feature.title} variants={staggerItem}>
                 {isLocked ? (
                   /* Locked Version */
-                  <div className="group p-6 bg-gradient-to-br from-surface to-surface-2 rounded-2xl border border-white/10 opacity-75 hover:opacity-100 transition-all duration-300 relative overflow-hidden h-full">
+                  <div className="group glass p-6 rounded-2xl opacity-75 hover:opacity-100 transition-all duration-300 relative overflow-hidden h-full">
                     <div className="absolute top-3 right-3">
-                      <svg className="w-5 h-5 text-gold/60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                      </svg>
+                      <Lock className="w-5 h-5 text-gold/60" strokeWidth={1.75} />
                     </div>
-                    <div className="text-4xl mb-4">{feature.icon}</div>
+                    <div className="w-12 h-12 rounded-xl bg-white/5 backdrop-blur-md border border-white/10 flex items-center justify-center mb-4">
+                      <feature.icon className="w-6 h-6 text-gold" strokeWidth={1.5} />
+                    </div>
                     <h3 className="text-xl font-semibold text-ivory mb-2">{feature.title}</h3>
                     <p className="text-sm text-muted mb-4">{feature.description}</p>
                     <Link
@@ -247,9 +252,11 @@ export default function Home() {
                   /* Unlocked Version */
                   <Link
                     href={feature.link}
-                    className="group p-6 bg-surface rounded-2xl border border-gold/25 shadow-lg shadow-black/20 hover:shadow-xl hover:shadow-gold/10 hover:border-gold/50 hover:-translate-y-1 transition-all duration-300 block h-full"
+                    className="group glass p-6 rounded-2xl border-gold/25 hover:border-gold/50 hover:-translate-y-1 transition-all duration-300 block h-full"
                   >
-                    <div className="text-4xl mb-4">{feature.icon}</div>
+                    <div className="w-12 h-12 rounded-xl bg-white/5 backdrop-blur-md border border-white/10 flex items-center justify-center mb-4">
+                      <feature.icon className="w-6 h-6 text-gold" strokeWidth={1.5} />
+                    </div>
                     <h3 className="text-xl font-semibold text-ivory mb-2 group-hover:text-gold-light transition-colors">
                       {feature.title}
                     </h3>
@@ -270,7 +277,7 @@ export default function Home() {
 
       {/* Benefits Section */}
       <motion.section
-        className="bg-gradient-to-br from-surface to-[#101015] rounded-2xl border border-white/10 p-8 relative overflow-hidden"
+        className="glass rounded-2xl p-8 relative overflow-hidden"
         variants={staggerContainer}
         initial="hidden"
         whileInView="visible"
@@ -283,10 +290,8 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto">
           {BENEFITS.map((benefit, index) => (
             <motion.div key={index} variants={staggerItem} className="flex items-start gap-3">
-              <span className="text-gold mt-0.5 flex-shrink-0">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
+              <span className="mt-0.5 flex-shrink-0 w-6 h-6 rounded-full bg-gold/10 border border-gold/25 flex items-center justify-center">
+                <Check className="w-3.5 h-3.5 text-gold" strokeWidth={2} />
               </span>
               <span className="text-ivory/80">{benefit}</span>
             </motion.div>
@@ -318,8 +323,8 @@ export default function Home() {
               initial="hidden"
               whileInView="visible"
               viewport={VIEWPORT}
-              className={`relative p-6 bg-surface rounded-2xl border shadow-lg shadow-black/20 ${
-                index === 0 ? 'border-gold/40 ring-1 ring-gold/20' : 'border-white/10'
+              className={`relative glass p-6 rounded-2xl ${
+                index === 0 ? 'border-gold/40 ring-1 ring-gold/20' : ''
               }`}
             >
               {index === 0 && (

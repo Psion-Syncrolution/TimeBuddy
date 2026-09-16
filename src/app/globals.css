@@ -105,6 +105,23 @@ button, a, input, select, textarea {
 }
 .animate-fade-up { animation: fadeUp 400ms cubic-bezier(0.22, 1, 0.36, 1) both; }
 
+/* ============================================================
+   Glassmorphism (Apple-Style): transluzente Fläche + Blur +
+   feine Kante + Top-Highlight-Linie
+   ============================================================ */
+@layer components {
+  .glass {
+    position: relative;
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02));
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    backdrop-filter: blur(20px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+}
+
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
