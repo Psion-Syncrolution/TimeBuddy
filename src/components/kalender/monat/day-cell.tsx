@@ -28,35 +28,35 @@ export function DayCell({ day, onClick }: DayCellProps) {
       onClick={() => onClick?.(day.date)}
       className={`
         relative flex flex-col items-center justify-between
-        w-full h-full min-h-[90px] p-2 rounded-xl border
-        transition-all duration-150 cursor-pointer
-        hover:shadow-md hover:scale-[1.02] hover:z-10
+        w-full h-full min-h-[90px] p-2 rounded-xl border bg-surface
+        transition-all duration-200 cursor-pointer
+        hover:shadow-lg hover:shadow-black/30 hover:border-gold/40 hover:scale-[1.02] hover:z-10
         ${!day.isCurrentMonth ? 'opacity-40' : ''}
-        ${isToday ? 'ring-2 ring-blue-500 ring-offset-2' : ''}
+        ${isToday ? 'ring-2 ring-gold ring-offset-2 ring-offset-background animate-glow-pulse' : ''}
         ${getTerminBorder(day.termine)}
       `}
       style={bgStyle}
     >
       {/* Oben: Datum */}
-      <span className={`text-lg font-bold ${day.termine > 0 ? 'text-gray-900' : 'text-gray-600'}`}>
+      <span className={`text-lg font-bold ${day.termine > 0 ? 'text-ivory' : 'text-muted'}`}>
         {day.date.getDate()}
       </span>
 
       {/* Unten links: Termin-Count */}
       {day.termine > 0 ? (
         <span className={`
-          self-start px-2 py-1 text-xs font-bold rounded-full shadow-sm
+          self-start px-2 py-1 text-xs font-bold rounded-full shadow-sm border
           ${day.termine >= 9
-            ? 'bg-orange-600 text-white'
+            ? 'bg-red-500/20 text-red-300 border-red-500/40'
             : day.termine >= 5
-              ? 'bg-yellow-400 text-gray-900'
-              : 'bg-green-500 text-white'
+              ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+              : 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
           }
         `}>
           {terminText}
         </span>
       ) : (
-        <span className="text-xs text-gray-400 self-start">
+        <span className="text-xs text-muted/50 self-start">
           —
         </span>
       )}

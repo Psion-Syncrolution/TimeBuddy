@@ -25,7 +25,7 @@ export function MonthSelector({
       </Button>
 
       <div className="flex items-center gap-2">
-        <h2 className="text-xl font-bold text-gray-900 min-w-[200px] text-center">
+        <h2 className="font-display text-xl font-bold text-ivory min-w-[200px] text-center">
           {MONATE[currentMonth]} {currentYear}
         </h2>
         {onToday && (

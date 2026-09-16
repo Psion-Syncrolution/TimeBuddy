@@ -15,7 +15,7 @@ export function ErinnerungList({ erinnerungen, loading = false }: ErinnerungList
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full" />
+        <div className="animate-spin h-8 w-8 border-4 border-gold border-t-transparent rounded-full" />
       </div>
     );
   }
@@ -36,20 +36,20 @@ export function ErinnerungList({ erinnerungen, loading = false }: ErinnerungList
       {erinnerungen.map((erinnerung) => (
         <div
           key={erinnerung.id}
-          className="p-4 bg-white border border-gray-200 rounded-xl hover:shadow-md transition-shadow"
+          className="p-4 bg-surface-2 border border-white/10 rounded-xl hover:border-gold/30 hover:shadow-lg hover:shadow-black/20 transition-all"
         >
           <div className="flex items-start justify-between">
             <div className="flex-1">
-              <h3 className="font-medium text-gray-900">{erinnerung.erinnerung}</h3>
-              <div className="mt-1 flex items-center gap-3 text-sm text-gray-500">
+              <h3 className="font-medium text-ivory">{erinnerung.erinnerung}</h3>
+              <div className="mt-1 flex items-center gap-3 text-sm text-muted">
                 <span>📅 {format(new Date(erinnerung.datum), 'dd.MM.yyyy', { locale: de })}</span>
                 <span>🕐 {erinnerung.uhrzeit}</span>
               </div>
               {erinnerung.beschreibung && (
-                <p className="mt-2 text-sm text-gray-600">{erinnerung.beschreibung}</p>
+                <p className="mt-2 text-sm text-muted">{erinnerung.beschreibung}</p>
               )}
               {erinnerung.termin && (
-                <p className="mt-1 text-xs text-blue-600">
+                <p className="mt-1 text-xs text-gold/80">
                   Termin: {erinnerung.termin.titel}
                 </p>
               )}
@@ -57,7 +57,7 @@ export function ErinnerungList({ erinnerungen, loading = false }: ErinnerungList
             <div className="flex gap-1 ml-3 shrink-0">
               <Link
                 href={`/kalender/erinnerung?bearbeiten=${erinnerung.id}`}
-                className="p-1.5 rounded-lg text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                className="p-1.5 rounded-lg text-muted hover:text-gold hover:bg-gold/10 transition-colors"
                 title="Bearbeiten"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -66,7 +66,7 @@ export function ErinnerungList({ erinnerungen, loading = false }: ErinnerungList
               </Link>
               <Link
                 href={`/kalender/erinnerung?loeschen=${erinnerung.id}`}
-                className="p-1.5 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors"
+                className="p-1.5 rounded-lg text-muted hover:text-red-400 hover:bg-red-500/10 transition-colors"
                 title="Löschen"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

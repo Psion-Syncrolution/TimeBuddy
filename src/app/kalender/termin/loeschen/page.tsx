@@ -73,14 +73,14 @@ function LoeschenContent() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <div className="animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full" />
+        <div className="animate-spin h-8 w-8 border-4 border-gold border-t-transparent rounded-full" />
       </div>
     );
   }
 
   if (error || !termin) {
     return (
-      <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-red-700">
+      <div className="p-4 bg-red-950/50 border border-red-500/40 rounded-xl text-red-300">
         {error || 'Termin nicht gefunden'}
       </div>
     );
@@ -88,13 +88,13 @@ function LoeschenContent() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900">Termin löschen</h1>
+      <h1 className="font-display text-2xl font-bold text-ivory">Termin löschen</h1>
 
-      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+      <div className="bg-surface rounded-2xl border border-white/10 shadow-lg shadow-black/20 p-6">
         <div className="max-w-md">
-          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-xl">
-            <p className="text-sm font-medium text-red-800 mb-1">Möchtest du diesen Termin wirklich löschen?</p>
-            <p className="text-sm text-red-600">{termin.titel}</p>
+          <div className="mb-4 p-4 bg-red-950/50 border border-red-500/40 rounded-xl">
+            <p className="text-sm font-medium text-red-300 mb-1">Möchtest du diesen Termin wirklich löschen?</p>
+            <p className="text-sm text-red-400">{termin.titel}</p>
           </div>
 
           <div className="flex gap-3">
@@ -113,7 +113,7 @@ function LoeschenContent() {
         onClose={() => setShowModal(false)}
         title="Löschen bestätigen"
       >
-        <p className="text-sm text-gray-600 mb-4">
+        <p className="text-sm text-muted mb-4">
           Der Termin &quot;{termin.titel}&quot; wird unwiderruflich gelöscht.
           Diese Aktion kann nicht rückgängig gemacht werden.
         </p>
@@ -134,7 +134,7 @@ export default function TerminLoeschenPage() {
   return (
     <Suspense fallback={
       <div className="flex items-center justify-center py-20">
-        <div className="animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full" />
+        <div className="animate-spin h-8 w-8 border-4 border-gold border-t-transparent rounded-full" />
       </div>
     }>
       <LoeschenContent />

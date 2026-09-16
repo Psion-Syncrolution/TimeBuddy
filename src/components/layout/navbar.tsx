@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { AnimatePresence, motion } from 'framer-motion';
 import { AUTH_CHANGED_EVENT } from '@/lib/auth-event';
 
 const PUBLIC_NAV_ITEMS = [
@@ -39,17 +40,25 @@ function AppleButton({
 
   const variants = {
     default: isActive
-      ? 'text-blue-400 bg-white shadow-lg shadow-white/20'
-      : 'text-white hover:text-blue-400 hover:bg-white/10',
-    dropdown: 'text-gray-400 hover:text-white hover:bg-white/10',
-    login: 'bg-white text-gray-900 hover:bg-gray-100 shadow-lg shadow-white/10 hover:shadow-xl hover:shadow-white/20 hover:scale-[1.02]',
-    logout: 'text-gray-400 hover:text-red-400 hover:bg-red-500/10',
+      ? 'text-gold-light bg-gold/10'
+      : 'text-muted hover:text-ivory hover:bg-white/5',
+    dropdown: 'text-muted hover:text-ivory hover:bg-white/5',
+    login:
+      'bg-gradient-to-b from-gold-light to-gold text-[#1a1408] font-semibold shadow-lg shadow-gold/25 hover:shadow-gold/40 hover:brightness-110 hover:scale-[1.02]',
+    logout: 'text-muted hover:text-red-400 hover:bg-red-500/10',
   };
 
   if (href) {
     return (
-      <Link href={href} className={`${baseClasses} ${variants[variant]}`}>
+      <Link href={href} className={`relative ${baseClasses} ${variants[variant]}`}>
         {children}
+        {isActive && variant === 'default' && (
+          <motion.span
+            layoutId="nav-active-underline"
+            className="absolute inset-x-3 -bottom-[13px] h-px bg-gradient-to-r from-transparent via-gold to-transparent"
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          />
+        )}
       </Link>
     );
   }
@@ -141,10 +150,10 @@ export function Navbar() {
       `}
     >
       {/* Animated Gradient Glow */}
-      <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-blue-500/5 via-purple-500/3 to-transparent pointer-events-none" />
+      <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-gold/8 via-gold/4 to-transparent pointer-events-none" />
 
       {/* Glass Bar - 70% opacity */}
-      <div className="relative mx-4 mt-3 rounded-3xl bg-gray-950/70 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/30">
+      <div className="relative mx-4 mt-3 rounded-3xl bg-[#101015]/80 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/50">
         <div className="flex items-center justify-between px-6 py-2.5">
           {/* Left Side: Logo + Navigation */}
           <div className="flex items-center gap-3">
@@ -152,10 +161,10 @@ export function Navbar() {
             <Link href="/" className="flex items-center gap-3 group">
               <div className="relative">
                 <span className="text-xl transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110">🕐</span>
-                <div className="absolute inset-0 rounded-full bg-blue-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 rounded-full bg-gold/25 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
-              <span className="text-lg font-semibold text-white tracking-tight">
-                TimeBuddy
+              <span className="text-lg font-semibold text-ivory tracking-tight font-display">
+                Time<span className="text-gold">Buddy</span>
               </span>
             </Link>
 
@@ -197,23 +206,31 @@ export function Navbar() {
                   </AppleButton>
 
                   {/* Dropdown Menu */}
-                  {dropdownOpen && (
-                    <div className="absolute left-0 top-full mt-2 w-60 bg-gray-950/95 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl shadow-black/50 overflow-hidden z-50 animate-fade-in">
-                      <div className="p-1.5">
-                        {ACTION_ITEMS.map((item) => (
-                          <Link
-                            key={item.href}
-                            href={item.href}
-                            onClick={() => setDropdownOpen(false)}
-                            className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-200"
-                          >
-                            <span className="text-lg">{item.icon}</span>
-                            <span className="font-medium">{item.label}</span>
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+                  <AnimatePresence>
+                    {dropdownOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -6, scale: 0.98 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -4, scale: 0.98 }}
+                        transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+                        className="absolute left-0 top-full mt-2 w-60 bg-[#14141a]/95 backdrop-blur-2xl border border-gold/20 rounded-2xl shadow-2xl shadow-black/60 overflow-hidden z-50"
+                      >
+                        <div className="p-1.5">
+                          {ACTION_ITEMS.map((item) => (
+                            <Link
+                              key={item.href}
+                              href={item.href}
+                              onClick={() => setDropdownOpen(false)}
+                              className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-muted hover:text-ivory hover:bg-gold/10 transition-all duration-200"
+                            >
+                              <span className="text-lg">{item.icon}</span>
+                              <span className="font-medium">{item.label}</span>
+                            </Link>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               )}
             </div>
@@ -225,13 +242,13 @@ export function Navbar() {
               <div className="h-8 w-32 bg-white/5 rounded-2xl animate-pulse" />
             ) : userEmail ? (
               <div className="flex items-center gap-3">
-                <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-white/5 rounded-2xl border border-white/10">
-                  <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center shadow-lg shadow-blue-500/20">
-                    <span className="text-xs font-bold text-white">
+                <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-white/5 rounded-2xl border border-gold/20">
+                  <div className="w-6 h-6 rounded-full bg-gradient-to-br from-gold-light to-gold flex items-center justify-center shadow-lg shadow-gold/25">
+                    <span className="text-xs font-bold text-[#1a1408]">
                       {userEmail.charAt(0).toUpperCase()}
                     </span>
                   </div>
-                  <span className="text-sm font-medium text-gray-200">{userEmail}</span>
+                  <span className="text-sm font-medium text-ivory">{userEmail}</span>
                 </div>
                 <AppleButton onClick={handleLogout} variant="logout">
                   <span>Abmelden</span>

@@ -11,7 +11,7 @@ export function WeekRow({ days, weekNumber, onDayClick }: WeekRowProps) {
   return (
     <div className="grid grid-cols-8 gap-2">
       {/* KW-Spalte */}
-      <div className="flex items-center justify-center text-xs text-gray-400 font-medium py-2">
+      <div className="flex items-center justify-center text-xs text-gold/60 font-medium py-2">
         {weekNumber ? `KW ${weekNumber}` : ''}
       </div>
 

@@ -12,11 +12,11 @@ export function CalendarGrid({ weeks, onDayClick }: CalendarGridProps) {
     <div className="w-full">
       {/* Wochentage Header */}
       <div className="grid grid-cols-8 gap-2 mb-2">
-        <div className="text-center text-xs font-semibold text-gray-400 uppercase py-2">KW</div>
+        <div className="text-center text-xs font-semibold text-gold/70 uppercase py-2 tracking-wider">KW</div>
         {WOCHENTAGE_KURZ.map((tag) => (
           <div
             key={tag}
-            className="text-center text-xs font-semibold text-gray-500 uppercase py-2"
+            className="text-center text-xs font-semibold text-muted uppercase py-2 tracking-wider"
           >
             {tag}
           </div>

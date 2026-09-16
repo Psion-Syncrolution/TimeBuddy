@@ -30,19 +30,19 @@ describe('getTerminHintergrund', () => {
 
 describe('getTerminBorder', () => {
   it('klassifiziert die Border-Farbe nach Schwellwerten', () => {
-    expect(getTerminBorder(0)).toBe('border-gray-200');
-    expect(getTerminBorder(1)).toBe('border-green-500');
-    expect(getTerminBorder(4)).toBe('border-green-500');
-    expect(getTerminBorder(5)).toBe('border-yellow-500');
-    expect(getTerminBorder(8)).toBe('border-yellow-500');
-    expect(getTerminBorder(9)).toBe('border-orange-500');
+    expect(getTerminBorder(0)).toBe('border-white/10');
+    expect(getTerminBorder(1)).toBe('border-emerald-500/60');
+    expect(getTerminBorder(4)).toBe('border-emerald-500/60');
+    expect(getTerminBorder(5)).toBe('border-amber-500/60');
+    expect(getTerminBorder(8)).toBe('border-amber-500/60');
+    expect(getTerminBorder(9)).toBe('border-red-500/60');
   });
 });
 
 describe('getTerminTextColor', () => {
   it('verwendet weissen Text ab 5 Terminen', () => {
-    expect(getTerminTextColor(0)).toBe('text-gray-900');
-    expect(getTerminTextColor(4)).toBe('text-gray-900');
+    expect(getTerminTextColor(0)).toBe('text-ivory');
+    expect(getTerminTextColor(4)).toBe('text-ivory');
     expect(getTerminTextColor(5)).toBe('text-white');
   });
 });

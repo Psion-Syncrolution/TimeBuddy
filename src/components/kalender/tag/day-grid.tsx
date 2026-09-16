@@ -34,20 +34,20 @@ export function DayGrid({ termine }: DayGridProps) {
           <div
             key={hour}
             className={`
-              flex gap-4 py-3 border-b border-gray-100
-              ${hourTermine ? 'bg-blue-50/50' : ''}
+              flex gap-4 py-3 border-b border-white/5
+              ${hourTermine ? 'bg-gold/5' : ''}
             `}
           >
-            <div className="w-16 shrink-0 text-right text-sm text-gray-400 pt-1">
+            <div className="w-16 shrink-0 text-right text-sm text-muted/70 pt-1 font-mono">
               {format(new Date(2000, 0, 1, hour, 0), 'HH:mm')}
             </div>
             <div className="flex-1 min-h-[48px] space-y-2">
               {hourTermine?.map((termin) => (
-                <div key={termin.id} className="p-2 bg-blue-100 border-l-4 border-blue-500 rounded-r-lg">
-                  <div className="font-medium text-sm text-gray-900">{termin.titel}</div>
-                  <div className="text-xs text-gray-500">{termin.uhrzeit}</div>
+                <div key={termin.id} className="p-3 bg-surface-2 border-l-2 border-gold/70 rounded-r-lg shadow-md shadow-black/20 hover:border-gold transition-colors">
+                  <div className="font-medium text-sm text-ivory">{termin.titel}</div>
+                  <div className="text-xs text-gold/80 font-mono">{termin.uhrzeit}</div>
                   {termin.beschreibung && (
-                    <div className="text-xs text-gray-400 mt-1">{termin.beschreibung}</div>
+                    <div className="text-xs text-muted mt-1">{termin.beschreibung}</div>
                   )}
                 </div>
               ))}

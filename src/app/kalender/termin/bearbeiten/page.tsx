@@ -43,7 +43,7 @@ function BearbeitenContent() {
   // Fehlende ID wird abgeleitet statt per setState im Effect gesetzt
   if (!terminId) {
     return (
-      <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-red-700">
+      <div className="p-4 bg-red-950/50 border border-red-500/40 rounded-xl text-red-300">
         Keine Termin-ID angegeben
       </div>
     );
@@ -52,14 +52,14 @@ function BearbeitenContent() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <div className="animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full" />
+        <div className="animate-spin h-8 w-8 border-4 border-gold border-t-transparent rounded-full" />
       </div>
     );
   }
 
   if (error || !termin) {
     return (
-      <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-red-700">
+      <div className="p-4 bg-red-950/50 border border-red-500/40 rounded-xl text-red-300">
         {error || 'Termin nicht gefunden'}
       </div>
     );
@@ -67,8 +67,8 @@ function BearbeitenContent() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900">Termin bearbeiten</h1>
-      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+      <h1 className="font-display text-2xl font-bold text-ivory">Termin bearbeiten</h1>
+      <div className="bg-surface rounded-2xl border border-white/10 shadow-lg shadow-black/20 p-6">
         <TerminForm initialData={termin} mode="edit" />
       </div>
     </div>
@@ -79,7 +79,7 @@ export default function TerminBearbeitenPage() {
   return (
     <Suspense fallback={
       <div className="flex items-center justify-center py-20">
-        <div className="animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full" />
+        <div className="animate-spin h-8 w-8 border-4 border-gold border-t-transparent rounded-full" />
       </div>
     }>
       <BearbeitenContent />

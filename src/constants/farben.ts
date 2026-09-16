@@ -1,7 +1,7 @@
 export const TERMIN_FARBEN = {
-  niedrig: 'rgba(142, 209, 102, 0.678)',  // 1-4 Termine: Grün
-  mittel:  'rgba(250, 225, 1, 0.68)',     // 5-8 Termine: Gelb
-  hoch:    'rgba(255, 72, 0, 0.68)',      // 9+ Termine: Orange
+  niedrig: 'rgba(52, 211, 153, 0.15)',   // 1-4 Termine: Emerald-Tint
+  mittel:  'rgba(251, 191, 36, 0.15)',   // 5-8 Termine: Amber-Tint
+  hoch:    'rgba(248, 113, 113, 0.15)',  // 9+ Termine: Crimson-Tint
 } as const;
 
 export const FARBE_KLASSEN = {

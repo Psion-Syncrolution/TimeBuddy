@@ -8,15 +8,15 @@ export function getTerminHintergrund(count: number): string {
 }
 
 export function getTerminBorder(count: number): string {
-  if (count >= 9) return 'border-orange-500';
-  if (count >= 5) return 'border-yellow-500';
-  if (count >= 1) return 'border-green-500';
-  return 'border-gray-200';
+  if (count >= 9) return 'border-red-500/60';
+  if (count >= 5) return 'border-amber-500/60';
+  if (count >= 1) return 'border-emerald-500/60';
+  return 'border-white/10';
 }
 
 export function getTerminTextColor(count: number): string {
   if (count >= 5) return 'text-white';
-  return 'text-gray-900';
+  return 'text-ivory';
 }
 
 export function getFarbeLabel(count: number): string {

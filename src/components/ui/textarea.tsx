@@ -19,7 +19,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     return (
       <div className="w-full">
         {label && (
-          <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor={id} className="block text-sm font-medium text-muted mb-1.5">
             {label}
           </label>
         )}
@@ -28,13 +28,13 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
             ref={ref}
             id={id}
             className={`
-              w-full rounded-lg border border-gray-300 bg-white
-              px-3 py-2 text-sm text-gray-900
-              placeholder:text-gray-400
-              focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20
-              transition-all duration-150 resize-y min-h-[80px]
-              disabled:bg-gray-50 disabled:cursor-not-allowed
-              ${error ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' : ''}
+              w-full rounded-lg border border-white/10 bg-surface-2
+              px-3 py-2 text-sm text-ivory
+              placeholder:text-muted/60
+              focus:border-gold/60 focus:ring-2 focus:ring-gold/20
+              transition-all duration-200 resize-y min-h-[80px]
+              disabled:bg-surface disabled:cursor-not-allowed
+              ${error ? 'border-red-500/70 focus:border-red-500 focus:ring-red-500/20' : ''}
               ${className}
             `}
             value={value}
@@ -43,12 +43,12 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
             {...props}
           />
           {showCharCount && maxLength && (
-            <div className={`absolute bottom-2 right-2 text-xs ${value.length > maxLength * 0.9 ? 'text-red-500' : 'text-gray-400'}`}>
+            <div className={`absolute bottom-2 right-2 text-xs ${value.length > maxLength * 0.9 ? 'text-red-400' : 'text-muted/70'}`}>
               {value.length}/{maxLength}
             </div>
           )}
         </div>
-        {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
+        {error && <p className="mt-1 text-xs text-red-400">{error}</p>}
       </div>
     );
   }

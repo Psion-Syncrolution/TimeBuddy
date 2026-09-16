@@ -26,7 +26,7 @@ test.describe('TimeBuddy E2E', () => {
     await page.locator('#password').fill('falsches-passwort-99');
     await page.getByRole('button', { name: 'Anmelden' }).click();
 
-    await expect(page.locator('.bg-red-50')).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByTestId('login-error')).toBeVisible({ timeout: 15_000 });
     // URL bleibt auf /login
     expect(page.url()).toContain('/login');
   });

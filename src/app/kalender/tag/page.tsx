@@ -65,7 +65,7 @@ function TagPageContent() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900">
+      <h1 className="font-display text-2xl font-bold text-ivory">
         Tagesansicht
       </h1>
 
@@ -77,11 +77,11 @@ function TagPageContent() {
 
       {loading ? (
         <div className="flex items-center justify-center py-20">
-          <div className="animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full" />
+          <div className="animate-spin h-8 w-8 border-4 border-gold border-t-transparent rounded-full" />
         </div>
       ) : (
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4">
-          <div className="mb-4 text-sm text-gray-500">
+        <div className="bg-surface rounded-2xl border border-white/10 shadow-lg shadow-black/20 p-4">
+          <div className="mb-4 text-sm text-muted">
             {format(selectedDate, 'EEEE, dd. MMMM yyyy', { locale: de })}
           </div>
           <DayGrid termine={termine} />
@@ -95,7 +95,7 @@ export default function TagPage() {
   return (
     <Suspense fallback={
       <div className="flex items-center justify-center py-20">
-        <div className="animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full" />
+        <div className="animate-spin h-8 w-8 border-4 border-gold border-t-transparent rounded-full" />
       </div>
     }>
       <TagPageContent />

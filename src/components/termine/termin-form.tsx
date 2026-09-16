@@ -76,7 +76,7 @@ export function TerminForm({ initialData, mode = 'create' }: TerminFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-lg">
       {error && (
-        <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+        <div className="p-3 bg-red-950/50 border border-red-500/40 rounded-lg text-sm text-red-300">
           {error}
         </div>
       )}

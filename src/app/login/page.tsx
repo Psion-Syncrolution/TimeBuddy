@@ -62,15 +62,16 @@ export default function LoginPage() {
 
   return (
     <div className="flex items-center justify-center min-h-[70vh]">
-      <div className="w-full max-w-md p-8 bg-white rounded-2xl shadow-sm border border-gray-100">
+      <div className="w-full max-w-md p-8 bg-surface/90 backdrop-blur-xl rounded-2xl shadow-2xl shadow-black/50 border border-gold/20 relative overflow-hidden">
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
         <div className="text-center mb-8">
-          <span className="text-4xl">🕐</span>
-          <h1 className="text-2xl font-bold text-gray-900 mt-3">Anmelden</h1>
-          <p className="text-sm text-gray-500 mt-1">Willkommen zurück bei TimeBuddy</p>
+          <span className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-surface-2 border border-gold/30 text-3xl">🕐</span>
+          <h1 className="font-display text-2xl font-bold text-ivory mt-4">Anmelden</h1>
+          <p className="text-sm text-muted mt-1">Willkommen zurück bei TimeBuddy</p>
         </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+          <div data-testid="login-error" className="mb-4 p-3 bg-red-950/50 border border-red-500/40 rounded-lg text-sm text-red-300">
             {error}
           </div>
         )}
@@ -103,9 +104,9 @@ export default function LoginPage() {
           </Button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-gray-500">
+        <p className="mt-6 text-center text-sm text-muted">
           Noch kein Konto?{' '}
-          <Link href="/register" className="text-blue-600 hover:text-blue-700 font-medium">
+          <Link href="/register" className="text-gold hover:text-gold-light font-medium">
             Registrieren
           </Link>
         </p>

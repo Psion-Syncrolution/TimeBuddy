@@ -95,20 +95,20 @@ function ErinnerungPageContent() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Erinnerungen</h1>
+        <h1 className="font-display text-2xl font-bold text-ivory">Erinnerungen</h1>
         <Button onClick={() => { setShowCreateForm(true); clearUrlParams(); }}>
           Neue Erinnerung
         </Button>
       </div>
 
       {error && (
-        <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+        <div className="p-3 bg-red-950/50 border border-red-500/40 rounded-lg text-sm text-red-300">
           {error}
         </div>
       )}
 
       {showForm ? (
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+        <div className="bg-surface rounded-2xl border border-white/10 shadow-lg shadow-black/20 p-6">
           <div className="mb-4">
             <Button
               variant="ghost"
@@ -121,7 +121,7 @@ function ErinnerungPageContent() {
               ← Zurück zur Übersicht
             </Button>
           </div>
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">
+          <h2 className="font-display text-lg font-semibold text-ivory mb-4">
             {editingErinnerung ? 'Erinnerung bearbeiten' : 'Neue Erinnerung erstellen'}
           </h2>
           <ErinnerungForm
@@ -131,7 +131,7 @@ function ErinnerungPageContent() {
           />
         </div>
       ) : (
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+        <div className="bg-surface rounded-2xl border border-white/10 shadow-lg shadow-black/20 p-6">
           <ErinnerungList erinnerungen={erinnerungen} loading={loading} />
         </div>
       )}
@@ -141,7 +141,7 @@ function ErinnerungPageContent() {
         onClose={clearUrlParams}
         title="Erinnerung löschen"
       >
-        <p className="text-sm text-gray-600 mb-4">
+        <p className="text-sm text-muted mb-4">
           Möchtest du diese Erinnerung wirklich unwiderruflich löschen?
         </p>
         <div className="flex gap-3 justify-end">
@@ -161,7 +161,7 @@ export default function ErinnerungPage() {
   return (
     <Suspense fallback={
       <div className="flex items-center justify-center py-20">
-        <div className="animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full" />
+        <div className="animate-spin h-8 w-8 border-4 border-gold border-t-transparent rounded-full" />
       </div>
     }>
       <ErinnerungPageContent />
