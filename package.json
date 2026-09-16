@@ -27,7 +27,7 @@
     "framer-motion": "^13.3.0",
     "iron-session": "^8.0.4",
     "lucide-react": "^1.46.0",
-    "next": "16.2.11",
+    "next": "^16.3.5",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "zod": "^4.0.0"
@@ -41,7 +41,7 @@
     "@types/react-dom": "^19",
     "@vitest/coverage-v8": "^5.0.1",
     "eslint": "^9",
-    "eslint-config-next": "16.2.11",
+    "eslint-config-next": "^16.3.5",
     "prisma": "^6.13.0",
     "tailwindcss": "^4",
     "tsx": "^4.23.13",
