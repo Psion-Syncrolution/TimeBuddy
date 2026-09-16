@@ -1,36 +1,108 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TimeBuddy — Dein smarter Kalender
 
-## Getting Started
+Migration von PHP/MySQL zu Next.js + TypeScript mit Tailwind CSS und SQLite.
 
-First, run the development server:
+## Tech-Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Framework:** Next.js 16 (App Router)
+- **Sprache:** TypeScript (strict mode)
+- **Styling:** Tailwind CSS v4
+- **Datenbank:** SQLite via Prisma ORM
+- **Auth:** Session-basiert (iron-session)
+- **Validierung:** Zod
+- **Datum:** date-fns (deutsche Lokalisierung)
+
+## Verzeichnisstruktur
+
+```
+src/
+├── app/                    # Next.js App-Router (Seiten + API-Routes)
+├── components/             # Reusable UI-Komponenten
+│   ├── ui/                 # Atomare UI-Elemente
+│   ├── layout/             # Layout-Komponenten
+│   ├── kalender/           # Kalender-spezifisch
+│   ├── termine/            # Termin-Komponenten
+│   ├── erinnerungen/       # Erinnerung-Komponenten
+│   └── shared/             # Gemeinsam genutzte Komponenten
+├── lib/                    # Geschäftslogik & Utilities
+│   └── repositories/       # Datenbank-Repositories
+├── hooks/                  # Custom React Hooks
+├── services/               # API-Services (Client-seitig)
+├── validators/             # Zod-Schemas
+├── types/                  # TypeScript-Interfaces
+├── constants/              # Konstanten
+└── styles/                 # Globale Styles
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Schnellstart
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# 1. Abhängigkeiten installieren
+npm install
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# 2. Prisma Client generieren
+npm run db:generate
 
-## Learn More
+# 3. Datenbank migrieren
+npm run db:migrate
 
-To learn more about Next.js, take a look at the following resources:
+# 4. Development-Server starten
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## API-Routes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Auth
+- `POST /api/auth/register` — Benutzer registrieren
+- `POST /api/auth/login` — Login
+- `POST /api/auth/logout` — Logout
+- `GET /api/auth/session` — Session-Status
 
-## Deploy on Vercel
+### Termine
+- `GET /api/termine` — Alle Termine (Filter: `?start=&end=`)
+- `POST /api/termine` — Termin erstellen
+- `GET /api/termine/[id]` — Einzelnen Termin lesen
+- `PUT /api/termine/[id]` — Termin bearbeiten
+- `DELETE /api/termine/[id]` — Termin löschen
+- `GET /api/termine/statistik` — Terminanzahl pro Datum
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Erinnerungen
+- `GET /api/erinnerungen` — Alle Erinnerungen
+- `POST /api/erinnerungen` — Erinnerung erstellen
+- `GET /api/erinnerungen/[id]` — Einzelne Erinnerung lesen
+- `PUT /api/erinnerungen/[id]` — Erinnerung bearbeiten
+- `DELETE /api/erinnerungen/[id]` — Erinnerung löschen
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Datenbank-Modelle
+
+### User
+- `id` (cuid), `email` (unique), `passwordHash`, `createdAt`
+
+### Termin
+- `id` (cuid), `titel`, `datum`, `uhrzeit`, `beschreibung` (optional),
+  `userId` (FK), `createdAt`, `updatedAt`
+
+### Erinnerung
+- `id` (cuid), `terminId` (FK), `erinnerung`, `datum`, `uhrzeit`,
+  `beschreibung` (optional), `userId` (FK), `createdAt`
+
+## Farbcodierung
+
+| Termine | Farbe | Bedeutung |
+|---------|-------|-----------|
+| 1-4 | 🟢 Grün | Wenig Termine |
+| 5-8 | 🟡 Gelb | Mittel |
+| 9+ | 🟠 Orange | Viele Termine |
+
+## Scripts
+
+| Befehl | Beschreibung |
+|--------|-------------|
+| `npm run dev` | Development-Server |
+| `npm run build` | Produktion-Build |
+| `npm run start` | Produktion-Server |
+| `npm run lint` | ESLint |
+| `npm run db:generate` | Prisma Client generieren |
+| `npm run db:migrate` | Datenbank migrieren |
+| `npm run db:push` | Schema in DB pushen |
+| `npm run db:studio` | Prisma Studio (DB-UI) |
