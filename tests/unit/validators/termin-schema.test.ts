@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { TerminSchema, TerminCreateSchema, TerminUpdateSchema } from './termin-schema';
+import { TerminSchema, TerminCreateSchema, TerminUpdateSchema } from '@/validators/termin-schema';
 
 const validTermin = {
   titel: 'Team-Meeting',

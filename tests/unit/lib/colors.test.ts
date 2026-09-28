@@ -4,7 +4,7 @@ import {
   getTerminBorder,
   getTerminTextColor,
   getFarbeLabel,
-} from './colors';
+} from '@/lib/colors';
 import { TERMIN_FARBEN } from '@/constants/farben';
 
 describe('getTerminHintergrund', () => {

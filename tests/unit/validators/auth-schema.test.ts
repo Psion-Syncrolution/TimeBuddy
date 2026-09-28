@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { LoginSchema, RegisterSchema } from './auth-schema';
+import { LoginSchema, RegisterSchema } from '@/validators/auth-schema';
 
 describe('LoginSchema', () => {
   it('akzeptiert gueltige Zugangsdaten', () => {

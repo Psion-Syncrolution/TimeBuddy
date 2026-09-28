@@ -1,5 +1,9 @@
 # Migrationsanalyse: PHP → Next.js
 
+> **Status (28.09.2026):** Migration abgeschlossen und verifiziert. Das alte
+> PHP/MySQL-Projekt wurde aus dem Repo entfernt (Commit `9027959`); diese Analyse
+> dokumentiert den Abgleich mit dem Stand vor der Entfernung.
+
 ## Funktionale Abdeckung
 
 ### ✅ Vollständig migriert
@@ -30,8 +34,13 @@
 | Zod-Validierung | src/validators/* | Eingabevalidierung |
 | Repository-Pattern | src/lib/repositories/* | Sauberer Datenzugriff |
 | Custom Hooks | src/hooks/* | Wiederverwendbare Logik |
-| REST-API | src/app/api/* | Vollständige CRUD-API |
+| REST-API | src/app/api/* | Vollständige CRUD-API (inkl. `requireAuth` auf allen Daten-Routen) |
 | Statistik-Endpoint | src/app/api/termine/statistik/route.ts | Terminanzahl pro Datum |
+| Session-Endpoint | src/app/api/auth/session/route.ts | Session-Status für Client-Komponenten |
+| Responsive Design | Navbar (Hamburger-Menü), kompaktes Monatsgrid | Mobile-tauglich, E2E-verifiziert (`tests/e2e/responsive.spec.ts`) |
+| Dark Luxury Design | Framer Motion, Glassmorphism, lucide-react Icons | Enterprise-Optik mit Page-Transitions |
+| Benchmark-Suite | benchmarks/ | Performance-Baseline (DB, Kalender-Logik, Startup) |
+| E2E-Suite | tests/e2e/ (Playwright) | Auth-Flow + CRUD + Viewport-Tests |
 
 ### ⚠️ Datenbank-Migration
 
@@ -62,3 +71,4 @@
 - **Datenbank-Modelle sind kompatibel** ✅
 - **Kein Datenverlust bei Migration** (Felder sind vorhanden)
 - **IDs ändern sich von int zu cuid** (nicht kritisch, da keine externen Referenzen)
+- **Altes PHP/MySQL-Projekt wurde aus dem Repo entfernt** (Commit `9027959`) ✅

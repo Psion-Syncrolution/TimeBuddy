@@ -4,10 +4,11 @@ import {
   getWeekRange,
   navigateMonth,
   navigateWeek,
+  getWeekNumber,
   parseLocalDate,
   toDateString,
   groupByDate,
-} from './calendar';
+} from '@/lib/calendar';
 
 describe('getMonthDays', () => {
   it('liefert alle Tage des Monats inkl. Randtage der Nachbarmonate', () => {
@@ -80,6 +81,22 @@ describe('navigateWeek', () => {
 
     expect(next.getTime() - date.getTime()).toBe(7 * 86400000);
     expect(date.getTime() - prev.getTime()).toBe(7 * 86400000);
+  });
+});
+
+describe('getWeekNumber', () => {
+  it('liefert die ISO-Kalenderwoche (bekannte Referenzwerte)', () => {
+    // 1.1.2026 ist ein Donnerstag -> gehoert zu KW 1
+    expect(getWeekNumber(new Date(2026, 0, 1))).toBe(1);
+    // 15.9.2026 (Dienstag) liegt in KW 38
+    expect(getWeekNumber(new Date(2026, 8, 15))).toBe(38);
+    // 28.12.2026 (Montag): 2026 beginnt am Donnerstag und hat daher 53 ISO-Wochen
+    expect(getWeekNumber(new Date(2026, 11, 28))).toBe(53);
+  });
+
+  it('stimmt mit der weekNumber von getWeekRange ueberein', () => {
+    const date = new Date(2026, 8, 15);
+    expect(getWeekNumber(date)).toBe(getWeekRange(date).weekNumber);
   });
 });
 

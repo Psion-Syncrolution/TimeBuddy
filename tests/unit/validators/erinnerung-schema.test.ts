@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { ErinnerungSchema, ErinnerungUpdateSchema } from './erinnerung-schema';
+import { ErinnerungSchema, ErinnerungUpdateSchema } from '@/validators/erinnerung-schema';
 
 const validErinnerung = {
   terminId: 'abc123',

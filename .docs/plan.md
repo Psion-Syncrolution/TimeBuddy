@@ -1,5 +1,9 @@
 # Migrationsplan: TimeBuddy → Next.js + TypeScript
 
+> **Status (28.09.2026): ✅ Migration abgeschlossen.** Alle Phasen sind umgesetzt;
+> das alte PHP/MySQL-Projekt wurde aus dem Repo entfernt (Commit `9027959`).
+> Abweichungen zwischen Plan und Ist-Zustand sind im Text markiert.
+
 ## Zusammenfassung
 Migration der PHP/MySQL Kalender-Anwendung zu einem modernen Next.js-Projekt mit TypeScript, Tailwind CSS, SQLite und einer fein-granularen, modularen Architektur.
 
@@ -24,6 +28,10 @@ date-fns            # Datumsmanipulation (i18n für Deutsch)
 zod                 # Validierung
 ```
 
+> **Ist-Zustand:** `better-sqlite3` wurde nicht benötigt (Prisma nutzt die eigene
+> SQLite-Engine). Zusätzlich im Einsatz: `framer-motion` (Animationen),
+> `lucide-react` (Icons), `date-fns-tz`, `vitest`, `@playwright/test`, `tsx`.
+
 ### 1.3 Prisma/SQLite konfigurieren
 - `prisma/schema.prisma` mit Modellen:
   - `User` (id, email, passwordHash, createdAt)
@@ -31,111 +39,82 @@ zod                 # Validierung
   - `Erinnerung` (id, terminId, erinnerung, datum, uhrzeit, beschreibung, userId, createdAt)
 - Migration erstellen, SQLite-Datenbank initialisieren
 
-### 1.4 Verzeichnisstruktur (fein-granular)
+### 1.4 Verzeichnisstruktur (Ist-Zustand, Stand 28.09.2026)
 ```
 src/
 ├── app/                          # Next.js App-Router
+│   ├── globals.css               # Tailwind + Custom Styles
 │   ├── layout.tsx                # Root-Layout mit Metadata
 │   ├── page.tsx                  # Startseite (Login/Willkommen)
-│   ├── login/
-│   │   └── page.tsx              # Login-Seite
-│   ├── register/
-│   │   └── page.tsx              # Registrierungsseite
+│   ├── login/page.tsx            # Login-Seite
+│   ├── register/page.tsx         # Registrierungsseite
 │   ├── kalender/
 │   │   ├── layout.tsx            # Kalender-Layout mit Navbar
-│   │   ├── monat/
-│   │   │   └── page.tsx          # Monatsansicht
-│   │   ├── woche/
-│   │   │   └── page.tsx          # Wochenansicht
-│   │   ├── tag/
-│   │   │   └── page.tsx          # Tagesansicht
+│   │   ├── monat/page.tsx        # Monatsansicht
+│   │   ├── woche/page.tsx        # Wochenansicht
+│   │   ├── tag/page.tsx          # Tagesansicht
 │   │   ├── termin/
-│   │   │   ├── neu/
-│   │   │   │   └── page.tsx      # Termin erstellen
-│   │   │   ├── bearbeiten/
-│   │   │   │   └── page.tsx      # Termin bearbeiten
-│   │   │   └── loeschen/
-│   │   │       └── page.tsx      # Termin löschen
-│   │   └── erinnerung/
-│   │       └── page.tsx          # Erinnerungen verwalten
+│   │   │   ├── neu/page.tsx      # Termin erstellen
+│   │   │   ├── bearbeiten/page.tsx  # Termin bearbeiten
+│   │   │   └── loeschen/page.tsx    # Termin löschen
+│   │   └── erinnerung/page.tsx   # Erinnerungen verwalten
 │   └── api/                      # API-Routes
 │       ├── auth/
 │       │   ├── login/route.ts
 │       │   ├── logout/route.ts
-│       │   └── register/route.ts
+│       │   ├── register/route.ts
+│       │   └── session/route.ts  # Session-Status (GET)
 │       ├── termine/
 │       │   ├── route.ts          # GET alle, POST erstellen
-│       │   └── [id]/
-│       │       ├── route.ts      # GET, PUT, DELETE einzelner
+│       │   ├── [id]/route.ts     # GET, PUT, DELETE einzelner
+│       │   └── statistik/route.ts  # Terminanzahl pro Datum
 │       └── erinnerungen/
 │           ├── route.ts          # GET alle, POST erstellen
-│           └── [id]/
-│               └── route.ts      # GET, PUT, DELETE einzelne
+│           └── [id]/route.ts     # GET, PUT, DELETE einzelne
 ├── components/                   # Reusable UI-Komponenten
-│   ├── ui/                       # Atomare UI-Elemente
-│   │   ├── button.tsx
-│   │   ├── input.tsx
-│   │   ├── select.tsx
-│   │   ├── textarea.tsx
-│   │   ├── modal.tsx
-│   │   └── tooltip.tsx
-│   ├── layout/                   # Layout-Komponenten
-│   │   ├── navbar.tsx            # Navigationsleiste
-│   │   ├── footer.tsx
-│   │   └── clock-display.tsx     # Live-Uhrzeit + Datum
-│   ├── kalender/                 # Kalender-spezifisch
-│   │   ├── monat/
-│   │   │   ├── calendar-grid.tsx
-│   │   │   ├── day-cell.tsx
-│   │   │   ├── week-row.tsx
-│   │   │   └── month-selector.tsx
-│   │   ├── woche/
-│   │   │   ├── week-grid.tsx
-│   │   │   └── week-selector.tsx
-│   │   └── tag/
-│   │       ├── day-grid.tsx
-│   │       └── day-selector.tsx
-│   ├── termine/                  # Termin-Komponenten
-│   │   ├── termin-form.tsx       # Formular (ERstellen/Bearbeiten)
-│   │   ├── termin-list.tsx       # Terminliste als Tabelle
-│   │   ├── termin-card.tsx       # Einzelner Termin als Karte
-│   │   └── termin-dropdown.tsx   # Dropdown-Auswahl
-│   ├── erinnerungen/             # Erinnerung-Komponenten
-│   │   ├── erinnerung-form.tsx
-│   │   └── erinnerung-list.tsx
-│   └── shared/                   # Gemeinsam genutzte Komponenten
-│       ├── legend.tsx            # Farblegende (1-4, 5-8, 9+ Termine)
-│       └── empty-state.tsx       # "Keine Einträge" Anzeige
+│   ├── ui/                       # button, input, select, textarea, modal
+│   ├── layout/                   # navbar (Hamburger auf Mobile), footer,
+│   │                             # clock-display, page-transition
+│   ├── kalender/                 # monat/, woche/, tag/ (Grids + Selectors)
+│   ├── termine/                  # termin-form.tsx, termin-dropdown.tsx
+│   ├── erinnerungen/             # erinnerung-form.tsx, erinnerung-list.tsx
+│   └── shared/                   # legend.tsx, empty-state.tsx, motion.ts
 ├── lib/                          # Geschäftslogik & Utilities
-│   ├── prisma.ts                 # Prisma-Client-Instanz
-│   ├── auth.ts                   # Session-Management
+│   ├── prisma.ts                 # Prisma-Client-Instanz (Singleton)
+│   ├── auth.ts                   # Session-Management (iron-session)
+│   ├── auth-event.ts             # Custom Event für Auth-Status-Updates
+│   ├── session-utils.ts          # requireAuth() für API-Routes
 │   ├── calendar.ts               # Kalender-Hilfsfunktionen
-│   ├── date-utils.ts             # Datumsformatierung (DE)
-│   └── colors.ts                 # Termin-Farben-Logik
-├── hooks/                        # Custom React Hooks
-│   ├── use-auth.ts               # Auth-Status
-│   ├── use-termine.ts            # Termin-Daten laden/mutieren
-│   ├── use-erinnerungen.ts       # Erinnerung-Daten
-│   └── use-calendar.ts           # Kalender-Logik
-├── services/                     # API-Services (Client-seitig)
-│   ├── termin-service.ts
-│   └── erinnerung-service.ts
+│   ├── colors.ts                 # Termin-Farben-Logik
+│   └── repositories/             # Repository-Pattern
+│       ├── user-repository.ts
+│       ├── termin-repository.ts
+│       └── erinnerung-repository.ts
+├── hooks/
+│   └── use-calendar.ts           # Kalender-Logik (Client)
 ├── validators/                   # Zod-Schemas
+│   ├── auth-schema.ts
 │   ├── termin-schema.ts
-│   ├── erinnerung-schema.ts
-│   └── auth-schema.ts
-├── types/                        # TypeScript-Interfaces
-│   ├── termin.ts
-│   ├── erinnerung.ts
-│   ├── user.ts
-│   └── calendar.ts
-├── constants/                    # Konstanten
-│   ├── monate.ts                 # Deutsche Monatsnamen
-│   ├── wochentage.ts             # Deutsche Wochentage
-│   └── farben.ts                 # Termin-Farben-Konfiguration
-└── styles/                       # Globale Styles
-    └── globals.css               # Tailwind + Custom
+│   └── erinnerung-schema.ts
+├── types/                        # user, termin, erinnerung, calendar
+└── constants/                    # monate, wochentage, farben
+
+# Projekt-Root (außerhalb von src/)
+prisma/                           # schema.prisma + migrations/
+benchmarks/                       # Performance-Benchmarks (tsx)
+tests/                            # Zentrale Test-Struktur (Details: tests/README.md)
+├── unit/                         # Vitest-Unit-Tests, spiegelt src/ (lib/, validators/)
+├── e2e/                          # Playwright-E2E-Suite
+└── shared/                       # Test-Setup + Helpers (SQLite-Test-DB)
 ```
+
+**Abweichungen vom ursprünglichen Plan:**
+- `services/` (Client-API-Services) wurde nicht angelegt — die Seiten rufen die API direkt auf.
+- `hooks/`: nur `use-calendar.ts`; der Auth-Status läuft über `auth-event.ts` + Navbar statt separater `use-auth`/`use-termine`/`use-erinnerungen` Hooks.
+- `lib/date-utils.ts` entfällt — Datumsformatierung via `date-fns` direkt in den Komponenten.
+- `ui/tooltip.tsx`, `termine/termin-list.tsx`, `termine/termin-card.tsx` wurden nicht umgesetzt (Listen/Karten liegen in den Seiten).
+- Neu: `api/auth/session/route.ts`, `api/termine/statistik/route.ts`, `layout/page-transition.tsx`, `shared/motion.ts`.
+- Tests zentral unter `tests/` (statt Colocation in `src/`) — Struktur und Konventionen siehe `tests/README.md`.
 
 ---
 
@@ -245,6 +224,11 @@ Jedes Element ist eine einzelne, wiederverwendbare Komponente:
 
 ## Phase 6: Testing & Qualität
 
+> **Status:** Unit-Tests (101 Tests in 10 Dateien, Coverage 100 %) und E2E-Suite
+> (Playwright) sind zentral unter `tests/` organisiert (`tests/unit/`, `tests/e2e/`).
+> Komponententests mit Testing Library wurden nicht angelegt.
+> Details siehe `.docs/COVERAGE_PLAN.md` und `tests/README.md`.
+
 ### 6.1 Unit-Tests (Vitest)
 - Geschäftslogik: `calendar.ts`, `date-utils.ts`, `colors.ts`
 - Validatoren: Zod-Schemas
@@ -266,7 +250,9 @@ Jedes Element ist eine einzelne, wiederverwendbare Komponente:
 
 ---
 
-## Umsetzung in Schritten
+## Umsetzung in Schritten (abgeschlossen)
+
+Alle Schritte wurden umgesetzt; die tatsächliche Aufwandsverteilung lag nahe am Plan.
 
 | Schritt | Inhalt | Aufwand |
 |---------|--------|---------|
@@ -296,4 +282,4 @@ Jedes Element ist eine einzelne, wiederverwendbare Komponente:
 | Keine Auth | Session-basiert (iron-session) |
 | Keine Validierung | Zod-Schemas |
 | Monolithische Dateien | Fein-granulare Komponenten |
-| Keine Tests | Vitest + Testing Library |
+| Keine Tests | Vitest (Unit) + Playwright (E2E) |
