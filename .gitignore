@@ -17,6 +17,9 @@
 /blob-report/
 /playwright/.cache/
 
+# benchmarks
+/benchmarks/report.json
+
 # next.js
 /.next/
 /out/

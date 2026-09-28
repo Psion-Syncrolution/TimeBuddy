@@ -17,6 +17,7 @@ Migration von PHP/MySQL zu Next.js + TypeScript mit Tailwind CSS und SQLite.
 ```
 src/
 ├── app/                    # Next.js App-Router (Seiten + API-Routes)
+│   └── globals.css         # Tailwind + globale Styles
 ├── components/             # Reusable UI-Komponenten
 │   ├── ui/                 # Atomare UI-Elemente
 │   ├── layout/             # Layout-Komponenten
@@ -25,13 +26,17 @@ src/
 │   ├── erinnerungen/       # Erinnerung-Komponenten
 │   └── shared/             # Gemeinsam genutzte Komponenten
 ├── lib/                    # Geschäftslogik & Utilities
-│   └── repositories/       # Datenbank-Repositories
+│   └── repositories/       # Datenbank-Repositories (Repository-Pattern)
 ├── hooks/                  # Custom React Hooks
-├── services/               # API-Services (Client-seitig)
 ├── validators/             # Zod-Schemas
 ├── types/                  # TypeScript-Interfaces
-├── constants/              # Konstanten
-└── styles/                 # Globale Styles
+└── constants/              # Konstanten
+
+# Projekt-Root
+prisma/                     # Prisma-Schema + Migrations (SQLite)
+benchmarks/                 # Performance-Benchmarks (tsx)
+tests/                      # Zentrale Test-Struktur (unit/e2e/shared)
+.docs/                      # Projektdokumentation (Setup, Pläne, Konventionen)
 ```
 
 ## Schnellstart
@@ -40,15 +45,22 @@ src/
 # 1. Abhängigkeiten installieren
 npm install
 
-# 2. Prisma Client generieren
+# 2. Umgebungsvariablen anlegen (.env im Projekt-Root, ist gitignored)
+#    DATABASE_URL="file:./dev.db"
+#    SESSION_SECRET="<langer zufälliger Wert>"
+
+# 3. Prisma Client generieren
 npm run db:generate
 
-# 3. Datenbank migrieren
+# 4. Datenbank migrieren (erstellt prisma/dev.db)
 npm run db:migrate
 
-# 4. Development-Server starten
+# 5. Development-Server starten
 npm run dev
 ```
+
+Details und Fehlersuche (u. a. PowerShell Execution Policy, E2E-Port 3100):
+`.docs/SETUP.md`.
 
 ## API-Routes
 
@@ -98,11 +110,26 @@ npm run dev
 
 | Befehl | Beschreibung |
 |--------|-------------|
-| `npm run dev` | Development-Server |
+| `npm run dev` | Development-Server (Port 3000) |
 | `npm run build` | Produktion-Build |
 | `npm run start` | Produktion-Server |
 | `npm run lint` | ESLint |
+| `npm run typecheck` | TypeScript-Check (`tsc --noEmit`) |
+| `npm test` | Unit-Tests (Vitest, einmalig) |
+| `npm run test:coverage` | Unit-Tests + Coverage-Report (v8) |
+| `npm run e2e` | E2E-Tests (Playwright, startet Dev-Server auf Port 3100) |
+| `npm run benchmark` | Performance-Benchmarks (Console-Tabelle) |
 | `npm run db:generate` | Prisma Client generieren |
 | `npm run db:migrate` | Datenbank migrieren |
 | `npm run db:push` | Schema in DB pushen |
 | `npm run db:studio` | Prisma Studio (DB-UI) |
+
+## Dokumentation
+
+Weitere Details liegen in `.docs/`:
+
+- `SETUP.md` — Setup-Anleitung & Fehlersuche
+- `MIGRATION_ANALYSE.md` — Funktions-Abgleich alte vs. neue App
+- `COVERAGE_PLAN.md` — Test-Infrastruktur & Coverage-Strategie
+- `PERFORMANCE_PLAN.md` — Benchmark-Baseline & Optimierungsideen
+- `COMMIT_CONVENTION.md` — Format der Commit-Messages
