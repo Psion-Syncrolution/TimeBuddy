@@ -15,18 +15,15 @@ import {
 
 const UPDATE_NOTES = [
   {
-    version: 'v1.0.0',
-    date: '24.07.2026',
-    title: 'Initial Release',
+    version: 'v1.1.1',
+    date: '27.10.2026',
+    title: 'Security-Update',
     items: [
-      'Komplette Migration von PHP zu Next.js + TypeScript',
-      'SQLite-Datenbank mit Prisma ORM',
-      'Session-basierte Authentifizierung',
-      'Monats-, Wochen- und Tagesansicht mit Farbcodierung',
-      'Termin- und Erinnerungsmanagement',
-      'Responsive Design mit Tailwind CSS',
+      'Prisma ORM 6 → 7.10.1 (behebt deepmerge-ts DoS-Schwachstelle GHSA-ggr8-5vv4-36mx)',
+      '0 bekannte Sicherheitslücken in den Abhängigkeiten',
+      'Neuer Prisma Client mit Driver Adapter — schnellere Queries, kleinerer Bundle',
     ],
-    type: 'major' as const,
+    type: 'minor' as const,
   },
   {
     version: 'v1.1.0',
@@ -40,6 +37,20 @@ const UPDATE_NOTES = [
       'Verbesserte Tagesansicht mit korrekter Datumswahl',
     ],
     type: 'minor' as const,
+  },
+  {
+    version: 'v1.0.0',
+    date: '24.07.2026',
+    title: 'Initial Release',
+    items: [
+      'Komplette Migration von PHP zu Next.js + TypeScript',
+      'SQLite-Datenbank mit Prisma ORM',
+      'Session-basierte Authentifizierung',
+      'Monats-, Wochen- und Tagesansicht mit Farbcodierung',
+      'Termin- und Erinnerungsmanagement',
+      'Responsive Design mit Tailwind CSS',
+    ],
+    type: 'major' as const,
   },
 ];
 
