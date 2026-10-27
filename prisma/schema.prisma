@@ -1,10 +1,13 @@
+// Prisma 7: Der Client wird in einen Projektordner generiert (output ist
+// Pflicht) und die DB-URL kommt aus prisma.config.ts, nicht mehr aus dem
+// datasource-Block. Unter src/, damit der @/-Alias greift (@/generated/prisma/client).
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
 }
 
 model User {

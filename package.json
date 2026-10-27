@@ -14,13 +14,15 @@
     "benchmark": "tsx benchmarks/run_all.ts",
     "benchmark:report": "tsx benchmarks/run_all.ts --json",
     "e2e": "playwright test",
+    "postinstall": "prisma generate",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:push": "prisma db push",
     "db:studio": "prisma studio"
   },
   "dependencies": {
-    "@prisma/client": "^6.13.0",
+    "@prisma/adapter-better-sqlite3": "^7.10.1",
+    "@prisma/client": "^7.10.1",
     "bcryptjs": "^3.0.2",
     "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",
@@ -40,18 +42,19 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitest/coverage-v8": "^5.0.3",
+    "dotenv": "^18.0.9",
     "eslint": "^9",
     "eslint-config-next": "^16.3.6",
-    "prisma": "^6.19.3",
+    "prisma": "^7.10.1",
     "tailwindcss": "^4",
     "tsx": "^4.23.13",
     "typescript": "^5",
     "vitest": "^5.0.3"
   },
   "allowScripts": {
-    "prisma@6.19.3": true,
-    "@prisma/client@6.19.3": true,
-    "@prisma/engines@6.19.3": true,
+    "prisma@7.10.1": true,
+    "@prisma/engines@7.10.1": true,
+    "better-sqlite3@12.11.1": true,
     "esbuild@0.28.2": true,
     "unrs-resolver@1.12.2": true
   }

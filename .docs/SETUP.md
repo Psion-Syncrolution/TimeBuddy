@@ -1,6 +1,6 @@
 # Setup-Anleitung — TimeBuddy
 
-Stand: 28.09.2026 (v0.1.0, Next.js 16 / Prisma 6 / Vitest 5 / Playwright)
+Stand: 27.10.2026 (v0.1.0, Next.js 16 / Prisma 7 / Vitest 5 / Playwright)
 
 ## Voraussetzungen
 
@@ -45,6 +45,11 @@ Fallback-Secret zurueck — nur fuer lokale Entwicklung gedacht.
 npm run db:generate
 ```
 
+> **Prisma 7:** Der Client wird in `src/generated/prisma/` generiert (gitignored)
+> und braucht einen Driver Adapter (`@prisma/adapter-better-sqlite3`).
+> `npm install` führt die Generierung automatisch per `postinstall`-Script aus.
+> Die CLI-Konfiguration liegt in `prisma.config.ts` (lädt `.env` selbst).
+
 ## 4. Datenbank migrieren (erstellt prisma/dev.db)
 
 ```bash
@@ -86,11 +91,14 @@ App erreichbar unter <http://localhost:3000>.
 Siehe Hinweis oben — Ursache ist die Windows Execution Policy, nicht das Projekt.
 
 ### Prisma-Generierung
-Falls `@prisma/client` nicht gefunden wird:
+Falls der generierte Client fehlt (z. B. nach `git clone` ohne `npm install`):
 
 ```bash
 npm run db:generate
 ```
+
+Der Client liegt in `src/generated/prisma/` und wird über den Alias
+`@/generated/prisma/client` importiert (`src/lib/prisma.ts`).
 
 ### E2E-Tests: Port-Konflikt
 Playwright startet den Dev-Server bewusst auf **Port 3100** (`playwright.config.ts`).

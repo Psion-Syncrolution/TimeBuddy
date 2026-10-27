@@ -50,6 +50,7 @@ next-env.d.ts
 # prisma
 prisma/*.db
 prisma/*.db-journal
+src/generated/
 
 # legacy assets aus dem PHP-Projekt (nicht im Code referenziert)
 /pictures/

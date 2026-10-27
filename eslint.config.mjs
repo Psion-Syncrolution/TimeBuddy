@@ -12,10 +12,11 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
-    // Generierte Artefakte (Coverage-Report, Playwright):
+    // Generierte Artefakte (Coverage-Report, Playwright, Prisma Client):
     "coverage/**",
     "playwright-report/**",
     "test-results/**",
+    "src/generated/**",
   ]),
 ]);
 
